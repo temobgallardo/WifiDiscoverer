@@ -2,9 +2,9 @@
 <ViewCell  xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            x:Class="IsObservableCollBuggy.Pages.Cells.WifiCell">
-    <Grid CompressedLayout.IsHeadless="True">
+    <Grid Padding="4">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0"
@@ -13,5 +13,13 @@
         <Label Grid.Row="1"
                x:Name="MacAddress"
                Text="{Binding Bssid}" />
+        <Grid.Triggers>
+            <DataTrigger TargetType="Grid"
+                         Binding="{Binding IsSelected}"
+                         Value="True">
+                <Setter Property="BackgroundColor"
+                        Value="LightGreen" />
+            </DataTrigger>
+        </Grid.Triggers>
     </Grid>
 </ViewCell>
