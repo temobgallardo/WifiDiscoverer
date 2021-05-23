@@ -4,6 +4,7 @@
              x:Class="IsObservableCollBuggy.Pages.WifiView"
              xmlns:cells="clr-namespace:IsObservableCollBuggy.Pages.Cells"
              xmlns:viewmodels="clr-namespace:IsObservableCollBuggy.Models"
+             xmlns:effects="clr-namespace:WifiPage.Effects"
              xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
              x:DataType="viewmodels:WifiConnection"
              x:Name="this">
@@ -15,6 +16,11 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
+    <ContentView.Effects>
+        <effects:LifecycleEffect Loaded="ViewLifecycleEffect_OnLoaded"
+                                 Unloaded="ViewLifecycleEffect_OnUnloaded" />
+    </ContentView.Effects>
+    
     <ContentView.Content>
         <Grid CompressedLayout.IsHeadless="true"
               Padding="0,10,0,10">

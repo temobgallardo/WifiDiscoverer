@@ -7,6 +7,8 @@ using IsObservableCollBuggy.Models.Models;
 using XamarinUniversity.Infrastructure;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Models.Interfaces;
+using System.Linq;
 
 namespace IsObservableCollBuggy.Models
 {
@@ -116,6 +118,7 @@ namespace IsObservableCollBuggy.Models
         const int _refreshCounterMax = 5;
         int _refreshCounter = 5;
         bool _firstTime = true;
+        readonly IWifiConnectionReceiver _wifiConnectionService;
 
         public ICommand EnableWifiCommand { get; private set; }
         public ICommand SelectedWifiCommand { get; private set; }
@@ -123,10 +126,11 @@ namespace IsObservableCollBuggy.Models
         public ICommand ConnectCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
         public ICommand ConnectToHidenNetworkCommand { get; private set; }
-
-        public WifiConnection(object wifiConnectionReceiver, INavigation navigation) : base()
+        
+        public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
         {
-            //_navigationService = navigation; DependencyService.Get<INavigation>();
+            //_navigationService = navigation; 
+            _wifiConnectionService = wifiConnectionReceiver;
 
             Wifis = new ObservableCollection<Wifi>();
             EnableWifiToggle = true;
@@ -153,11 +157,23 @@ namespace IsObservableCollBuggy.Models
             ActivateNetworkListView();
         }
 
+        public void OnAttached()
+        {
+            EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
+            ActivateNetworkListView();
+            InitializeData();
+        }
+
+        void InitializeData()
+        {
+            EnableWifiCommand?.Execute(null);
+        }
+
         void RefreshWifis()
         {
             if (_refreshCounter-- < _refreshCounterMax) return;
 
-            //_wifiConnectionService.StartScan();
+            _wifiConnectionService.StartScan();
 
             LoadWifis();
             IsRefreshing = false;
@@ -166,28 +182,30 @@ namespace IsObservableCollBuggy.Models
 
         bool LoadWifis()
         {
-            var ran = new Random();
-            var fakeWifi = new Wifi
-            {
-                Ssid = ran.Next(0, 100).ToString()
-            };
-            var wifis = new List<Wifi>
-            {
-                fakeWifi,
-                fakeWifi,
-                fakeWifi,
-                fakeWifi
-            };
+            //var ran = new Random();
+            //var fakeWifi = new Wifi
+            //{
+            //    Ssid = ran.Next(0, 100).ToString()
+            //};
+            //var wifis = new List<Wifi>
+            //{
+            //    fakeWifi,
+            //    fakeWifi,
+            //    fakeWifi,
+            //    fakeWifi
+            //};
+            //Wifis.Clear();
+            //Wifis.AddRange(wifis);
+
+            var wifis = _wifiConnectionService.Wifis;
+            if (wifis == null) return false;
+
             Wifis.Clear();
-            Wifis.AddRange(wifis);
+            var filtered = wifis.Where((w) => !string.IsNullOrEmpty(w.Ssid));
+            if (!filtered.Any()) return false;
+
+            Wifis.AddRange(filtered);
             return false;
-        }
-        void AddMyRange(ObservableCollection<Wifi> self, IEnumerable<Wifi> items)
-        {
-            foreach (var i in items)
-            {
-                self.Add(i);
-            }
         }
 
         void RefreshCanExecutes()
@@ -201,13 +219,20 @@ namespace IsObservableCollBuggy.Models
         {
             ActivateNetworkListView();
 
-            if (_firstTime)
+            if (_firstTime && _wifiConnectionService.IsWifiEnabled)
             {
                 _firstTime = false;
                 RefreshCanExecutes();
                 LoadWifis();
                 return;
             }
+
+            var success = _wifiConnectionService.SetWifiEnabled(!EnableWifiToggle);
+
+            // TODO: Tell the user that the wifi couldn't be enabled/disabled.
+            if (!success) return;
+
+            //if (!EnableWifiToggle) return;
 
             EnableWifiToggle = !EnableWifiToggle;
 
@@ -234,6 +259,11 @@ namespace IsObservableCollBuggy.Models
             NetworkListIsVisible = false;
             ConnectNetworkIsVisible = false;
             AddHiddenNetworkIsVisible = true;
+        }
+
+        public void OnDettached()
+        {
+            Wifis.Clear();
         }
     }
 }

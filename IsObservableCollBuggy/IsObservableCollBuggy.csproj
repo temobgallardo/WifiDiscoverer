@@ -43,14 +43,4 @@
       <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Extensions/CollectionExtensions.cs" />
-    <Compile Include="Models/WifiConnection.cs" />
-    <Compile Include="Models/Diagnostics.cs" />
-    <Compile Include="Models/BaseViewModel.cs" />
-    <Compile Include="Models/StatusBar.cs" />
-    <Compile Include="Effects/LifecycleEffect.cs" />
-    <Compile Include="Converters/SelectedTabColorToBoolConverter.cs" />
-  </ItemGroup>
 </Project>
