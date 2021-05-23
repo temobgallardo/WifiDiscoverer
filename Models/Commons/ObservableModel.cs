@@ -10,7 +10,7 @@ namespace WifiPage.Models.Commons
         public event PropertyChangedEventHandler PropertyChanged;
 
         // This method is called by the Set accessor of each property.  
-        // The CallerMemberName attribute that is applied to the optional propertyName  
+        // The CallerMemberName attribute that is applied to the optional propertyName  khvi
         // parameter causes the property name of the caller to be substituted as an argument.  
         protected void RaisePropertyChanged([CallerMemberName] String propertyName = "")
         {
