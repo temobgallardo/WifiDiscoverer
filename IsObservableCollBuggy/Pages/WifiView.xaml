@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IsObservableCollBuggy.Pages.WifiView"
+             xmlns:cells="clr-namespace:IsObservableCollBuggy.Pages.Cells"
+             xmlns:viewmodels="clr-namespace:IsObservableCollBuggy.Models"
+             xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
+             x:DataType="viewmodels:WifiConnection"
+             x:Name="this">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="WifiCell">
+                <cells:WifiCell />
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid CompressedLayout.IsHeadless="true"
+              Padding="0,10,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Grid CompressedLayout.IsHeadless="False"
+                  Grid.Column="0"
+                  Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Wi-Fi"
+                       VerticalOptions="Start"
+                       Grid.Column="0"
+                       Grid.Row="0" />
+                <Button Command="{Binding EnableWifiCommand}"
+                        Grid.Column="1"
+                        Grid.Row="0">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding EnableWifiToggle}"
+                                     Value="true">
+                            <Setter Property="BackgroundColor"
+                                    Value="Purple" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding EnableWifiToggle}"
+                                     Value="false">
+                            <Setter Property="BackgroundColor"
+                                    Value="Gray" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+            <ListView Grid.Column="0"
+                      Grid.Row="1"
+                      x:Name="NetworkListView"
+                      ItemsSource="{Binding Wifis}"
+                      SelectedItem="{Binding CurrentWifi}"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      HasUnevenRows="True"
+                      ItemTemplate="{StaticResource WifiCell}"
+                      IsVisible="True" />
+            <!--<StackLayout Grid.Column="0"
+                         Grid.Row="1"
+                         x:Name="ConnectNetwork"
+                         x:DataType="viewmodels:WifiConnection"
+                         IsVisible="{Binding ConnectNetworkIsVisible, Mode=OneWay}">
+                <Label x:Name="WifiName"
+                       Text="{Binding CurrentWifi.Ssid}" />
+                <Label x:Name="MacAddress"
+                       Text="{Binding CurrentWifi.Bssid}" />
+                <Entry x:Name="Password"
+                       Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
+                       Text="{Binding CurrentWifi.Password}" />
+                <Button x:Name="ConnectButtom"
+                        Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
+                        Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}" />
+                <Button x:Name="CancelButtom"
+                        Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
+                        Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
+            </StackLayout>
+            <StackLayout Grid.Column="0"
+                         Grid.Row="1"
+                         x:Name="AddHiddenNetwork"
+                         x:DataType="viewmodels:WifiConnection"
+                         IsVisible="{Binding AddHiddenNetworkIsVisible, Mode=OneWay}">
+                <Label Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
+                       TextColor="Black" />
+                <Entry x:Name="HiddenNetworkSsid"
+                       Placeholder="Type Ssid"
+                       Text="{Binding CurrentWifi.Ssid}" />
+                <Entry x:Name="NewWifiMacAddress"
+                       Placeholder="Type MacAddress"
+                       Text="{Binding CurrentWifi.Bssid}" />
+                <Entry x:Name="NewWifiPassword"
+                       Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
+                       Text="{Binding CurrentWifi.Password}" />
+                <Button x:Name="ConnectHiddenNetworkButtom"
+                        Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
+                        Command="{Binding BindingContext.ConnectToHidenNetworkCommand, Source={x:Reference this}}  " />
+                <Button x:Name="ConnectoHiddenNetworkCancelButtom"
+                        Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
+                        Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
+            </StackLayout>-->
+            <StackLayout CompressedLayout.IsHeadless="True"
+                         Orientation="Horizontal"
+                         Grid.Column="0"
+                         Grid.Row="2">
+                <Button BackgroundColor="Purple"
+                        Command="{Binding ConnectToHidenNetworkCommand}"
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
+                        TextColor="White" />
+                <Button BackgroundColor="Purple"
+                        Command="{Binding RefreshCommand}"
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
+                        TextColor="White" />
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

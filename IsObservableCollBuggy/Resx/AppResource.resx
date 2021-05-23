@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutoLogoutGreetingTitleText" xml:space="preserve">
+    <value>Are you still here?</value>
+  </data>
+  <data name="AutoLogoutSecondGreetingTitleText" xml:space="preserve">
+    <value>I'll log you out in</value>
+  </data>
+  <data name="CloseGlassDoorWarningTitleText" xml:space="preserve">
+    <value>Please close the glass door(s) &amp; press OK.</value>
+  </data>
+  <data name="CriticalErrorMessageLine1TitleText" xml:space="preserve">
+    <value>Do not use me. I must be serviced by a certified technician.</value>
+  </data>
+  <data name="CriticalErrorMessageLine2TitleText" xml:space="preserve">
+    <value>Contact your XCT or Call Customer Support at 1-866-867-9799.</value>
+  </data>
+  <data name="CycleReadyPageCancellingCycleTitleText" xml:space="preserve">
+    <value>Cancelling disinfection cycle ...</value>
+  </data>
+  <data name="CycleReadyPageCanNotZapIfMotionDetectedTitleText" xml:space="preserve">
+    <value>I cannot start zapping if I detect a person.</value>
+  </data>
+  <data name="CycleReadyPageCompleteTitleText" xml:space="preserve">
+    <value>complete.</value>
+  </data>
+  <data name="CycleReadyPageContinueInTitleText" xml:space="preserve">
+    <value>Continue in</value>
+  </data>
+  <data name="CycleReadyPageContinueZappingTitleText" xml:space="preserve">
+    <value>Continue zapping ...</value>
+  </data>
+  <data name="CycleReadyPageCycleCantBeStartedTitleText" xml:space="preserve">
+    <value>The cycle can't be started yet</value>
+  </data>
+  <data name="CycleReadyPageDetectedTitleText" xml:space="preserve">
+    <value>selected.</value>
+  </data>
+  <data name="CycleReadyPageDoNotDisturbMeTitleText" xml:space="preserve">
+    <value>Do not disturb me.</value>
+  </data>
+  <data name="CycleReadyPageGoodWorkTitleText" xml:space="preserve">
+    <value>Keep up the good work</value>
+  </data>
+  <data name="CycleReadyPageImReadyTitleText" xml:space="preserve">
+    <value>I'm ready in</value>
+  </data>
+  <data name="CycleReadyPageLeaveRoomTitleText" xml:space="preserve">
+    <value>Leave the room now.</value>
+  </data>
+  <data name="CycleReadyPageLetsFinishTitleText" xml:space="preserve">
+    <value>Lets finish</value>
+  </data>
+  <data name="CycleReadyPagePowerLossDetectedTitleText" xml:space="preserve">
+    <value>I detected power loss and stopped the cycle.</value>
+  </data>
+  <data name="CycleReadyPageMotionDetectedTitleText" xml:space="preserve">
+    <value>I detected motion and stopped the cycle.</value>
+  </data>
+  <data name="CycleReadyPageMoveToAnotherStrikeSpotTitleText" xml:space="preserve">
+    <value>Move me under another StrikeSpot.</value>
+  </data>
+  <data name="CycleReadyPageMoveToRemainingStrikeSpotTitleText" xml:space="preserve">
+    <value>Move me under the remaining StrikeSpot.</value>
+  </data>
+  <data name="CycleReadyPageNotExitedTitleText" xml:space="preserve">
+    <value>I did not detect that you exited the room.</value>
+  </data>
+  <data name="CycleReadyPagePlugInTitleText" xml:space="preserve">
+    <value>Plug me in &amp; place the cones.</value>
+  </data>
+  <data name="CycleReadyPagePushButtonTitleText" xml:space="preserve">
+    <value>Press the green button above the screen.</value>
+  </data>
+  <data name="CycleReadyPageRemoteConeStopDetectedTitleText" xml:space="preserve">
+    <value>I detected a remote cone stop.</value>
+  </data>
+  <data name="CycleReadyPageStandCloserTitleText" xml:space="preserve">
+    <value>Stand closer to me.</value>
+  </data>
+  <data name="CycleReadyPageStartCycleAgainTitleText" xml:space="preserve">
+    <value>Start the cycle again then exit the room.</value>
+  </data>
+  <data name="CycleReadyPageTryCycleAgainTitleText" xml:space="preserve">
+    <value>Try the cycle again by pressing the green button above the screen.</value>
+  </data>
+  <data name="CycleReadyPageZapAfterExitTitleText" xml:space="preserve">
+    <value>I will start zapping after you exit.</value>
+  </data>
+  <data name="DiagnosticPagePlugInTitleText" xml:space="preserve">
+    <value>Plug me in before adjusting settings.</value>
+  </data>
+  <data name="DiagnosticPageReturnMotorHomeTitleText" xml:space="preserve">
+    <value>Please return me to bottom before proceeding.</value>
+  </data>
+  <data name="DiagnosticPageAboutTabTitleText" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="ServerMenuTabTitleText" xml:space="preserve">
+    <value>Server Menu</value>
+  </data>
+  <data name="DiagnosticPageAlphaTitleText" xml:space="preserve">
+    <value>Alpha Value</value>
+  </data>
+  <data name="DiagnosticPageOffTitleText" xml:space="preserve">
+    <value>OFF</value>
+  </data>
+  <data name="DiagnosticPageOnTitleText" xml:space="preserve">
+    <value>ON</value>
+  </data>
+  <data name="DiagnosticPageBatteryTabTitleText" xml:space="preserve">
+    <value>Battery</value>
+  </data>
+  <data name="DiagnosticPageCancelTitleText" xml:space="preserve">
+    <value>CANCEL</value>
+  </data>
+  <data name="DiagnosticPageDomeTabTitleText" xml:space="preserve">
+    <value>Dome</value>
+  </data>
+  <data name="DiagnosticPageHeader1TitleText" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="DiagnosticPageHeader2TitleText" xml:space="preserve">
+    <value>Diagnostics and Settings</value>
+  </data>
+  <data name="DiagnosticPageLampPulseCountTitleText" xml:space="preserve">
+    <value>Lamp Pulse Count</value>
+  </data>
+  <data name="DiagnosticPageLampSerialNumberTitleText" xml:space="preserve">
+    <value>Lamp Serial Number</value>
+  </data>
+  <data name="DiagnosticPageLampTabTitleText" xml:space="preserve">
+    <value>Lamp</value>
+  </data>
+  <data name="DiagnosticPageMinStrengthTitleText" xml:space="preserve">
+    <value>Min Signal Strength</value>
+  </data>
+  <data name="DiagnosticPageRfidRoomTagsTitleText" xml:space="preserve">
+    <value>Rfid Room Tags</value>
+  </data>
+  <data name="DiagnosticPageRfidTabTitleText" xml:space="preserve">
+    <value>RFID Parameters</value>
+  </data>
+  <data name="DiagnosticPageRfidUserTagsTitleText" xml:space="preserve">
+    <value>Rfid User Tags</value>
+  </data>
+  <data name="DiagnosticPageRSSIThresholdTitleText" xml:space="preserve">
+    <value>RSSI Threshold</value>
+  </data>
+  <data name="DiagnosticPageSaveNewLampTitleText" xml:space="preserve">
+    <value>Save New Lamp</value>
+  </data>
+  <data name="DiagnosticPageSaveTitleText" xml:space="preserve">
+    <value>SAVE</value>
+  </data>
+  <data name="DiagnosticPageSelectTabTitleText" xml:space="preserve">
+    <value>Please select a tab on the left</value>
+  </data>
+  <data name="DiagnosticPageSetBatteryPowerRelaysTitleText" xml:space="preserve">
+    <value>Set Battery Power Relays</value>
+  </data>
+  <data name="DiagnosticPageSetDomePositionTitleText" xml:space="preserve">
+    <value>Select a Position to Move Dome</value>
+  </data>
+  <data name="SelectServerTitleText" xml:space="preserve">
+    <value>Select a Target Server</value>
+  </data>
+  <data name="GreetingLabelEveningText" xml:space="preserve">
+    <value>Good Evening</value>
+  </data>
+  <data name="GreetingLabelMorningText" xml:space="preserve">
+    <value>Good Morning</value>
+  </data>
+  <data name="GreetingLabelNoonText" xml:space="preserve">
+    <value>Good Afternoon</value>
+  </data>
+  <data name="HiTitleText" xml:space="preserve">
+    <value>Hi</value>
+  </data>
+  <data name="LowerDomeWarningTitleText" xml:space="preserve">
+    <value>Press OK to lower the dome.</value>
+  </data>
+  <data name="MinutesTitleText" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="SafetyCheckMessageTitleText" xml:space="preserve">
+    <value>Please check there are no items in the way of the dome returning home.</value>
+  </data>
+  <data name="MultiBadgeDetectedTitleText" xml:space="preserve">
+    <value>I detect</value>
+  </data>
+  <data name="MultipleRfidTagDetectedTitleText" xml:space="preserve">
+    <value>Multiple tags detected, move closer to one tag</value>
+  </data>
+  <data name="MultiUserLoginTitleText" xml:space="preserve">
+    <value>Who is zapping?</value>
+  </data>
+  <data name="NoBadgeDetectedTitleText" xml:space="preserve">
+    <value>No badges detected.</value>
+  </data>
+  <data name="OneBadgeDetectedTitleText" xml:space="preserve">
+    <value>One badge detected.</value>
+  </data>
+  <data name="PowerPlugTitleText" xml:space="preserve">
+    <value>Please plug me into a power outlet to proceed.</value>
+  </data>
+  <data name="PowerPlugErrorText" xml:space="preserve">
+    <value>In order for the dome to be lowered the robot must first be plugged into an AC power outlet</value>
+  </data>
+  <data name="LoweringDomeTitleText" xml:space="preserve">
+    <value>Lowering dome please wait...</value>
+  </data>
+  <data name="PulseCountMessageTitleText" xml:space="preserve">
+    <value>Bulb has</value>
+  </data>
+  <data name="PulseLimitReachedMessageTitleText" xml:space="preserve">
+    <value>Disinfection cycle cannot be run - Bulb Requires Replacement. Call Customer Support at 1-866-867-9799.</value>
+  </data>
+  <data name="PulseLimitReachedTopicTitleText" xml:space="preserve">
+    <value>Pulsing Limit Reached</value>
+  </data>
+  <data name="PulsesText" xml:space="preserve">
+    <value>pulses</value>
+  </data>
+  <data name="PulseWarningMessageTitleText" xml:space="preserve">
+    <value>Bulb Requires Replacement Immediately. Call Customer Support at 1-866-867-9799.</value>
+  </data>
+  <data name="PulseWarningTopicTitleText" xml:space="preserve">
+    <value>Replace Lamp Warning</value>
+  </data>
+  <data name="RfidTagDetectedTitleText" xml:space="preserve">
+    <value>Tag Successfully Detected</value>
+  </data>
+  <data name="LowerDomeTitleText" xml:space="preserve">
+    <value>Please lower the Dome to proceed.</value>
+  </data>
+  <data name="SecondsTitleText" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="SingleUserLoginTitleText" xml:space="preserve">
+    <value>I'm logging you in ...</value>
+  </data>
+  <data name="StrikeSpotTitleText" xml:space="preserve">
+    <value>Place me under a STRIKESPOT™...</value>
+  </data>
+  <data name="SwitchUserGreetingTitleText" xml:space="preserve">
+    <value>is zapping with this robot.</value>
+  </data>
+  <data name="SwitchUserHeaderMessageTitleText" xml:space="preserve">
+    <value>Who will continue?</value>
+  </data>
+  <data name="WelcomeText" xml:space="preserve">
+    <value>Please scan your badge.</value>
+  </data>
+  <data name="BOTTOM" xml:space="preserve">
+    <value>BOTTOM</value>
+  </data>
+  <data name="ContactYourAdmin" xml:space="preserve">
+    <value>Contact your administrator.</value>
+  </data>
+  <data name="MIDDLE" xml:space="preserve">
+    <value>MIDDLE</value>
+  </data>
+  <data name="RescanYourBadge" xml:space="preserve">
+    <value>Re-scan your badge.</value>
+  </data>
+  <data name="TOP" xml:space="preserve">
+    <value>TOP</value>
+  </data>
+  <data name="YourBadgeDoesNotHaveAccess" xml:space="preserve">
+    <value>Your badge does not have access.</value>
+  </data>
+  <data name="YourBadgeWasNotRecognized" xml:space="preserve">
+    <value>Your badge was not recognized.</value>
+  </data>
+  <data name="DiagnosticPageAdbDisableTitleText" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="DiagnosticPageAdbEnableTitleText" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="DiagnosticPageAdbTabTitleText" xml:space="preserve">
+    <value>TroubleShooting</value>
+  </data>
+  <data name="DiagnosticPageAdbTitleText" xml:space="preserve">
+    <value>Configure Connection to Device via ADB</value>
+  </data>
+  <data name="DiagnosticPageStatusTabTitleText" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="RemoveLamp" xml:space="preserve">
+    <value>Remove Lamp</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>EXIT</value>
+  </data>
+  <data name="CompleteInstallMessage" xml:space="preserve">
+    <value>Press OK to Lower the Dome and Complete the Install.</value>
+  </data>
+  <data name="InstallLampAndCloseDoors" xml:space="preserve">
+    <value>Install the Lamp and Close the Glass Doors</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>NEXT</value>
+  </data>
+  <data name="RaiseDomeToInstallLamp" xml:space="preserve">
+    <value>Raise the Dome to install the Lamp.</value>
+  </data>
+  <data name="RaiseDomeToRemoveLamp" xml:space="preserve">
+    <value>Raise the Dome to remove the Lamp.</value>
+  </data>
+  <data name="RemoveLampAndLowerDome" xml:space="preserve">
+    <value>Remove the Lamp and Lower the Dome.</value>
+  </data>
+  <data name="RemoveTheLamp" xml:space="preserve">
+    <value>Remove the Lamp.</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>SETTINGS</value>
+  </data>
+  <data name="RoomsLeftOnLamp" xml:space="preserve">
+    <value>Rooms Left on Lamp</value>
+  </data>
+  <data name="InstallThePreviousLampAndLowerTheDome" xml:space="preserve">
+    <value>Install the Previous Lamp and Lower the Dome.</value>
+  </data>
+  <data name="PositionDetectionLockedLabelText" xml:space="preserve">
+    <value>Position is ready to engage.</value>
+  </data>
+  <data name="PositionDetectionNotLockedLabelText" xml:space="preserve">
+    <value>Get position in lock radius.</value>
+  </data>
+  <data name="DiagnosticPageLoginTabTitleText" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="DiagnosticPageLoginBothTitleText" xml:space="preserve">
+    <value>BOTH</value>
+  </data>
+  <data name="DiagnosticPageLoginManualTitleText" xml:space="preserve">
+    <value>MANUAL</value>
+  </data>
+  <data name="DiagnosticPageLoginNfcTitleText" xml:space="preserve">
+    <value>NFC</value>
+  </data>
+  <data name="DiagnosticPageSetLoginTitleText" xml:space="preserve">
+    <value>Set my Login Mode</value>
+  </data>
+  <data name="ManualLoginText" xml:space="preserve">
+    <value>Log in to start zapping.</value>
+  </data>
+  <data name="MultiLoginText" xml:space="preserve">
+    <value>Please scan your Badge or click Login.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>PASSWORD</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>USERNAME</value>
+  </data>
+  <data name="SelectRoomUnit" xml:space="preserve">
+    <value>Choose a Room Unit to proceed. </value>
+  </data>
+  <data name="SelectRoomUnitError" xml:space="preserve">
+    <value>No Room Unit Selected.</value>
+  </data>
+  <data name="SelectRoom" xml:space="preserve">
+    <value>Choose a Room to zap.</value>
+  </data>
+  <data name="DevelopmentServer" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="StagingServer" xml:space="preserve">
+    <value>Staging</value>
+  </data>
+  <data name="ProductionServer" xml:space="preserve">
+    <value>Production</value>
+  </data>
+  <data name="DiagnosticPageLampSaveFailure" xml:space="preserve">
+    <value>ERROR: Saving new lamp failed, please try again!</value>
+  </data>
+  <data name="DiagnosticPageLampSaveSuccess" xml:space="preserve">
+    <value>New lamp is saved successfuly!</value>
+  </data>
+  <data name="DiagnosticPageLampExist" xml:space="preserve">
+    <value>ERROR: Lamp with serial number '{0}' already saved.</value>
+  </data>
+  <data name="InstalledLamp" xml:space="preserve">
+    <value>Installed Lamp.</value>
+  </data>
+  <data name="LampManualLogin" xml:space="preserve">
+    <value>Log in to install a lamp.</value>
+  </data>
+  <data name="LampNfcLogin" xml:space="preserve">
+    <value>Scan your badge to install a lamp.</value>
+  </data>
+  <data name="NoLampInstalled" xml:space="preserve">
+    <value>No Lamp Installed.</value>
+  </data>
+  <data name="PulseLimitReached" xml:space="preserve">
+    <value>Pulsing Limit Reached.</value>
+  </data>
+  <data name="ReplaceLampLoginManual" xml:space="preserve">
+    <value>Login to replace a lamp.</value>
+  </data>
+  <data name="ReplaceLampLoginNfc" xml:space="preserve">
+    <value>Scan your badge to replace a lamp.</value>
+  </data>
+  <data name="SelectRoomError" xml:space="preserve">
+    <value>No Room Selected.</value>
+  </data>
+  <data name="LampInstallationTimeoutNFC" xml:space="preserve">
+    <value>Timeout.  User did not scan a valid lamp tag.</value>
+    <comment>When user doesn't scan a valid lamp tag in 60 seconds in NFC login</comment>
+  </data>
+  <data name="LampInstallationTimeoutSerialInput" xml:space="preserve">
+    <value>Timeout. User did not enter a valid serial number.</value>
+    <comment>When user doesn't enter valid serial number in 60 seconds for manual login</comment>
+  </data>
+  <data name="UserAgreement" xml:space="preserve">
+    <value>This Robot may only be used as part of an environmental disinfection program and any other use is expressly prohibited. This Robot may not be used in any trial, test or other evaluation without the written consent of Xenex Disinfection Services LLC.</value>
+  </data>
+  <data name="UnknownCycleInterruptedErrorBotText" xml:space="preserve">
+    <value>Press the green button above the screen to try again.</value>
+  </data>
+  <data name="UnknownCycleInterruptedErrorTopText" xml:space="preserve">
+    <value>There was an error during the cycle.
+    Error Code: 40300</value>
+  </data>
+  <data name="DiagnosticPageSetPulseFrequencyTitleText" xml:space="preserve">
+    <value>Set Pulse Frequency.</value>
+  </data>
+  <data name="DiagnosticPagePulseFrequencyTabTitleText" xml:space="preserve">
+    <value>Pulse Frequency</value>
+  </data>
+  <data name="DiagnosticPageLampRemoveSuccess" xml:space="preserve">
+    <value>Remove lamp successful</value>
+  </data>
+  <data name="CycleCancelled" xml:space="preserve">
+    <value>Cycle is cancelled by the user.</value>
+  </data>
+  <data name="UnDockBlackCone" xml:space="preserve">
+    <value>Please remove and place the Black Tethered Cone to proceed.</value>
+  </data>
+  <data name="DiagnosticPageLampRemoveFailure" xml:space="preserve">
+    <value>Failed to remove lamps, try again</value>
+  </data>
+  <data name="DiagnosticPageNoLamps" xml:space="preserve">
+    <value>No Lamps to remove</value>
+  </data>
+  <data name="NotApplicable" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="IotHubServiceAtlasVersion" xml:space="preserve">
+    <value>AtlasVersion</value>
+  </data>
+  <data name="DiagnosticPageLampRemove" xml:space="preserve">
+    <value>Remove Lamp</value>
+  </data>
+  <data name="DiagnosticPageLampInstall" xml:space="preserve">
+    <value>Install Lamp</value>
+  </data>
+  <data name="CycleReadyPageResetFirmware" xml:space="preserve">
+    <value>Please wait. Resetting firmware.</value>
+  </data>
+  <data name="ManualLoginInstruction" xml:space="preserve">
+    <value>Enter your credentials to continue</value>
+  </data>
+  <data name="ActivateFirst" xml:space="preserve">
+    <value>Device needs to be activated first</value>
+  </data>
+  <data name="CannotLogin" xml:space="preserve">
+    <value>Cannot Login</value>
+  </data>
+  <data name="ValidatingCredentials" xml:space="preserve">
+    <value>Validating Credentials</value>
+  </data>
+  <data name="EnterCredentials" xml:space="preserve">
+    <value>Enter username and password to continue</value>
+  </data>
+  <data name="EnterPassword" xml:space="preserve">
+    <value>Enter password to continue</value>
+  </data>
+  <data name="EnterUserName" xml:space="preserve">
+    <value>Please enter your Username</value>
+  </data>
+  <data name="PasswordNotRecognized" xml:space="preserve">
+    <value>Password wasn't recognized</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Please try again</value>
+  </data>
+  <data name="UserNotRecognized" xml:space="preserve">
+    <value>Username wasn't recognized</value>
+  </data>
+  <data name="PasswordEmpty" xml:space="preserve">
+    <value>Password can't be empty</value>
+  </data>
+  <data name="UserNameDoesNotExist" xml:space="preserve">
+    <value>Username doesn't exist. Enter a valid username</value>
+  </data>
+  <data name="SameUserNamePassword" xml:space="preserve">
+    <value>Password can't be your username</value>
+  </data>
+  <data name="IncorrectPasswordLength" xml:space="preserve">
+    <value>Password must be at least 6 characters in length</value>
+  </data>
+  <data name="PasswordMissingSpecialCharacters" xml:space="preserve">
+    <value>Your password must contain at least 2 out of the 3 following items:\n Uppercase letters(A-Z) Numbers(0 - 9) \"-\" or \".\" characters</value>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Invalid Error</value>
+  </data>
+  <data name="LampInstallationRequired" xml:space="preserve">
+    <value>Lamp Installation Required.</value>
+  </data>
+  <data name="LampReplacementRequired" xml:space="preserve">
+    <value>Lamp Replacement Required.</value>
+  </data>
+  <data name="OnlyServiceUser" xml:space="preserve">
+    <value>Only a Service User can login.</value>
+  </data>
+  <data name="DiagnosticPageWifiTabTitleText" xml:space="preserve">
+    <value>Wifi</value>
+  </data>
+  <data name="DiagnosticPageWifiTabWifiConnect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="DiagnosticPageWifiTabWifiPasswordPlaceholder" xml:space="preserve">
+    <value>Type password</value>
+  </data>
+  <data name="DiagnosticPageWifiTabWifiCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DiagnosticPageWifiTabConnectHiddenNetwork" xml:space="preserve">
+    <value>Connect to hidden network</value>
+  </data>
+  <data name="DiagnosticPageWifiTabRefreshList" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+</root>

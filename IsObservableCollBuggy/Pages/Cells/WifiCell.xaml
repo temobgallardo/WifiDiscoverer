@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ViewCell  xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           x:Class="IsObservableCollBuggy.Pages.Cells.WifiCell">
+    <Grid CompressedLayout.IsHeadless="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               x:Name="WifiName"
+               Text="{Binding Ssid}" />
+        <Label Grid.Row="1"
+               x:Name="MacAddress"
+               Text="{Binding Bssid}" />
+    </Grid>
+</ViewCell>

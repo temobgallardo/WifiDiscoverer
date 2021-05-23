@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IsObservableCollBuggy.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!--App Colors-->
+            <Color x:Key="PurpleLight">#751882</Color>
+            <Color x:Key="PurpleDark">#411e5d</Color>
+            <Color x:Key="GreenLight">#64c91d</Color>
+            <Color x:Key="GreenDark">#3ba143</Color>
+            <Color x:Key="OrangeWarning">#dc6922</Color>
+            <Color x:Key="OrangeDark">#dc6922</Color>
+            <Color x:Key="OrangeLight">#F2AB0E</Color>
+            <Color x:Key="SemiTransparentWhiteColor">#ccffffff</Color>
+            <Color x:Key="LightGray">#b6b7b8</Color>
+            <Color x:Key="DarkBrown">#421f0a</Color>
+
+            <x:Array Type="{x:Type Color}"
+                     x:Key="CriticalErrorGradientColors">
+                <Color>#be1c65</Color>
+                <Color>#f3233d</Color>
+            </x:Array>
+
+            <!--OnPlatform Arguments-->
+
+            <OnPlatform x:TypeArguments="Color"
+                        x:Key="BaseContentPageBackground">
+                <On Platform="Android"
+                    Value="Transparent" />
+            </OnPlatform>
+
+            <!--Font Size Values-->
+
+            <OnPlatform x:TypeArguments="x:Double"
+                        x:Key="HeaderLabel1FontSize">
+                <On Platform="Android"
+                    Value="20" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:Double"
+                        x:Key="HeaderLabel2FontSize">
+                <On Platform="Android"
+                    Value="27" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:Double"
+                        x:Key="BodyLabelFontSize">
+                <On Platform="Android"
+                    Value="21" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:Double"
+                        x:Key="ButtonFontSize">
+                <On Platform="Android"
+                    Value="16" />
+            </OnPlatform>
+
+            <!--Font Values-->
+
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="GothamRndBookFontFamily">
+                <On Platform="Android"
+                    Value="GothamRnd-Book.otf#GothamRnd-Book" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="GothamRndMediumFontFamily">
+                <On Platform="Android"
+                    Value="GothamRnd-Medium.otf#GothamRnd-Medium" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="Neutra2DisplayTitlingFontFamily">
+                <On Platform="Android"
+                    Value="Neutra2Display-Titling.otf#Neutra2Display-Titling" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="Neutra2TextBoldFontFamily">
+                <On Platform="Android"
+                    Value="Neutra2Text-Bold.otf#Neutra2Text-Bold" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="GothamRndLightFontFamily">
+                <On Platform="Android"
+                    Value="GothamRnd-Light.otf#GothamRnd-Light" />
+            </OnPlatform>
+
+            <!--Styles-->
+            <!--<Style x:Key="HeaderGradientViewStyle"
+                   TargetType="controls:GradientView">
+                <Setter Property="Orientation"
+                        Value="Vertical" />
+                <Setter Property="HorizontalOptions"
+                        Value="Fill" />
+                <Setter Property="StartColor"
+                        Value="{StaticResource PurpleLight}" />
+                <Setter Property="EndColor"
+                        Value="{StaticResource PurpleDark}" />
+                <Setter Property="Padding"
+                        Value="15" />
+                <Setter Property="HeightRequest"
+                        Value="130"></Setter>
+            </Style>
+
+            <Style x:Key="GradientGrayViewStyle"
+                   TargetType="controls:GradientView">
+                <Setter Property="Orientation"
+                        Value="Vertical" />
+                <Setter Property="HorizontalOptions"
+                        Value="Fill" />
+                <Setter Property="StartColor"
+                        Value="{StaticResource LightGray}" />
+                <Setter Property="EndColor"
+                        Value="{StaticResource LightGray}" />
+                <Setter Property="Padding"
+                        Value="15" />
+                <Setter Property="HeightRequest"
+                        Value="130"></Setter>
+            </Style>-->
+
+            <Style x:Key="BackButton"
+                   TargetType="ImageButton">
+                <!--<Setter Property="TextColor"
+                        Value="White" />-->
+                <Setter Property="BackgroundColor"
+                        Value="Transparent" />
+                <!--<Setter Property="FontSize"
+                        Value="20" />-->
+                <Setter Property="Source"
+                        Value="back_arrow_image.png" />
+                <!--<Setter Property="Orientation"
+                        Value="ImageToLeft" />-->
+                <!--<Setter Property="ImageHeightRequest"
+                        Value="25" />-->
+                <!--<Setter Property="ImageWidthRequest"
+                        Value="15" />-->
+            </Style>
+
+            <Style x:Key="DiagnosticOKButton"
+                   TargetType="ImageButton">
+                <!--<Setter Property="TextColor"
+                        Value="White" />-->
+                <Setter Property="BackgroundColor"
+                        Value="Transparent" />
+                <!--<Setter Property="FontSize"
+                        Value="27" />-->
+                <Setter Property="Source"
+                        Value="diagnostic_button_on_purp.png" />
+                <!--<Setter Property="Orientation"
+                        Value="ImageToRight" />-->
+                <!--<Setter Property="ImageHeightRequest"
+                        Value="200" />-->
+                <!--<Setter Property="ImageWidthRequest"
+                        Value="200" />-->
+            </Style>
+
+            <!--<Style x:Key="OrangeHeaderGradientViewStyle"
+                   TargetType="controls:GradientView">
+                <Setter Property="Orientation"
+                        Value="Vertical" />
+                <Setter Property="HorizontalOptions"
+                        Value="Fill" />
+                <Setter Property="StartColor"
+                        Value="{StaticResource OrangeDark}" />
+                <Setter Property="EndColor"
+                        Value="{StaticResource OrangeLight}" />
+                <Setter Property="Padding"
+                        Value="15" />
+                <Setter Property="HeightRequest"
+                        Value="130"></Setter>
+            </Style>-->
+
+            <!--<Style x:Key="ErrorHeaderGradientViewStyle"
+                   TargetType="controls:GradientView">
+                <Setter Property="Orientation"
+                        Value="Vertical" />
+                <Setter Property="HorizontalOptions"
+                        Value="Fill" />
+                <Setter Property="StartColor"
+                        Value="#ff0303" />
+                <Setter Property="EndColor"
+                        Value="#800000" />
+                <Setter Property="Padding"
+                        Value="15" />
+                <Setter Property="HeightRequest"
+                        Value="130"></Setter>
+            </Style>-->
+
+            <Style x:Key="HeaderLabelLine1TextStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="{StaticResource HeaderLabel1FontSize}" />
+                <Setter Property="TextColor"
+                        Value="{StaticResource SemiTransparentWhiteColor}" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndMediumFontFamily}" />
+            </Style>
+
+            <Style x:Key="HeaderLabelLine2TextStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="{StaticResource HeaderLabel2FontSize}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndMediumFontFamily}" />
+            </Style>
+
+            <Style x:Key="HeaderLabelLine3TextStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="{StaticResource HeaderLabel2FontSize}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndLightFontFamily}" />
+            </Style>
+
+            <Style x:Key="DiagnosticPlugMeInWarning"
+                   TargetType="Button">
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="BorderRadius"
+                        Value="1" />
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand" />
+            </Style>
+
+            <Style x:Key="HeaderLabelLine1TextStyleOrange"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="{StaticResource HeaderLabel1FontSize}" />
+                <Setter Property="TextColor"
+                        Value="{StaticResource OrangeWarning}" />
+                <Setter Property="HorizontalOptions"
+                        Value="StartAndExpand" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndMediumFontFamily}" />
+            </Style>
+
+            <Style x:Key="DiagnosticLabelStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="{StaticResource HeaderLabel2FontSize}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndBookFontFamily}" />
+            </Style>
+
+            <Style x:Key="CancelProtocolButton"
+                   TargetType="Button">
+                <Setter Property="FontSize"
+                        Value="{StaticResource ButtonFontSize}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndMediumFontFamily}" />
+                <Setter Property="BorderRadius"
+                        Value="1" />
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand" />
+                <Setter Property="WidthRequest"
+                        Value="170" />
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource OrangeWarning}"></Setter>
+            </Style>
+
+            <Style x:Key="SettingsButton"
+                   TargetType="ImageButton">
+                <Setter Property="BackgroundColor"
+                        Value="Transparent" />
+                <Setter Property="Source"
+                        Value="gear_settings_button.png" />
+                <!--<Setter Property="ImageHeightRequest"
+                        Value="40" />
+                <Setter Property="ImageWidthRequest"
+                        Value="40" />-->
+            </Style>
+
+            <Style x:Key="ServiceButton"
+                   TargetType="Button">
+                <Setter Property="FontSize"
+                        Value="{StaticResource ButtonFontSize}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndMediumFontFamily}" />
+                <Setter Property="BorderRadius"
+                        Value="1" />
+                <Setter Property="HorizontalOptions"
+                        Value="End" />
+                <Setter Property="VerticalOptions"
+                        Value="EndAndExpand" />
+                <Setter Property="HeightRequest"
+                        Value="65" />
+                <Setter Property="WidthRequest"
+                        Value="170" />
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource PurpleDark}" />
+            </Style>
+
+            <!--<Style x:Key="ItemSelectedStyle"
+                   TargetType="controls:GradientFrame">
+                <Setter Property="StartColor"
+                        Value="#cc99ff" />
+                <Setter Property="EndColor"
+                        Value="#cc99ff" />
+            </Style>
+
+            <Style x:Key="ItemUnSelectedStyle"
+                   TargetType="controls:GradientFrame">  
+                <Setter Property="StartColor"
+                        Value="#741881" />
+                <Setter Property="EndColor"
+                        Value="#421E5D" />
+            </Style>-->
+
+            <Style x:Key="AgreeButton"
+                   TargetType="Button">
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource GreenLight}" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndMediumFontFamily}" />
+                <Setter Property="CornerRadius"
+                        Value="3" />
+                <Setter Property="TextColor"
+                        Value="#FFF5F5F5" />
+                <Setter Property="WidthRequest"
+                        Value="120" />
+                <Setter Property="HeightRequest"
+                        Value="60" />
+            </Style>
+
+            <!--Data Templates-->
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

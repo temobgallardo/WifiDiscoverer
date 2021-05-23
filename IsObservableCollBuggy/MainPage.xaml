@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IsObservableCollBuggy.MainPage"
+             xmlns:cells="clr-namespace:IsObservableCollBuggy.Pages.Cells"
+             xmlns:viewmodels="clr-namespace:IsObservableCollBuggy.Models"
+             xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
+             x:DataType="viewmodels:WifiConnection"
+             x:Name="this">
+    <ContentPage.Content>
+        <Button Text="Login"
+                BackgroundColor="Purple"
+                HorizontalOptions="Center"
+                Clicked="Button_Clicked" />
+    </ContentPage.Content>
+</ContentPage>

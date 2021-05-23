@@ -1,0 +1,1492 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:IsObservableCollBuggy.Models"
+             xmlns:local="clr-namespace:IsObservableCollBuggy.Pages"
+             xmlns:converters="clr-namespace:IsObservableCollBuggy.Converters"
+             xmlns:resources="clr-namespace:IsObservableCollBuggy.Resx"
+             x:DataType="models:Diagnostics"
+             x:Class="IsObservableCollBuggy.Pages.Diagnostics"
+             BackgroundColor="{StaticResource BaseContentPageBackground}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectedTabColorToBoolConverter x:Key="SelectedTabColorToBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout CompressedLayout.IsHeadless="True"
+                     Spacing="0"
+                     BackgroundColor="Purple"
+                     x:DataType="models:Diagnostics">
+
+            <!--status bar begin-->
+            <!--<shared:StatusBar x:Name="StatusBarView" />-->
+
+            <!--title bar layout-->
+            <Grid HorizontalOptions="FillAndExpand"
+                  Padding="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="500" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Text="BACK"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Center"
+                        Padding="10,0,0,0"
+                        IsEnabled="{Binding IsBackBtnEnabled}"
+                        Style="{StaticResource BackButton}" />
+
+                <StackLayout Grid.Row="0"
+                             Grid.Column="1"
+                             HorizontalOptions="Center"
+                             Padding="0,10,0,10">
+                    <Label Text="{Binding GreetingLabelText}"
+                           Style="{StaticResource HeaderLabelLine1TextStyle}" />
+                    <Label Text="WELCOME"
+                           Style="{StaticResource HeaderLabelLine2TextStyle}" />
+                </StackLayout>
+            </Grid>
+
+            <!--content body-->
+            <Grid BackgroundColor="White"
+                  x:DataType="models:Diagnostics">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="700" />
+                </Grid.ColumnDefinitions>
+
+                <!--Left Side: Scroll View Options-->
+                <ScrollView Grid.Column="0"
+                            Grid.Row="0">
+                    <StackLayout BackgroundColor="#CCCCCD"
+                                 Margin="0"
+                                 Spacing="2">
+
+                        <!--Status Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsStatusTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsStatusTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsStatusTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsStatusTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD"></Setter>
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageStatusTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Status" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Dome Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsDomeTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsDomeTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsDomeTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsDomeTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageDomeTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Dome" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Battery Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsBatteryTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsBatteryTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsBatteryTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsBatteryTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageBatteryTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Battery" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Lamp Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsLampTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsLampTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsLampTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsLampTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageLampTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Lamp" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Login Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsLoginTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsLoginTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsLoginTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsLoginTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageLoginTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Login" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Adb Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsAdbTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsAdbTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsAdbTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsAdbTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageAdbTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Adb" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--About Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsAboutTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsAboutTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsAboutTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsAboutTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageAboutTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="About" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Wifi Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     BackgroundColor="#e2e2e2"
+                                     x:Name="WifiTab">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsWifiTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsWifiTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsWifiTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsWifiTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageWifiTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="Wifi" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+                        <!--Server Menu Tab-->
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="Center"
+                                     BackgroundColor="#e2e2e2">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsServerMenuTabVisible}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="StackLayout"
+                                             Binding="{Binding IsServerMenuTabVisible}"
+                                             Value="False">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#e2e2e2" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <BoxView WidthRequest="15"
+                                     BackgroundColor="#6d6e70"
+                                     HeightRequest="66">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsServerMenuTabVisible}"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#6D6E70" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView"
+                                                 Binding="{Binding IsServerMenuTabVisible}"
+                                                 Value="False">
+                                        <Setter Property="BackgroundColor"
+                                                Value="#CCCCCD" />
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+                            <Label Text="{x:Static resources:AppResource.ServerMenuTabTitleText}"
+                                   TextColor="Black"
+                                   FontSize="20"
+                                   FontFamily="{StaticResource GothamRndBookFontFamily}"
+                                   Margin="15,0,15,0"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="Center" />
+                            <BoxView WidthRequest="2"
+                                     BackgroundColor="#e2e2e2"
+                                     HeightRequest="66">
+                            </BoxView>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TabClickCommand}"
+                                                      CommandParameter="ServerMenu" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+
+                <!--Status Screen-->
+                <StackLayout x:Name="StatusTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             IsVisible="{Binding IsStatusTabVisible}">
+                    <Label VerticalOptions="End"
+                           Text="Last Sync"
+                           Style="{StaticResource HeaderLabelLine1TextStyle}"
+                           TextColor="Color.ForestGreen"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="26"
+                           Margin="0,25,0,0" />
+                    <Label VerticalOptions="End"
+                           Text="{Binding RoomsLastSyncTimeStamp, StringFormat='Rooms - {0}'}"
+                           Style="{StaticResource DiagnosticLabelStyle}"
+                           TextColor="Purple"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="23"
+                           Margin="0,26,0,0" />
+                    <Label VerticalOptions="End"
+                           Text="{Binding UsersLastSyncTimeStamp, StringFormat='Users - {0}'}"
+                           Style="{StaticResource DiagnosticLabelStyle}"
+                           TextColor="Purple"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="23"
+                           Margin="0,28,0,0" />
+                    <Label VerticalOptions="End"
+                           Text="{Binding LampLastSyncTimeStamp, StringFormat='Lamps - {0}'}"
+                           Style="{StaticResource DiagnosticLabelStyle}"
+                           TextColor="Purple"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="23"
+                           Margin="0,30,0,0" />
+                </StackLayout>
+
+                <!--Right Side: Dome Screen-->
+                <StackLayout x:Name="DomeTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             IsVisible="{Binding IsDomeTabVisible}">
+                    <Grid HorizontalOptions="Fill"
+                          VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.ColumnSpan="3"
+                                     Grid.Column="0"
+                                     HorizontalOptions="FillAndExpand"
+                                     Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand"
+                                     Grid.Row="0"
+                                     Margin="20,20,0,0">
+                            <Label VerticalOptions="End"
+                                   Text="{x:Static resources:AppResource.DiagnosticPageSetDomePositionTitleText}"
+                                   Style="{StaticResource HeaderLabelLine1TextStyle}"
+                                   TextColor="ForestGreen"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="27"
+                                   Margin="21,0,0,0" />
+                            <StackLayout HorizontalOptions="StartAndExpand"
+                                         VerticalOptions="CenterAndExpand"
+                                         Orientation="Horizontal"
+                                         Margin="20,0,0,0">
+                                <Button Text="{x:Static resources:AppResource.BOTTOM}"
+                                        IsEnabled="{Binding IsMoveBottomButtonEnabled}"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White"
+                                        CornerRadius="5">
+                                    <!--Clicked="DomeBottom_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMoveBottomButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMoveBottomButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+
+                                <Button Text="{x:Static resources:AppResource.MIDDLE}"
+                                        IsEnabled="{Binding IsMoveMiddleButtonEnabled}"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White"
+                                        Margin="20,0,0,0"
+                                        CornerRadius="5">
+                                    <!--Clicked="DomeMiddle_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMoveMiddleButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMoveMiddleButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+
+                                <Button Text="{x:Static resources:AppResource.TOP}"
+                                        IsEnabled="{Binding IsMoveTopButtonEnabled}"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White"
+                                        Margin="20,0,0,0"
+                                        CornerRadius="5">
+                                    <!--Clicked="DomeTop_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMoveTopButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsMoveTopButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout Grid.Column="0"
+                                     Grid.ColumnSpan="3"
+                                     Orientation="Horizontal"
+                                     HorizontalOptions="Fill"
+                                     VerticalOptions="End"
+                                     Grid.Row="1">
+                            <Button Style="{StaticResource DiagnosticPlugMeInWarning}"
+                                    TextColor="White"
+                                    Text="{Binding AcErrorMessage}"
+                                    BackgroundColor="OrangeRed"
+                                    BorderRadius="1"
+                                    IsVisible="{Binding IsPlugInAcBtnVisible}"
+                                    Margin="0,0,0,10" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <!--Right Side: Battery Screen-->
+                <StackLayout x:Name="BatteryTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             IsVisible="{Binding IsBatteryTabVisible}">
+                    <Grid HorizontalOptions="Fill"
+                          VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackLayout Orientation="Vertical"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand"
+                                     Grid.Row="0"
+                                     Margin="20,20,0,0">
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageSetBatteryPowerRelaysTitleText}"
+                                   Style="{StaticResource HeaderLabelLine1TextStyle}"
+                                   TextColor="Color.ForestGreen"
+                                   VerticalOptions="End"
+                                   HorizontalOptions="Center"
+                                   FontSize="27" />
+                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                         VerticalOptions="CenterAndExpand"
+                                         Orientation="Vertical"
+                                         Margin="20,30,0,0">
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageOffTitleText}"
+                                        IsEnabled="{Binding BatteryDisconnectButtonEnabled}"
+                                        TextColor="White"
+                                        FontSize="17"
+                                        CornerRadius="5">
+                                    <!--Clicked="BatteryDisconnectButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding BatteryDisconnectButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding BatteryDisconnectButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageOnTitleText}"
+                                        IsEnabled="{Binding BatteryConnectButtonEnabled}"
+                                        TextColor="White"
+                                        FontSize="17"
+                                        CornerRadius="5"
+                                        Margin="0,15,0,0">
+                                    <!--Clicked="BatteryConnectButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding BatteryConnectButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding BatteryConnectButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <!--Right Side: Login Screen-->
+                <StackLayout x:Name="LoginTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             IsVisible="{Binding IsLoginTabVisible}">
+                    <Grid HorizontalOptions="Fill"
+                          VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackLayout Orientation="Vertical"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand"
+                                     Grid.Row="0"
+                                     Margin="20,20,0,0">
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageSetLoginTitleText}"
+                                   Style="{StaticResource HeaderLabelLine1TextStyle}"
+                                   TextColor="Color.ForestGreen"
+                                   VerticalOptions="End"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="27" />
+                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                         VerticalOptions="CenterAndExpand"
+                                         Orientation="Vertical"
+                                         Margin="20,20,0,0">
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageLoginManualTitleText}"
+                                        WidthRequest="200"
+                                        HeightRequest="85"
+                                        FontSize="17"
+                                        IsEnabled="{Binding ManualLoginButtonEnabled}"
+                                        TextColor="White"
+                                        CornerRadius="5">
+                                    <!--Clicked="ManualLoginButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding ManualLoginButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding ManualLoginButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageLoginNfcTitleText}"
+                                        WidthRequest="200"
+                                        HeightRequest="85"
+                                        FontSize="17"
+                                        IsEnabled="{Binding NfcLoginButtonEnabled}"
+                                        TextColor="White"
+                                        CornerRadius="5"
+                                        Margin="0,15,0,0">
+                                    <!--Clicked="NfcLoginButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding NfcLoginButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding NfcLoginButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageLoginBothTitleText}"
+                                        WidthRequest="200"
+                                        HeightRequest="85"
+                                        FontSize="17"
+                                        IsEnabled="{Binding BothLoginButtonEnabled}"
+                                        TextColor="White"
+                                        CornerRadius="5"
+                                        Margin="0,15,0,0">
+                                    <!--Clicked="BothLoginButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding BothLoginButtonEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding BothLoginButtonEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <!--Right Side: Lamp Screen-->
+                <StackLayout x:Name="Lamp"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             IsVisible="{Binding IsLampTabVisible}">
+
+                    <!--Lamp Message-->
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="0,21,0,0">
+                        <Label HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               Style="{StaticResource HeaderLabelLine1TextStyle}"
+                               TextColor="Color.ForestGreen"
+                               Text="{Binding LampInstructionMessage}" />
+                    </StackLayout>
+                    <!--Lamp Serial Number-->
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="0,15,0,0">
+                        <Grid HorizontalOptions="FillAndExpand"
+                              VerticalOptions="FillAndExpand">
+                            <Label  VerticalTextAlignment="Center"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    XAlign="End"
+                                    Text="{x:Static resources:AppResource.DiagnosticPageLampSerialNumberTitleText}"
+                                    WidthRequest="240"
+                                    Style="{StaticResource DiagnosticLabelStyle}"
+                                    TextColor="Black"
+                                    FontSize="23" />
+                            <StackLayout Orientation="Horizontal"
+                                         Grid.Row="0"
+                                         Grid.Column="1"
+                                         Margin="0,15,0,-5"
+                                         HorizontalOptions="FillAndExpand"
+                                         VerticalOptions="FillAndExpand"
+                                         IsVisible="{Binding IsBasic}">
+                                <Entry x:Name="SerialNumberEntry"
+                                       Text="{Binding SerialNumber, Mode=TwoWay}"
+                                       FontSize="18"
+                                       HeightRequest="60"
+                                       WidthRequest="160" />
+                                <!--Unfocused="SerialNumberEntry_Unfocused"-->
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <!--Lamp Pulse Count-->
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="0,5,0,0">
+                        <Grid HorizontalOptions="FillAndExpand"
+                              VerticalOptions="FillAndExpand">
+                            <Label VerticalOptions="End"
+                                   Text="{x:Static resources:AppResource.DiagnosticPageLampPulseCountTitleText}"
+                                   XAlign="End"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   WidthRequest="240"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Black"
+                                   FontSize="23" />
+                            <StackLayout HorizontalOptions="FillAndExpand"
+                                         VerticalOptions="FillAndExpand"
+                                         Margin="0,15,0,0"
+                                         Grid.Row="0"
+                                         Grid.Column="1">
+                                <Label VerticalOptions="End"
+                                       Text="{Binding LampPulseCount}"
+                                       WidthRequest="220"
+                                       Style="{StaticResource DiagnosticLabelStyle}"
+                                       TextColor="Black"
+                                       HorizontalOptions="StartAndExpand"
+                                       FontSize="23" />
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <!--Lamp Buttons - Basic-->
+                    <StackLayout HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Orientation="Horizontal"
+                                 Margin="0,20,0,0"
+                                 IsVisible="{Binding IsBasic}">
+
+                        <Button IsEnabled="{Binding IsSaveNewLampEnabled}"
+                                Text="Save New Lamp"
+                                WidthRequest="220"
+                                HeightRequest="95"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="Fill"
+                                TextColor="White"
+                                CornerRadius="5">
+                            <!--Clicked="SaveNewLampBtn_OnClicked"-->
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsSaveNewLampEnabled}"
+                                             Value="true">
+                                    <Setter Property="BackgroundColor"
+                                            Value="#411E5D" />
+                                    <Setter Property="TextColor"
+                                            Value="White" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding IsSaveNewLampEnabled}"
+                                             Value="false">
+                                    <Setter Property="BackgroundColor"
+                                            Value="MediumPurple" />
+                                    <Setter Property="TextColor"
+                                            Value="White" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Orientation="Horizontal"
+                                 Margin="0,10,0,0">
+                        <Label Text="{Binding MessageLabelText}"
+                               Style="{StaticResource HeaderLabelLine1TextStyle}"
+                               TextColor="{Binding MessageTextColor}"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="True" />
+                    </StackLayout>
+                </StackLayout>
+
+                <!--Right Side: ADB Screen-->
+                <StackLayout x:Name="ADBTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding IsAdbTabVisible}">
+                    <Grid HorizontalOptions="Fill"
+                          VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackLayout  Orientation="Vertical"
+                                      HorizontalOptions="FillAndExpand"
+                                      VerticalOptions="FillAndExpand"
+                                      Grid.Row="0"
+                                      Margin="20,20,0,0">
+                            <Label Text="{x:Static resources:AppResource.DiagnosticPageAdbTitleText}"
+                                   Style="{StaticResource HeaderLabelLine1TextStyle}"
+                                   TextColor="Color.ForestGreen"
+                                   VerticalOptions="End"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="25" />
+                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                         VerticalOptions="StartAndExpand"
+                                         Orientation="Horizontal"
+                                         Margin="0,15,0,0">
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageAdbDisableTitleText}"
+                                        IsEnabled="{Binding IsAdbEnabled}"
+                                        CornerRadius="5"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White">
+                                    <!--Clicked="AdbDisabledButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsAdbEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsAdbEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <Button Text="{x:Static resources:AppResource.DiagnosticPageAdbEnableTitleText}"
+                                        IsEnabled="{Binding IsAdbDisabled}"
+                                        CornerRadius="5"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White"
+                                        Margin="15,0,0,0">
+                                    <!--Clicked="AdbEnabledButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsAdbDisabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsAdbDisabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <StackLayout  Orientation="Vertical"
+                                      HorizontalOptions="FillAndExpand"
+                                      VerticalOptions="FillAndExpand"
+                                      Grid.Row="1"
+                                      Margin="20,10,0,0">
+                            <Label Text="Download Data for Troubleshooting"
+                                   Style="{StaticResource HeaderLabelLine1TextStyle}"
+                                   TextColor="Color.ForestGreen"
+                                   VerticalOptions="End"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="25"
+                                   Margin="0,15,0,0" />
+                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                         VerticalOptions="StartAndExpand"
+                                         Orientation="Horizontal"
+                                         Margin="0,15,0,0">
+                                <Button Text="Atlas Logs"
+                                        IsEnabled="{Binding IsSendLogsEnabled}"
+                                        CornerRadius="5"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White">
+                                    <!--Clicked="SendLogsButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsSendLogsEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsSendLogsEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <Button Text="Local Database"
+                                        IsEnabled="{Binding IsSendDbEnabled}"
+                                        CornerRadius="5"
+                                        HeightRequest="70"
+                                        WidthRequest="175"
+                                        TextColor="White"
+                                        Margin="15,0,0,0">
+                                    <!--Clicked="SendDBButton_OnClicked"-->
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsSendDbEnabled}"
+                                                     Value="true">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="#411E5D" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button"
+                                                     Binding="{Binding IsSendDbEnabled}"
+                                                     Value="false">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="MediumPurple" />
+                                            <Setter Property="TextColor"
+                                                    Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <!--Right Side: About Screen-->
+                <StackLayout x:Name="AboutTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding IsAboutTabVisible}">
+                    <StackLayout  Orientation="Horizontal"
+                                  HorizontalOptions="StartAndExpand">
+                        <Label Text="About Atlas"
+                               Style="{StaticResource HeaderLabelLine1TextStyle}"
+                               TextColor="Color.ForestGreen"
+                               FontSize="25"
+                               Margin="240,25,0,0" />
+                        <Button IsEnabled="True"
+                                Text="Exit App"
+                                Command="{Binding ExitCommand}"
+                                TextColor="White"
+                                FontSize="17"
+                                Margin="180,10,0,0"
+                                BackgroundColor="Red"
+                                CornerRadius="5"
+                                WidthRequest="100"
+                                HeightRequest="50" />
+
+                    </StackLayout>
+
+                    <ScrollView Orientation="Vertical"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                IsClippedToBounds="True"
+                                BackgroundColor="GhostWhite"
+                                VerticalScrollBarVisibility="Always"
+                                HeightRequest="200">
+                        <StackLayout x:Name="AboutTabInner"
+                                     Orientation="Vertical"
+                                     VerticalOptions="FillAndExpand"
+                                     HorizontalOptions="FillAndExpand"
+                                     Margin="0,5,0,0">
+                            <Label VerticalOptions="End"
+                                   Text="{Binding DeviceId, StringFormat='Device Id - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding AtlasVersion, StringFormat='Software Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding CommitHash, StringFormat='Git Commit # - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding BranchName, StringFormat='Branch - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding GladosFirmwareVersion, StringFormat='Glados Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding GladosHardwareVersion, StringFormat='Glados Hardware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding SafetyControlFirmwareVersion, StringFormat='Safety Control Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding RemoteConeFirmwareVersion, StringFormat='Remote Cone Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding RemoteConeHardwareVersion, StringFormat='Remote Cone Hardware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding RemoteConeSPFirmwareVersion, StringFormat='Remote Cone SP Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding PowerDistributionFirmwareVersion, StringFormat='Power Distribution Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding PowerDistributionHardwareVersion, StringFormat='Power Distribution Hardware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding PrimaryMotionConeFirmwareVersion, StringFormat='Primary Motion Cone Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding PrimaryMotionConeHardwareVersion, StringFormat='Primary Motion Cone Hardware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding SecondaryMotionConeFirmwareVersion, StringFormat='Secondary Motion Cone Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,13,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding SecondaryMotionConeHardwareVersion, StringFormat='Secondary Motion Cone Hardware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,13,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding IDDongleFirmwareVersion, StringFormat='ID Dongle Firmware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                            <Label VerticalOptions="End"
+                                   Text="{Binding IdDongleHardwareVersion, StringFormat='ID Dongle Hardware Version - {0}'}"
+                                   Style="{StaticResource DiagnosticLabelStyle}"
+                                   TextColor="Purple"
+                                   HorizontalOptions="CenterAndExpand"
+                                   FontSize="17"
+                                   Margin="0,8,0,0" />
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+
+                <!--Right Side: Server Menu Screen-->
+                <StackLayout x:Name="ServerMenuTab"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             Orientation="Vertical"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding IsServerMenuTabVisible}">
+                    <Label VerticalOptions="End"
+                           Text="{x:Static resources:AppResource.SelectServerTitleText}"
+                           Style="{StaticResource HeaderLabelLine1TextStyle}"
+                           TextColor="Color.ForestGreen"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="27"
+                           Margin="21,20,0,0" />
+
+
+                    <Button Text="{x:Static resources:AppResource.DevelopmentServer}"
+                            IsEnabled="{Binding IsDevelopmentServerEnabled}"
+                            WidthRequest="230"
+                            HeightRequest="85"
+                            FontSize="17"
+                            CornerRadius="5"
+                            TextColor="White"
+                            HorizontalOptions="CenterAndExpand"
+                            Margin="0,15,0,0">
+                        <!--Clicked="DevelopmentServerButton_OnClicked"-->
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsDevelopmentServerEnabled}"
+                                         Value="true">
+                                <Setter Property="BackgroundColor"
+                                        Value="#411E5D" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsDevelopmentServerEnabled}"
+                                         Value="false">
+                                <Setter Property="BackgroundColor"
+                                        Value="MediumPurple" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Button Text="{x:Static resources:AppResource.StagingServer}"
+                            IsEnabled="{Binding IsStagingServerEnabled}"
+                            WidthRequest="230"
+                            HeightRequest="85"
+                            FontSize="17"
+                            Margin="0,15,0,0"
+                            TextColor="White"
+                            CornerRadius="5"
+                            HorizontalOptions="CenterAndExpand">
+                        <!--Clicked="StagingServerButton_OnClicked"-->
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsStagingServerEnabled}"
+                                         Value="true">
+                                <Setter Property="BackgroundColor"
+                                        Value="#411E5D" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsStagingServerEnabled}"
+                                         Value="false">
+                                <Setter Property="BackgroundColor"
+                                        Value="MediumPurple" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Text="{x:Static resources:AppResource.ProductionServer}"
+                            IsEnabled="{Binding IsProductionServerEnabled}"
+                            WidthRequest="230"
+                            HeightRequest="85"
+                            FontSize="17"
+                            Margin="0,15,0,0"
+                            HorizontalOptions="CenterAndExpand"
+                            TextColor="White"
+                            CornerRadius="5">
+                        <!--Clicked="ProductionServerButton_OnClicked"-->
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsProductionServerEnabled}"
+                                         Value="true">
+                                <Setter Property="BackgroundColor"
+                                        Value="#411E5D" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsProductionServerEnabled}"
+                                         Value="false">
+                                <Setter Property="BackgroundColor"
+                                        Value="MediumPurple" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackLayout>
+
+                <!--Right Side: Wifi Options-->
+                <local:WifiView x:Name="WifiTabbed"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                x:DataType="models:WifiConnection"
+                                IsVisible="{Binding BackgroundColor, Source={x:Reference WifiTab}, Converter={StaticResource SelectedTabColorToBool}}" />
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
