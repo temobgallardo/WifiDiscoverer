@@ -15,6 +15,7 @@ using Xamarin.Forms;
 using Views = Android.Views;
 using IsObservableCollBuggy.Models;
 using Models.Interfaces;
+using Plugin.CurrentActivity;
 
 namespace IsObservableCollBuggy.Droid
 {
@@ -23,12 +24,18 @@ namespace IsObservableCollBuggy.Droid
     {
         readonly WifiConnectionReceiver _wifiReceiver = new WifiConnectionReceiver();
         readonly string TAG = nameof(MainActivity);
-        readonly int REQUEST_LOCATION = 0;
+        public const int REQUEST_LOCATION = 0;
+
+        public static readonly string[] PERMISSIONS_LOCATION = {
+            Manifest.Permission.AccessCoarseLocation,
+            Manifest.Permission.AccessFineLocation
+        };
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            //CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
@@ -37,23 +44,23 @@ namespace IsObservableCollBuggy.Droid
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            if(requestCode == REQUEST_LOCATION)
+            if (requestCode == REQUEST_LOCATION)
             {
                 Log.Info(TAG, "Received response for Location permission request.");
                 // Check if the only required permission has been granted
-                if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)
+                if (grantResults.Length == 2 && grantResults[0] == Permission.Granted)
                 {
-                    // Camera permission has been granted, preview can be displayed
+                    // Location permission has been granted, preview can be displayed
                     Log.Info(TAG, "Location permission has now been granted. Showing preview.");
-                    Snackbar.Make(new CoordinatorLayout(this), Resource.String.permission_location_granted, Snackbar.LengthShort).Show();
+                    Snackbar.Make(FindViewById(Android.Resource.Id.Content), Resource.String.permission_location_granted, Snackbar.LengthShort).Show();
                     MessagingCenter.Send(this, TAG + "." + "RequestLocationPermision", true);
                 }
                 else
                 {
                     Log.Info(TAG, "Location permission was NOT granted.");
-                    Snackbar.Make(new CoordinatorLayout(this), Resource.String.permission_location_not_granted, Snackbar.LengthShort).Show();
+                    Snackbar.Make(FindViewById(Android.Resource.Id.Content), Resource.String.permission_location_not_granted, Snackbar.LengthShort).Show();
                     MessagingCenter.Send(this, TAG + "." + "RequestLocationPermision", false);
-                }                
+                }
             }
             else
             {
@@ -81,17 +88,17 @@ namespace IsObservableCollBuggy.Droid
         {
             Log.Info(TAG, "Wifi Tab pressed. Checking permissions.");
 
-            // Verify that all required contact permissions have been granted.
-            if (Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadContacts) != (int)Permission.Granted
-                || Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteContacts) != (int)Permission.Granted)
+            // Verify that all required location permissions have been granted.
+            if (Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) != (int)Permission.Granted
+                || Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != (int)Permission.Granted)
             {
-                // Contacts permissions have not been granted.
+                // Location permissions have not been granted.
                 Log.Info(TAG, "Location permissions has NOT been granted. Requesting permissions.");
                 RequestLocationPermission();
             }
             else
             {
-                // Contact permissions have been granted. Show the contacts fragment.
+                // Location permissions have been granted.
                 Log.Info(TAG, "Location permissions have already been granted. Displaying contact details.");
             }
         }
@@ -101,21 +108,20 @@ namespace IsObservableCollBuggy.Droid
             {
                 Log.Info(TAG, "Displaying Access Location permission rationale to provide additional context.");
 
-                var requiredPermissions = new String[] { Manifest.Permission.AccessFineLocation };
-                Snackbar.Make(new CoordinatorLayout(this),
+                Snackbar.Make(FindViewById(Android.Resource.Id.Content),
                                Resource.String.permission_location_rationale,
                                Snackbar.LengthIndefinite)
                         .SetAction(Resource.String.permission_location_ok_button,
                                    new Action<Views.View>(delegate (Views.View obj)
                                    {
-                                       ActivityCompat.RequestPermissions(this, requiredPermissions, REQUEST_LOCATION);
+                                       ActivityCompat.RequestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION);
                                    }
                         )
                 ).Show();
             }
             else
             {
-                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.AccessFineLocation }, REQUEST_LOCATION);
+                ActivityCompat.RequestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION);
             }
         }
     }

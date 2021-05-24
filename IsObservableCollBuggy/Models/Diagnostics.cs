@@ -1,8 +1,10 @@
 ﻿using Models.Interfaces;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinUniversity.Infrastructure;
+using Xamarin.Essentials;
 
 namespace IsObservableCollBuggy.Models
 {
@@ -741,10 +743,10 @@ namespace IsObservableCollBuggy.Models
 
         public Diagnostics()
         {
-            TabClickCommand = new Command((tab) => SelectTab(tab));
+            TabClickCommand = new Command(async (tab) => await SelectTab(tab));
         }
 
-        private void SelectTab(object tab)
+        private async Task SelectTab(object tab)
         {
             var tabTypeValue = (string)tab;
             IsStatusTabVisible = tabTypeValue == "Status";
@@ -755,14 +757,20 @@ namespace IsObservableCollBuggy.Models
             IsAdbTabVisible = tabTypeValue == "Adb";
             IsAboutTabVisible = tabTypeValue == "About";
             IsServerMenuTabVisible = tabTypeValue == "ServerMenu";
-            IsWifiTabVisible = tabTypeValue == "Wifi";
+            FocusWifiTab(tabTypeValue == "Wifi");
+        }
 
+        void FocusWifiTab(bool isSelected)
+        {
+            IsWifiTabVisible = isSelected;
+
+            // Checking Android Location Permission or requesting them
             if (IsWifiTabVisible)
             {
+                // TODO; Make a services instead. This services will request on the screen for Location Permission.
                 MessagingCenter.Send(this, DIAGNOSTIC_LOCATION_PERMISSION_REQUEST);
                 MessagingCenter.Subscribe<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision", (s, a) => SetIsWifiTabVisible(a));
             }
-
         }
 
         private void SetIsWifiTabVisible(bool isPermissionGranted)
