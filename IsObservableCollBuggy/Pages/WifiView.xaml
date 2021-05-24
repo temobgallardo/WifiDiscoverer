@@ -20,7 +20,7 @@
         <effects:LifecycleEffect Loaded="ViewLifecycleEffect_OnLoaded"
                                  Unloaded="ViewLifecycleEffect_OnUnloaded" />
     </ContentView.Effects>
-    
+
     <ContentView.Content>
         <Grid CompressedLayout.IsHeadless="true"
               Padding="0,10,0,10">
@@ -67,10 +67,13 @@
                       IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsRefreshing}"
                       RefreshCommand="{Binding RefreshCommand}"
-                      HasUnevenRows="True"
                       ItemTemplate="{StaticResource WifiCell}"
-                      IsVisible="True" />
-            <!--<StackLayout Grid.Column="0"
+                      IsVisible="{Binding NetworkListIsVisible}"
+                      SeparatorColor="black"
+                      RowHeight="64"
+                      Margin="8"
+                      ItemSelected="NetworkListView_ItemSelected" />
+            <StackLayout Grid.Column="0"
                          Grid.Row="1"
                          x:Name="ConnectNetwork"
                          x:DataType="viewmodels:WifiConnection"
@@ -97,10 +100,10 @@
                 <Label Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
                        TextColor="Black" />
                 <Entry x:Name="HiddenNetworkSsid"
-                       Placeholder="Type Ssid"
+                       Placeholder="Ssid/Wifi name"
                        Text="{Binding CurrentWifi.Ssid}" />
                 <Entry x:Name="NewWifiMacAddress"
-                       Placeholder="Type MacAddress"
+                       Placeholder="MacAddress"
                        Text="{Binding CurrentWifi.Bssid}" />
                 <Entry x:Name="NewWifiPassword"
                        Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
@@ -111,7 +114,7 @@
                 <Button x:Name="ConnectoHiddenNetworkCancelButtom"
                         Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
                         Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
-            </StackLayout>-->
+            </StackLayout>
             <StackLayout CompressedLayout.IsHeadless="True"
                          Orientation="Horizontal"
                          Grid.Column="0"
