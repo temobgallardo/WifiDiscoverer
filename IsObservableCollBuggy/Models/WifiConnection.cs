@@ -68,22 +68,28 @@ namespace IsObservableCollBuggy.Models
             {
                 if (value == null) return;
 
-                if (_currentWifi == value && _currentWifi.IsSelected) return;
+                if (_currentWifi == value && _currentWifi.IsSelected)
+                {
+                    ActivateConnectNetworkElementOrConnectRemembered();
+                    return;
+                }
 
                 if (_currentWifi != null)
                 {
                     _currentWifi.IsSelected = false;
                 }
 
-                SetProperty(ref _currentWifi, UpdateIsSelected(value));
+                SetProperty(ref _currentWifi, UpdateIsSelected(value, true));
 
-                ActivateConnectNetworkElement();
+                ActivateConnectNetworkElementOrConnectRemembered();
             }
         }
 
-        Wifi UpdateIsSelected(Wifi value)
+        Wifi UpdateIsSelected(Wifi value, bool isSelected)
         {
-            value.IsSelected = true;
+            if (value == null) return value;
+
+            value.IsSelected = isSelected;
             return value;
         }
 
@@ -126,7 +132,7 @@ namespace IsObservableCollBuggy.Models
         public ICommand ConnectCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
         public ICommand ConnectToHidenNetworkCommand { get; private set; }
-        
+
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
         {
             //_navigationService = navigation; 
@@ -154,6 +160,7 @@ namespace IsObservableCollBuggy.Models
 
         void Connect(Wifi w)
         {
+            _wifiConnectionService.ConnectToWifi(CurrentWifi, false);
             ActivateNetworkListView();
         }
 
@@ -171,6 +178,7 @@ namespace IsObservableCollBuggy.Models
 
         void RefreshWifis()
         {
+            IsRefreshing = true;
             if (_refreshCounter-- < _refreshCounterMax) return;
 
             _wifiConnectionService.StartScan();
@@ -196,6 +204,12 @@ namespace IsObservableCollBuggy.Models
             //};
             //Wifis.Clear();
             //Wifis.AddRange(wifis);
+
+            if (!EnableWifiToggle)
+            {
+                Wifis.Clear();
+                return false;
+            }
 
             var wifis = _wifiConnectionService.Wifis;
             if (wifis == null) return false;
@@ -232,8 +246,6 @@ namespace IsObservableCollBuggy.Models
             // TODO: Tell the user that the wifi couldn't be enabled/disabled.
             if (!success) return;
 
-            //if (!EnableWifiToggle) return;
-
             EnableWifiToggle = !EnableWifiToggle;
 
             RefreshCanExecutes();
@@ -252,6 +264,20 @@ namespace IsObservableCollBuggy.Models
             NetworkListIsVisible = false;
             ConnectNetworkIsVisible = true;
             AddHiddenNetworkIsVisible = false;
+        }
+
+        private void ActivateConnectNetworkElementOrConnectRemembered()
+        {
+            IsRefreshing = true;
+            // TODO: Tell the user that it is already connected
+            if (_wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi, false))
+            {
+                IsRefreshing = false;
+                return;
+            }
+
+            IsRefreshing = false;
+            ActivateConnectNetworkElement();
         }
 
         void ActivateAddHiddenNetworkElement()

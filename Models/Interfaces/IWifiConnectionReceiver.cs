@@ -10,8 +10,9 @@ namespace Models.Interfaces
         IList<Wifi> Wifis { get; }
         IList<Wifi> ScanFailure();
         IList<Wifi> ScanSuccess();
-        bool ConnectToWifi(Wifi wifi, string password);
+        bool ConnectToWifi(Wifi wifi, bool isHidden);
         bool ConnectToAlreadyConfigured(int networkId);
+        bool ConnectToRememberedNetwork(Wifi wifi, bool isHidden);
         bool SetWifiEnabled(bool enabled);
         void StartScan();
     }

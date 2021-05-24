@@ -46,18 +46,12 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 case WifiManager.ScanResultsAvailableAction:
                     ScanResultsAvailable(intent.GetBooleanExtra(WifiManager.ExtraResultsUpdated, false));
                     break;
-                case WifiManager.NetworkStateChangedAction:
-                    var configuration = intent.GetParcelableExtra(WifiManager.ExtraNetworkInfo) as WifiConfiguration;
-                    if (configuration == null) return;
-
-                    bool a = ConnectToAlreadyConfigured(configuration.NetworkId);
-                    break;
             }
         }
 
         public bool ConnectToAlreadyConfigured(int networkId)
         {
-            return _wifiManager.EnableNetwork(networkId, true);
+            return ConnectByNetworkId(networkId);
         }
 
         void ScanResultsAvailable(bool success)
@@ -109,40 +103,73 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return ParseScanResultToWifi(ScanResults);
         }
 
-        public bool ConnectToWifi(Wifi wifi, string password)
+        public bool ConnectToWifi(Wifi wifi, bool isHidden)
         {
             if (!_wifiManager.IsWifiEnabled)
                 return false;
 
-            var configuredNetworks = _wifiManager.ConfiguredNetworks;
-            var isAlreadyConfigured = configuredNetworks.Any((w) => w.Ssid == string.Format($"\"{0}\"", wifi.Ssid));
-
-            if (isAlreadyConfigured)
+            if (isHidden)
             {
-                // Connect to the already configured network;
-                WifiConfiguration configured = configuredNetworks.First((c) => c.Ssid == wifi.Ssid);
-
-                return _wifiManager.EnableNetwork(configured.NetworkId, true);
+                return ConnectToHidden(wifi);
             }
 
-            WifiConfiguration configuration = new WifiConfiguration
-            {
-                Ssid = string.Format($"\"{wifi.Ssid}\""),
-                PreSharedKey = string.Format($"\"{password}\"")
-            };
+            var networkId = _wifiManager.AddNetwork(MapWifiToConfiguration(wifi, false));
 
-            _wifiManager.AddNetwork(configuration);
+            if (networkId <= 0) return false;
+
+            return ConnectByNetworkId(networkId);
+        }
+
+        public bool ConnectToRememberedNetwork(Wifi wifi, bool isHidden)
+        {
+            var configuredNetworks = _wifiManager.ConfiguredNetworks;
+            var configured = configuredNetworks.FirstOrDefault((w) => w.Ssid == $"\"{wifi.Ssid}\"");
+
+            if (configured != null)
+            {
+                return ConnectToAlreadyConfigured(configured.NetworkId);
+            }
+
+            return false;
+        }
+
+        bool ConnectToHidden(Wifi wifi)
+        {
+            var configuration = MapWifiToConfiguration(wifi, true);
+
+
+
             return true;
         }
 
-        public bool SetWifiEnabled(bool enabled)
+        bool ConnectByNetworkId(int networkId)
         {
-            return _wifiManager.SetWifiEnabled(enabled);
+            _wifiManager.Disconnect();
+            _wifiManager.EnableNetwork(networkId, true);
+            return _wifiManager.Reconnect();
         }
 
-        public void StartScan()
+        WifiConfiguration MapWifiToConfiguration(Wifi wifi, bool isHidden)
         {
-            _wifiManager.StartScan();
+            WifiConfiguration configuration = new WifiConfiguration
+            {
+                Ssid = string.Format($"\"{wifi.Ssid}\""),
+                PreSharedKey = string.Format($"\"{wifi.Password}\""),
+            };
+
+            if (isHidden)
+            {
+                configuration.HiddenSSID = true;
+                configuration.Bssid = string.Format($"\"{wifi.Bssid}\"");
+            }
+
+            return configuration;
         }
+
+        public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);
+        
+
+        public void StartScan() => _wifiManager.StartScan();
+        
     }
 }
