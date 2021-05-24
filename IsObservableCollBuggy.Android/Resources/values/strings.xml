@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <string name="permission_location_rationale">In order to connect to a network the application need location permission</string>
+  <string name="permission_location_ok_button">OK</string>
+  <string name="permission_location_granted">Location permission granted</string>
+  <string name="permission_location_not_granted">Location permission not granted</string>
+</resources>

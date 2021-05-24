@@ -1,11 +1,15 @@
-﻿using System.Windows.Input;
+﻿using Models.Interfaces;
+using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinUniversity.Infrastructure;
 
 namespace IsObservableCollBuggy.Models
 {
-    public class Diagnostics : SimpleViewModel
+    public class Diagnostics : SimpleViewModel, IDisposable
     {
+        public const string DIAGNOSTIC_LOCATION_PERMISSION_REQUEST = "DIAGNOSTIC_LOCATION_PERMISSION_REQUEST";
+
         public ICommand MotorMoveToBotCommand { get; }
         public ICommand MotorMoveToMidCommand { get; }
         public ICommand MotorMoveToTopCommand { get; }
@@ -752,6 +756,23 @@ namespace IsObservableCollBuggy.Models
             IsAboutTabVisible = tabTypeValue == "About";
             IsServerMenuTabVisible = tabTypeValue == "ServerMenu";
             IsWifiTabVisible = tabTypeValue == "Wifi";
+
+            if (IsWifiTabVisible)
+            {
+                MessagingCenter.Send(this, DIAGNOSTIC_LOCATION_PERMISSION_REQUEST);
+                MessagingCenter.Subscribe<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision", (s, a) => SetIsWifiTabVisible(a));
+            }
+
+        }
+
+        private void SetIsWifiTabVisible(bool isPermissionGranted)
+        {
+            IsWifiTabVisible = isPermissionGranted;
+        }
+
+        public void Dispose()
+        {
+            MessagingCenter.Unsubscribe<IAccessLocationPermission>(this, "MainActivity.RequestLocationPermision");
         }
     }
 }

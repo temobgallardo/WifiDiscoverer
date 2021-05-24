@@ -64,6 +64,7 @@
     <Compile Include="BroadcastReceivers\WifiConnectionReceiver.cs" />
     <Compile Include="Effects\LifeCycleEffectRouter.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="NativeImplementations\AccessLocationPermission.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,6 +110,9 @@
       <Project>{2bb9d674-aae6-4fb2-8b25-3dd835f98f1b}</Project>
       <Name>Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
