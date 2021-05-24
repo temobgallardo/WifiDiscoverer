@@ -66,7 +66,6 @@
   <ItemGroup>
     <Compile Include="BroadcastReceivers\WifiConnectionReceiver.cs" />
     <Compile Include="Effects\LifeCycleEffectRouter.cs" />
-    <Compile Include="Extensions\XamarinEssentialsExtensions.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NativeImplementations\AccessLocationPermission.cs" />
     <Compile Include="NativeImplementations\SnackBarImpl.cs" />
@@ -104,6 +103,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extensions\" />
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
