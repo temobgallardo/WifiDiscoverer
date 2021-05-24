@@ -5,6 +5,7 @@ using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(WifiConnectionReceiver))]
@@ -47,11 +48,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                     ScanResultsAvailable(intent.GetBooleanExtra(WifiManager.ExtraResultsUpdated, false));
                     break;
             }
-        }
-
-        public bool ConnectToAlreadyConfigured(int networkId)
-        {
-            return ConnectByNetworkId(networkId);
         }
 
         void ScanResultsAvailable(bool success)
@@ -103,47 +99,44 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return ParseScanResultToWifi(ScanResults);
         }
 
-        public bool ConnectToWifi(Wifi wifi, bool isHidden)
+        public bool ConnectToWifi(Wifi wifi)
         {
             if (!_wifiManager.IsWifiEnabled)
                 return false;
 
-            if (isHidden)
-            {
-                return ConnectToHidden(wifi);
-            }
+            //if (ConnectToRememberedNetwork(wifi)) return true;
 
-            var networkId = _wifiManager.AddNetwork(MapWifiToConfiguration(wifi, false));
-
-            if (networkId <= 0) return false;
-
-            return ConnectByNetworkId(networkId);
+            int networkId = _wifiManager.ConnectionInfo.NetworkId;
+            _wifiManager.RemoveNetwork(networkId);
+            _wifiManager.SaveConfiguration();
+            var conf = MapWifiToConfiguration(wifi, true);
+            var networkId2 = _wifiManager.AddNetwork(conf);
+            return ConnectByNetworkId(networkId2);
         }
 
-        public bool ConnectToRememberedNetwork(Wifi wifi, bool isHidden)
+        public bool ConnectToRememberedNetwork(Wifi wifi)
         {
             var configuredNetworks = _wifiManager.ConfiguredNetworks;
-            var configured = configuredNetworks.FirstOrDefault((w) => w.Ssid == $"\"{wifi.Ssid}\"");
+            var configured = configuredNetworks.FirstOrDefault((w) => w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\"");
 
             if (configured != null)
             {
+                if (configured.NetworkId < 0) return false;
+
                 return ConnectToAlreadyConfigured(configured.NetworkId);
             }
 
             return false;
         }
 
-        bool ConnectToHidden(Wifi wifi)
-        {
-            var configuration = MapWifiToConfiguration(wifi, true);
-
-
-
-            return true;
-        }
+        public bool ConnectToAlreadyConfigured(int networkId) => ConnectByNetworkId(networkId);
 
         bool ConnectByNetworkId(int networkId)
         {
+            if (networkId < 0) return false;
+
+            //_wifiManager.RemoveNetwork(_wifiManager.ConnectionInfo.NetworkId);
+            _wifiManager.SaveConfiguration();
             _wifiManager.Disconnect();
             _wifiManager.EnableNetwork(networkId, true);
             return _wifiManager.Reconnect();
@@ -155,21 +148,67 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             {
                 Ssid = string.Format($"\"{wifi.Ssid}\""),
                 PreSharedKey = string.Format($"\"{wifi.Password}\""),
+                Priority = 40,
+                StatusField = WifiStatus.Enabled
             };
 
-            if (isHidden)
+            return SetupProtocolUsed(wifi, configuration);
+        }
+
+        WifiConfiguration SetupProtocolUsed(Wifi wifi, WifiConfiguration conf)
+        {
+            var passWithQuotes = $"\"{wifi.Password}\"";
+            if (wifi.Capabilities.ToUpper().Contains("WEP"))
             {
-                configuration.HiddenSSID = true;
-                configuration.Bssid = string.Format($"\"{wifi.Bssid}\"");
+                conf.AllowedKeyManagement.Set((int)KeyManagementType.None);
+                conf.AllowedProtocols.Set((int)ProtocolType.Rsn);
+                conf.AllowedProtocols.Set((int)ProtocolType.Wpa);
+                conf.AllowedAuthAlgorithms.Set((int)AuthAlgorithmType.Open);
+                conf.AllowedAuthAlgorithms.Set((int)AuthAlgorithmType.Shared);
+                conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Ccmp);
+                conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep40);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep104);
+
+                var regex = new Regex("^[0-9a-fA-F]+$");
+                conf.WepKeys[0] = regex.IsMatch(wifi.Password) ? wifi.Password : passWithQuotes;
+                conf.WepTxKeyIndex = 0;
+            }
+            else if (wifi.Capabilities.ToUpper().Contains("WPA"))
+            {
+                conf.AllowedProtocols.Set((int)ProtocolType.Rsn);
+                conf.AllowedProtocols.Set((int)ProtocolType.Wpa);
+                conf.AllowedKeyManagement.Set((int)KeyManagementType.WpaPsk);
+                conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Ccmp);
+                conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep40);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep104);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Ccmp);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
+
+                conf.PreSharedKey = passWithQuotes;
+            }
+            else
+            {
+                conf.AllowedKeyManagement.Set((int)KeyManagementType.None);
+                conf.AllowedProtocols.Set((int)ProtocolType.Rsn);
+                conf.AllowedProtocols.Set((int)ProtocolType.Wpa);
+                conf.AllowedAuthAlgorithms.Clear();
+                conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Ccmp);
+                conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep40);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep104);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Ccmp);
+                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
             }
 
-            return configuration;
+            return conf;
         }
 
         public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);
-        
+
 
         public void StartScan() => _wifiManager.StartScan();
-        
+
     }
 }

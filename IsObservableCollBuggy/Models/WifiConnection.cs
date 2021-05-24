@@ -121,6 +121,13 @@ namespace IsObservableCollBuggy.Models
             set => SetProperty(ref _addHiddenNetworkIsVisible, value);
         }
 
+        Wifi _hiddenNetwork;
+        public Wifi HiddenNetwork
+        {
+            get => _hiddenNetwork;
+            set => SetProperty(ref _hiddenNetwork, value);
+        }
+
         const int _refreshCounterMax = 5;
         int _refreshCounter = 5;
         bool _firstTime = true;
@@ -131,7 +138,7 @@ namespace IsObservableCollBuggy.Models
         public ICommand RefreshCommand { get; private set; }
         public ICommand ConnectCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
-        public ICommand ConnectToHidenNetworkCommand { get; private set; }
+        public ICommand OpenHiddenNetworkConnectPageCommand { get; private set; }
 
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
         {
@@ -140,27 +147,30 @@ namespace IsObservableCollBuggy.Models
 
             Wifis = new ObservableCollection<Wifi>();
             EnableWifiToggle = true;
+            HiddenNetwork = new Wifi();
 
             EnableWifiCommand = new Command(EnableWifi);
             RefreshCommand = new Command(RefreshWifis, canExecute: () => EnableWifiToggle);
-            ConnectCommand = new Command((w) => Connect(w as Wifi));
+            ConnectCommand = new Command(Connect);
             CancelCommand = new Command(Cancel);
-            ConnectToHidenNetworkCommand = new Command((w) => ConnectToHidenNetwork(w as Wifi), canExecute: (w) => EnableWifiToggle);
+            OpenHiddenNetworkConnectPageCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
         }
 
-        void ConnectToHidenNetwork(Wifi w)
+        void OpenHiddenNetworkConnectPage()
         {
             ActivateAddHiddenNetworkElement();
         }
 
         void Cancel()
         {
+            // TODO: Checkout that this does not break the app
+            HiddenNetwork = null;
             ActivateNetworkListView();
         }
 
-        void Connect(Wifi w)
+        void Connect()
         {
-            _wifiConnectionService.ConnectToWifi(CurrentWifi, false);
+            _wifiConnectionService.ConnectToWifi(CurrentWifi);   
             ActivateNetworkListView();
         }
 
@@ -178,6 +188,8 @@ namespace IsObservableCollBuggy.Models
 
         void RefreshWifis()
         {
+            ActivateNetworkListView();
+
             IsRefreshing = true;
             if (_refreshCounter-- < _refreshCounterMax) return;
 
@@ -225,7 +237,7 @@ namespace IsObservableCollBuggy.Models
         void RefreshCanExecutes()
         {
             (RefreshCommand as Command).ChangeCanExecute();
-            (ConnectToHidenNetworkCommand as Command).ChangeCanExecute();
+            (OpenHiddenNetworkConnectPageCommand as Command).ChangeCanExecute();
         }
 
         // TODO: Deprecate on API level 29 since it is not allowed for apps to disable/enable wifi
@@ -242,7 +254,7 @@ namespace IsObservableCollBuggy.Models
             }
 
             var success = _wifiConnectionService.SetWifiEnabled(!EnableWifiToggle);
-
+             
             // TODO: Tell the user that the wifi couldn't be enabled/disabled.
             if (!success) return;
 
@@ -270,7 +282,7 @@ namespace IsObservableCollBuggy.Models
         {
             IsRefreshing = true;
             // TODO: Tell the user that it is already connected
-            if (_wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi, false))
+            if (_wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
             {
                 IsRefreshing = false;
                 return;

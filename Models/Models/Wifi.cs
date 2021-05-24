@@ -4,7 +4,8 @@ namespace IsObservableCollBuggy.Models.Models
 {
     public class Wifi : ObservableModel
     {
-        public string Ssid { get; set; }
+        string _ssid;
+        public string Ssid { get => _ssid; set => SetProperty(ref _ssid, value); }
         public long Timestamp { get; set; }
         public int WifiStandard { get; }
         public bool IsPasspointNetwork { get; }
@@ -13,7 +14,8 @@ namespace IsObservableCollBuggy.Models.Models
         public int CenterFreq1 { get; set; }
         public int CenterFreq0 { get; set; }
         public string Capabilities { get; set; }
-        public string Bssid { get; set; }
+        string _bssid;
+        public string Bssid { get => _bssid; set => SetProperty(ref _bssid, value); }
         public int Frequency { get; set; }
         private bool _isSelected;
         public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
