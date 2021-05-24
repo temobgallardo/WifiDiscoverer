@@ -35,7 +35,6 @@ namespace IsObservableCollBuggy.Droid
 
             var intentFilter = new IntentFilter();
             intentFilter.AddAction(WifiManager.ScanResultsAvailableAction);
-            intentFilter.AddAction(WifiManager.NetworkStateChangedAction);
             RegisterReceiver(_wifiReceiver, intentFilter);
         }
         protected override void OnPause()
