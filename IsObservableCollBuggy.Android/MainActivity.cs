@@ -15,7 +15,6 @@ using Xamarin.Forms;
 using Views = Android.Views;
 using IsObservableCollBuggy.Models;
 using Models.Interfaces;
-using Plugin.CurrentActivity;
 
 namespace IsObservableCollBuggy.Droid
 {
