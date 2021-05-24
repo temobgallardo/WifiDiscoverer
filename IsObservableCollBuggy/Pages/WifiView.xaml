@@ -84,7 +84,8 @@
                        Text="{Binding CurrentWifi.Bssid}" />
                 <Entry x:Name="Password"
                        Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
-                       Text="{Binding CurrentWifi.Password}" />
+                       Text="{Binding CurrentWifi.Password}" 
+                       IsPassword="True"/>
                 <Button x:Name="ConnectButtom"
                         Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
                         Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}" />
@@ -101,16 +102,17 @@
                        TextColor="Black" />
                 <Entry x:Name="HiddenNetworkSsid"
                        Placeholder="Ssid/Wifi name"
-                       Text="{Binding CurrentWifi.Ssid}" />
+                       Text="{Binding HiddenNetwork.Ssid}" />
                 <Entry x:Name="NewWifiMacAddress"
                        Placeholder="MacAddress"
-                       Text="{Binding CurrentWifi.Bssid}" />
+                       Text="{Binding HiddenNetwork.Bssid}" />
                 <Entry x:Name="NewWifiPassword"
                        Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
-                       Text="{Binding CurrentWifi.Password}" />
+                       Text="{Binding HiddenNetwork.Password}" 
+                       IsPassword="True"/>
                 <Button x:Name="ConnectHiddenNetworkButtom"
                         Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
-                        Command="{Binding BindingContext.ConnectToHidenNetworkCommand, Source={x:Reference this}}  " />
+                        Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}  " />
                 <Button x:Name="ConnectoHiddenNetworkCancelButtom"
                         Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
                         Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
