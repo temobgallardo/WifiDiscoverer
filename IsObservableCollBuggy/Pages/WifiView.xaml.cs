@@ -27,11 +27,5 @@ namespace IsObservableCollBuggy.Pages
         {
             _wifiConnection.OnDettached();
         }
-
-        private void NetworkListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            listView.SelectedItem = null;
-        }
     }
 }

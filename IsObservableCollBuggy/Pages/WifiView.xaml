@@ -71,8 +71,7 @@
                       IsVisible="{Binding NetworkListIsVisible}"
                       SeparatorColor="black"
                       RowHeight="64"
-                      Margin="8"
-                      ItemSelected="NetworkListView_ItemSelected" />
+                      Margin="8" />
             <StackLayout Grid.Column="0"
                          Grid.Row="1"
                          x:Name="ConnectNetwork"
