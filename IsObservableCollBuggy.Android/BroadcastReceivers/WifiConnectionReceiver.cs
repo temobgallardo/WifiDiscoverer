@@ -47,6 +47,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 case WifiManager.ScanResultsAvailableAction:
                     ScanResultsAvailable(intent.GetBooleanExtra(WifiManager.ExtraResultsUpdated, false));
                     break;
+                case WifiManager.NetworkStateChangedAction:
+
+                    break;
             }
         }
 
@@ -108,7 +111,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             int networkId = _wifiManager.ConnectionInfo.NetworkId;
             _wifiManager.RemoveNetwork(networkId);
-            _wifiManager.SaveConfiguration();
             var conf = MapWifiToConfiguration(wifi, true);
             var networkId2 = _wifiManager.AddNetwork(conf);
             return ConnectByNetworkId(networkId2);
@@ -135,8 +137,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             if (networkId < 0) return false;
 
-            //_wifiManager.RemoveNetwork(_wifiManager.ConnectionInfo.NetworkId);
-            _wifiManager.SaveConfiguration();
+            _wifiManager.RemoveNetwork(_wifiManager.ConnectionInfo.NetworkId);
             _wifiManager.Disconnect();
             _wifiManager.EnableNetwork(networkId, true);
             return _wifiManager.Reconnect();
@@ -148,7 +149,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             {
                 Ssid = string.Format($"\"{wifi.Ssid}\""),
                 PreSharedKey = string.Format($"\"{wifi.Password}\""),
-                Priority = 40,
                 StatusField = WifiStatus.Enabled
             };
 
