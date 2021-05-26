@@ -47,9 +47,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 case WifiManager.ScanResultsAvailableAction:
                     ScanResultsAvailable(intent.GetBooleanExtra(WifiManager.ExtraResultsUpdated, false));
                     break;
-                case WifiManager.NetworkStateChangedAction:
-
-                    break;
             }
         }
 
@@ -211,6 +208,5 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);
 
         public void StartScan() => _wifiManager.StartScan();
-
     }
 }
