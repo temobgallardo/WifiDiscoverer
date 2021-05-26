@@ -125,22 +125,19 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return ConnectToAlreadyConfigured(alreadyConfigured.NetworkId);
         }
 
-        public bool AlreadyConnected(Wifi wifi) => _wifiManager.ConnectionInfo.BSSID == $"\"{wifi.Bssid}\"" || _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+        public bool AlreadyConnected(Wifi wifi) => (_wifiManager.ConnectionInfo.BSSID == $"\"{wifi.Bssid}\"" || _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"") && _wifiManager.ConnectionInfo.NetworkId > -1;
         
-        public bool ConnectToAlreadyConfigured(int networkId) => ConnectByNetworkId(networkId);
-
-        bool ConnectByNetworkId(int networkId)
-        {
+        public bool ConnectToAlreadyConfigured(int networkId) { 
             if (networkId < 0) return false;
 
             var isDisconnected = _wifiManager.Disconnect();
-            var isDisabled = _wifiManager.DisableNetwork(networkId);
+            var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0 ? true : _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
             var isEnabled = _wifiManager.EnableNetwork(networkId, true);
             var isReconnected = _wifiManager.Reconnect();
-            return isDisconnected && !isDisabled && isEnabled && isReconnected;
+            return isDisconnected && isDisabled && isEnabled && isReconnected;
         }
 
-        WifiConfiguration MapWifiToConfiguration(Wifi wifi, bool isHidden)
+        WifiConfiguration MapWifiToConfiguration(Wifi wifi)
         {
             WifiConfiguration configuration = new WifiConfiguration
             {
