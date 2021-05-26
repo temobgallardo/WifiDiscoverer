@@ -109,9 +109,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             if (string.IsNullOrEmpty(wifi.Password)) return false;
 
-            var conf = MapWifiToConfiguration(wifi, true);
+            var conf = MapWifiToConfiguration(wifi);
             var networkId = _wifiManager.AddNetwork(conf);
-            return ConnectByNetworkId(networkId);
+            return ConnectToAlreadyConfigured(networkId);
         }
 
         public bool ConnectToRememberedNetwork(Wifi wifi)
