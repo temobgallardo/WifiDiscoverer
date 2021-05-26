@@ -107,28 +107,21 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (!_wifiManager.IsWifiEnabled)
                 return false;
 
-            //if (ConnectToRememberedNetwork(wifi)) return true;
-
-            int networkId = _wifiManager.ConnectionInfo.NetworkId;
-            _wifiManager.RemoveNetwork(networkId);
             var conf = MapWifiToConfiguration(wifi, true);
-            var networkId2 = _wifiManager.AddNetwork(conf);
-            return ConnectByNetworkId(networkId2);
+            var networkId = _wifiManager.AddNetwork(conf);
+            return ConnectByNetworkId(networkId);
         }
 
         public bool ConnectToRememberedNetwork(Wifi wifi)
         {
-            var configuredNetworks = _wifiManager.ConfiguredNetworks;
-            var configured = configuredNetworks.FirstOrDefault((w) => w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\"");
+            var crntConnected = _wifiManager.ConnectionInfo;
+            var isCUrrent = crntConnected.BSSID == $"\"{wifi.Bssid}\"" || crntConnected.SSID == $"\"{wifi.Ssid}\"";
 
-            if (configured != null)
-            {
-                if (configured.NetworkId < 0) return false;
+            if (!isCUrrent) return false;
 
-                return ConnectToAlreadyConfigured(configured.NetworkId);
-            }
+            if (crntConnected.NetworkId < 0) return false;
 
-            return false;
+            return ConnectToAlreadyConfigured(crntConnected.NetworkId);
         }
 
         public bool ConnectToAlreadyConfigured(int networkId) => ConnectByNetworkId(networkId);
@@ -137,10 +130,11 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             if (networkId < 0) return false;
 
-            _wifiManager.RemoveNetwork(_wifiManager.ConnectionInfo.NetworkId);
-            _wifiManager.Disconnect();
-            _wifiManager.EnableNetwork(networkId, true);
-            return _wifiManager.Reconnect();
+            var isDisconnected = _wifiManager.Disconnect();
+            var isDisabled = _wifiManager.DisableNetwork(networkId);
+            var isEnabled = _wifiManager.EnableNetwork(networkId, true);
+            var isReconnected = _wifiManager.Reconnect();
+            return isDisconnected && !isDisabled && isEnabled && isReconnected;
         }
 
         WifiConfiguration MapWifiToConfiguration(Wifi wifi, bool isHidden)
@@ -152,7 +146,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 StatusField = WifiStatus.Enabled
             };
 
-            return SetupProtocolUsed(wifi, configuration);
+            return configuration; //SetupProtocolUsed(wifi, configuration);
         }
 
         WifiConfiguration SetupProtocolUsed(Wifi wifi, WifiConfiguration conf)
