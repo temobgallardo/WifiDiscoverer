@@ -104,6 +104,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public bool ConnectToWifi(Wifi wifi)
         {
+            if (wifi == null) return false;
+
             if (!_wifiManager.IsWifiEnabled)
                 return false;
 
