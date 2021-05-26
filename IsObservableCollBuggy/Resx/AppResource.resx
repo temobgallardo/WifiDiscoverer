@@ -655,7 +655,7 @@
     <value>Cancel</value>
   </data>
   <data name="DiagnosticPageWifiTabConnectHiddenNetwork" xml:space="preserve">
-    <value>Connect to hidden network</value>
+    <value>Add wifi</value>
   </data>
   <data name="DiagnosticPageWifiTabRefreshList" xml:space="preserve">
     <value>Refresh</value>
