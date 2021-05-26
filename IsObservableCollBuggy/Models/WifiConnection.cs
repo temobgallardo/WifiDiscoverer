@@ -160,6 +160,8 @@ namespace IsObservableCollBuggy.Models
 
         private void AddNetwork()
         {
+            if (!EnableWifiToggle) return;
+            HiddenNetwork.IsHidden = true;
             // Todo: Tell the user if connection was successful
             AddNetworkOrConnectRemembered(HiddenNetwork);
             ActivateNetworkListView();

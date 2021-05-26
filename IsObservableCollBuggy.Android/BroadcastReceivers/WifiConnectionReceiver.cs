@@ -143,7 +143,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             {
                 Ssid = string.Format($"\"{wifi.Ssid}\""),
                 PreSharedKey = string.Format($"\"{wifi.Password}\""),
-                StatusField = WifiStatus.Enabled
+                StatusField = WifiStatus.Enabled,
+                HiddenSSID = wifi.IsHidden
             };
 
             return configuration; //SetupProtocolUsed(wifi, configuration);

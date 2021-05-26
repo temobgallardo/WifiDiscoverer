@@ -21,5 +21,7 @@ namespace IsObservableCollBuggy.Models.Models
         public bool IsSelected { get => _isSelected; set => SetProperty(ref _isSelected, value); }
         private string _password;
         public string Password { get => _password; set => SetProperty(ref _password, value); }
+        bool _isHidden;
+        public bool IsHidden { get => _isHidden; set => SetProperty(ref _isHidden, value); }
     }
 }
