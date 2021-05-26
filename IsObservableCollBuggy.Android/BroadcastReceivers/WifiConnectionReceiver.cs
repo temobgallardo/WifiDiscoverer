@@ -107,6 +107,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (!_wifiManager.IsWifiEnabled)
                 return false;
 
+            if (string.IsNullOrEmpty(wifi.Password)) return false;
+
             var conf = MapWifiToConfiguration(wifi, true);
             var networkId = _wifiManager.AddNetwork(conf);
             return ConnectByNetworkId(networkId);
@@ -114,16 +116,17 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public bool ConnectToRememberedNetwork(Wifi wifi)
         {
-            var crntConnected = _wifiManager.ConnectionInfo;
-            var isCUrrent = crntConnected.BSSID == $"\"{wifi.Bssid}\"" || crntConnected.SSID == $"\"{wifi.Ssid}\"";
+            var alreadyConfigured = _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
 
-            if (!isCUrrent) return false;
+            if (alreadyConfigured == null) return false;
 
-            if (crntConnected.NetworkId < 0) return false;
+            if (alreadyConfigured.NetworkId < 0) return false;
 
-            return ConnectToAlreadyConfigured(crntConnected.NetworkId);
+            return ConnectToAlreadyConfigured(alreadyConfigured.NetworkId);
         }
 
+        public bool AlreadyConnected(Wifi wifi) => _wifiManager.ConnectionInfo.BSSID == $"\"{wifi.Bssid}\"" || _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+        
         public bool ConnectToAlreadyConfigured(int networkId) => ConnectByNetworkId(networkId);
 
         bool ConnectByNetworkId(int networkId)

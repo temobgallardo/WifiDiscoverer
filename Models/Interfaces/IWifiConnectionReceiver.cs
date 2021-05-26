@@ -13,6 +13,7 @@ namespace Models.Interfaces
         bool ConnectToWifi(Wifi wifi);
         bool ConnectToAlreadyConfigured(int networkId);
         bool ConnectToRememberedNetwork(Wifi wifi);
+        bool AlreadyConnected(Wifi wifi);
         bool SetWifiEnabled(bool enabled);
         void StartScan();
     }

@@ -264,8 +264,9 @@ namespace IsObservableCollBuggy.Models
         private void ActivateConnectNetworkElementOrConnectRemembered()
         {
             IsRefreshing = true;
-            //TODO: Tell the user this wifi is already configured
-            if (_wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
+
+            //TODO: Tell the user this wifi is already configured or connected
+            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
             {
                 IsRefreshing = false;
                 return;
