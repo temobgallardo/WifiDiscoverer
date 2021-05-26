@@ -118,17 +118,32 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public bool ConnectToRememberedNetwork(Wifi wifi)
         {
-            var alreadyConfigured = _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
+            if (wifi == null) return false;
 
-            if (alreadyConfigured == null) return false;
+            var current = AlreadyConfigured(wifi);
+            if (current == null) return false;
+            if (current.NetworkId < 0) return false;
 
-            if (alreadyConfigured.NetworkId < 0) return false;
-
-            return ConnectToAlreadyConfigured(alreadyConfigured.NetworkId);
+            return ConnectToAlreadyConfigured(current.NetworkId);
         }
 
-        public bool AlreadyConnected(Wifi wifi) => (_wifiManager.ConnectionInfo.BSSID == $"\"{wifi.Bssid}\"" || _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"") && _wifiManager.ConnectionInfo.NetworkId > -1;
-        
+        public bool AlreadyConnected(Wifi wifi)
+        {
+            if (wifi == null) return false;
+
+            var isCurrentSsid = !string.IsNullOrEmpty(wifi.Ssid) && _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+
+            return isCurrentSsid && _wifiManager.ConnectionInfo.NetworkId > -1;
+        }
+
+        public WifiConfiguration AlreadyConfigured(Wifi wifi)
+        {
+
+            if(string.IsNullOrEmpty(wifi.Bssid)) return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Ssid == $"\"{wifi.Ssid}\""; });
+
+            return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
+        }
+
         public bool ConnectToAlreadyConfigured(int networkId) { 
             if (networkId < 0) return false;
 
