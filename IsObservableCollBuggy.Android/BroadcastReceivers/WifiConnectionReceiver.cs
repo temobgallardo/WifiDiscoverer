@@ -155,14 +155,10 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (wifi.Capabilities.ToUpper().Contains("WEP"))
             {
                 conf.AllowedKeyManagement.Set((int)KeyManagementType.None);
-                conf.AllowedProtocols.Set((int)ProtocolType.Rsn);
-                conf.AllowedProtocols.Set((int)ProtocolType.Wpa);
                 conf.AllowedAuthAlgorithms.Set((int)AuthAlgorithmType.Open);
                 conf.AllowedAuthAlgorithms.Set((int)AuthAlgorithmType.Shared);
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Ccmp);
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
-                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep40);
-                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep104);
 
                 var regex = new Regex("^[0-9a-fA-F]+$");
                 conf.WepKeys[0] = regex.IsMatch(wifi.Password) ? wifi.Password : passWithQuotes;
@@ -171,12 +167,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             else if (wifi.Capabilities.ToUpper().Contains("WPA"))
             {
                 conf.AllowedProtocols.Set((int)ProtocolType.Rsn);
-                conf.AllowedProtocols.Set((int)ProtocolType.Wpa);
                 conf.AllowedKeyManagement.Set((int)KeyManagementType.WpaPsk);
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Ccmp);
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
-                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep40);
-                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep104);
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Ccmp);
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
 
@@ -190,8 +183,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 conf.AllowedAuthAlgorithms.Clear();
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Ccmp);
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
-                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep40);
-                conf.AllowedGroupCiphers.Set((int)GroupCipherType.Wep104);
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Ccmp);
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
             }
@@ -200,7 +191,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         }
 
         public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);
-
 
         public void StartScan() => _wifiManager.StartScan();
 
