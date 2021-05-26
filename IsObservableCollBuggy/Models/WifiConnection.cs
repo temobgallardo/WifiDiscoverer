@@ -289,7 +289,7 @@ namespace IsObservableCollBuggy.Models
         private void AddNetworkOrConnectRemembered(Wifi wifi)
         {
             //TODO: Tell the user this wifi is already configured or connected
-            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
+            if (_wifiConnectionService.AlreadyConnected(wifi) || _wifiConnectionService.ConnectToRememberedNetwork(wifi))
             {
                 return;
             }
