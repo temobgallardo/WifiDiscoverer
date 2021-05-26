@@ -139,6 +139,7 @@ namespace IsObservableCollBuggy.Models
         public ICommand ConnectCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
         public ICommand OpenHiddenNetworkConnectPageCommand { get; private set; }
+        public ICommand AddNetworkCommand { get; private set; }
 
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
         {
@@ -154,6 +155,14 @@ namespace IsObservableCollBuggy.Models
             ConnectCommand = new Command(Connect);
             CancelCommand = new Command(Cancel);
             OpenHiddenNetworkConnectPageCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
+            AddNetworkCommand = new Command(AddNetwork);
+        }
+
+        private void AddNetwork()
+        {
+            // Todo: Tell the user if connection was successful
+            AddNetworkOrConnectRemembered(HiddenNetwork);
+            ActivateNetworkListView();
         }
 
         void OpenHiddenNetworkConnectPage()
@@ -168,6 +177,7 @@ namespace IsObservableCollBuggy.Models
 
         void Connect()
         {
+            // Todo: Tell the user if connection was successful
             _wifiConnectionService.ConnectToWifi(CurrentWifi);
             ActivateNetworkListView();
         }
@@ -274,6 +284,17 @@ namespace IsObservableCollBuggy.Models
 
             IsRefreshing = false;
             ActivateConnectNetworkElement();
+        }
+
+        private void AddNetworkOrConnectRemembered(Wifi wifi)
+        {
+            //TODO: Tell the user this wifi is already configured or connected
+            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
+            {
+                return;
+            }
+
+            _wifiConnectionService.ConnectToWifi(wifi);
         }
 
         void ActivateAddHiddenNetworkElement()
