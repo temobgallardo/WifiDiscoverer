@@ -163,14 +163,12 @@ namespace IsObservableCollBuggy.Models
 
         void Cancel()
         {
-            // TODO: Checkout that this does not break the app
-            HiddenNetwork = null;
             ActivateNetworkListView();
         }
 
         void Connect()
         {
-            _wifiConnectionService.ConnectToWifi(CurrentWifi);   
+            _wifiConnectionService.ConnectToWifi(CurrentWifi);
             ActivateNetworkListView();
         }
 
@@ -202,21 +200,6 @@ namespace IsObservableCollBuggy.Models
 
         bool LoadWifis()
         {
-            //var ran = new Random();
-            //var fakeWifi = new Wifi
-            //{
-            //    Ssid = ran.Next(0, 100).ToString()
-            //};
-            //var wifis = new List<Wifi>
-            //{
-            //    fakeWifi,
-            //    fakeWifi,
-            //    fakeWifi,
-            //    fakeWifi
-            //};
-            //Wifis.Clear();
-            //Wifis.AddRange(wifis);
-
             if (!EnableWifiToggle)
             {
                 Wifis.Clear();
@@ -254,7 +237,7 @@ namespace IsObservableCollBuggy.Models
             }
 
             var success = _wifiConnectionService.SetWifiEnabled(!EnableWifiToggle);
-             
+
             // TODO: Tell the user that the wifi couldn't be enabled/disabled.
             if (!success) return;
 
@@ -281,7 +264,7 @@ namespace IsObservableCollBuggy.Models
         private void ActivateConnectNetworkElementOrConnectRemembered()
         {
             IsRefreshing = true;
-            // TODO: Tell the user that it is already connected
+            //TODO: Tell the user this wifi is already configured
             if (_wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
             {
                 IsRefreshing = false;
