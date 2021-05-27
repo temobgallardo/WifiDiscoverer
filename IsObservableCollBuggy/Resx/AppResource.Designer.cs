@@ -799,7 +799,7 @@ namespace IsObservableCollBuggy.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add wifi.
+        ///   Looks up a localized string similar to Add Wi-Fi.
         /// </summary>
         internal static string DiagnosticPageWifiTabConnectHiddenNetwork {
             get {
@@ -817,7 +817,7 @@ namespace IsObservableCollBuggy.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wifi.
+        ///   Looks up a localized string similar to Wi-Fi.
         /// </summary>
         internal static string DiagnosticPageWifiTabTitleText {
             get {

@@ -128,8 +128,18 @@ namespace IsObservableCollBuggy.Models
             set => SetProperty(ref _hiddenNetwork, value);
         }
 
-        const int _refreshCounterMax = 5;
-        int _refreshCounter = 5;
+        string _deviceMacAddress;
+        public string DeviceMacAddress
+        {
+            get => _deviceMacAddress;
+            set
+            {
+                if (!EnableWifiToggle && !string.IsNullOrEmpty(_deviceMacAddress)) return;
+                                                
+                SetProperty(ref _deviceMacAddress, value);
+            }
+        }
+
         bool _firstTime = true;
         readonly IWifiConnectionReceiver _wifiConnectionService;
 
@@ -194,6 +204,7 @@ namespace IsObservableCollBuggy.Models
         void InitializeData()
         {
             EnableWifiCommand?.Execute(null);
+            DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
         }
 
         void RefreshWifis()
@@ -201,13 +212,12 @@ namespace IsObservableCollBuggy.Models
             ActivateNetworkListView();
 
             IsRefreshing = true;
-            if (_refreshCounter-- < _refreshCounterMax) return;
 
             _wifiConnectionService.StartScan();
+            DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
             LoadWifis();
             IsRefreshing = false;
-            _refreshCounter = 5;
         }
 
         bool LoadWifis()
@@ -255,6 +265,8 @@ namespace IsObservableCollBuggy.Models
             if (!success) return;
 
             EnableWifiToggle = !EnableWifiToggle;
+
+            DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
             RefreshCanExecutes();
             LoadWifis();
@@ -306,6 +318,7 @@ namespace IsObservableCollBuggy.Models
             ConnectNetworkIsVisible = false;
             AddHiddenNetworkIsVisible = true;
         }
+
 
         public void OnDettached()
         {
