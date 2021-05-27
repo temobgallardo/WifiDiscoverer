@@ -222,10 +222,11 @@ namespace IsObservableCollBuggy.Models
             if (wifis == null) return false;
 
             Wifis.Clear();
-            var filtered = wifis.Where((w) => !string.IsNullOrEmpty(w.Ssid));
-            if (!filtered.Any()) return false;
+            var wifiWithNames = wifis.Where((w) => !string.IsNullOrEmpty(w.Ssid));
+            if (!wifiWithNames.Any()) return false;
 
-            Wifis.AddRange(filtered);
+            var distinct = wifiWithNames.Distinct(new WifiComprarer());
+            Wifis.AddRange(distinct);
             return false;
         }
 
