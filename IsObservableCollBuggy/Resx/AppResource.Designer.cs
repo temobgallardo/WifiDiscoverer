@@ -799,7 +799,7 @@ namespace IsObservableCollBuggy.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect to hidden network.
+        ///   Looks up a localized string similar to Add wifi.
         /// </summary>
         internal static string DiagnosticPageWifiTabConnectHiddenNetwork {
             get {
