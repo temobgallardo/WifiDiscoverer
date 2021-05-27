@@ -1,4 +1,6 @@
-﻿using WifiPage.Models.Commons;
+﻿using System;
+using System.Collections.Generic;
+using WifiPage.Models.Commons;
 
 namespace IsObservableCollBuggy.Models.Models
 {
@@ -23,5 +25,23 @@ namespace IsObservableCollBuggy.Models.Models
         public string Password { get => _password; set => SetProperty(ref _password, value); }
         bool _isHidden;
         public bool IsHidden { get => _isHidden; set => SetProperty(ref _isHidden, value); }
+    }
+
+    public class WifiComprarer : IEqualityComparer<Wifi>
+    {
+        public bool Equals(Wifi x, Wifi y)
+        {
+            if (x is null || y is null) return false;
+
+            return x.Ssid == y.Ssid;
+        }
+
+        public int GetHashCode(Wifi wifi)
+        {
+            //Check whether the object is null
+            if (wifi is null) return 0;
+
+            return wifi.Ssid == null ? 0 : wifi.Ssid.GetHashCode();
+        }
     }
 }
