@@ -643,7 +643,7 @@
     <value>Only a Service User can login.</value>
   </data>
   <data name="DiagnosticPageWifiTabTitleText" xml:space="preserve">
-    <value>Wifi</value>
+    <value>Wi-Fi</value>
   </data>
   <data name="DiagnosticPageWifiTabWifiConnect" xml:space="preserve">
     <value>Connect</value>
@@ -655,7 +655,7 @@
     <value>Cancel</value>
   </data>
   <data name="DiagnosticPageWifiTabConnectHiddenNetwork" xml:space="preserve">
-    <value>Add wifi</value>
+    <value>Add Wi-Fi</value>
   </data>
   <data name="DiagnosticPageWifiTabRefreshList" xml:space="preserve">
     <value>Refresh</value>
