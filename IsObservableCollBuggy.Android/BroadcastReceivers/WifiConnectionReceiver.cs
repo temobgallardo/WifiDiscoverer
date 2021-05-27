@@ -5,6 +5,8 @@ using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
@@ -31,6 +33,38 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         }
         public string WifiConnectionReceiverMessage { get => _wifiConnectionReceiverMessage; }
         public bool IsWifiEnabled { get => _wifiManager.IsWifiEnabled; }
+        string _deviceMacAddress;
+        public string DeviceMacAddress { get => GetMacAddres(); }
+
+        string GetMacAddres()
+        {
+            if (!string.IsNullOrEmpty(_deviceMacAddress) && _deviceMacAddress != "02:00:00:00:00:00") return _deviceMacAddress;
+
+            foreach(var i in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (i.Name != "wlan0") continue;
+
+                StringBuilder macBuilder = new StringBuilder();
+
+                int j = 0;
+                foreach(var c in i.GetPhysicalAddress().ToString())
+                {
+                    if (j >= 2)
+                    {
+                        macBuilder.Append(":");
+                        j = 0;
+                    }
+
+                    macBuilder.Append(c);
+                    j++;
+                }
+
+                return _deviceMacAddress = macBuilder.ToString();
+            }
+
+            return string.Empty;
+        }
+
         public IList<Wifi> Wifis { get => ParseScanResultToWifi(_wifiManager.ScanResults); }
 
         public WifiConnectionReceiver()
