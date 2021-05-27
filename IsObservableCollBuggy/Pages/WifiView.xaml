@@ -36,7 +36,7 @@
                     <ColumnDefinition Width="40" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
-                <Label Text="Wi-Fi"
+                <Label Text="{x:Static resx:AppResource.DiagnosticPageWifiTabTitleText}"
                        VerticalOptions="Start"
                        Grid.Column="0"
                        Grid.Row="0" />
