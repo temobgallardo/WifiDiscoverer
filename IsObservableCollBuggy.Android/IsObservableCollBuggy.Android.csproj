@@ -67,7 +67,6 @@
     <Compile Include="BroadcastReceivers\WifiConnectionReceiver.cs" />
     <Compile Include="Effects\LifeCycleEffectRouter.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="NativeImplementations\AccessLocationPermission.cs" />
     <Compile Include="NativeImplementations\SnackBarImpl.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,7 +102,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions\" />
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
@@ -122,7 +120,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionIsObservableCollBuggyAndroidHideInfoBar="True" XamarinHotReloadXFormsNugetUpgradeInfoBarIsObservableCollBuggyAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarIsObservableCollBuggyAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionIsObservableCollBuggyAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
