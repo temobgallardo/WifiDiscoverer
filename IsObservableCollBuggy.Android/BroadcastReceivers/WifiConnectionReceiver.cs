@@ -134,7 +134,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return ParseScanResultToWifi(ScanResults);
         }
 
-        public bool ConnectToWifi(Wifi wifi)
+        public bool Connect(Wifi wifi)
         {
             if (wifi == null) return false;
 
@@ -148,7 +148,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return ConnectToAlreadyConfigured(networkId);
         }
 
-        public bool ConnectToRememberedNetwork(Wifi wifi)
+        public bool ConnectToRemembered(Wifi wifi)
         {
             if (wifi == null) return false;
 
@@ -180,7 +180,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (networkId < 0) return false;
 
             var isDisconnected = _wifiManager.Disconnect();
-            var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0 ? true : _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
+            var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0 || _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
             var isEnabled = _wifiManager.EnableNetwork(networkId, true);
             var isReconnected = _wifiManager.Reconnect();
             return isDisconnected && isDisabled && isEnabled && isReconnected;
@@ -238,6 +238,19 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             }
 
             return conf;
+        }
+
+        public bool Disconnect() => _wifiManager.Disconnect();
+
+        public bool Forget(Wifi wifi)
+        {
+            if (wifi is null) return false;
+
+            WifiConfiguration conf = AlreadyConfigured(wifi);
+
+            if (conf is null) return false;
+
+            return _wifiManager.DisableNetwork(conf.NetworkId);
         }
 
         public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);

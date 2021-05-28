@@ -150,6 +150,7 @@ namespace IsObservableCollBuggy.Models
         public ICommand CancelCommand { get; private set; }
         public ICommand OpenHiddenNetworkConnectPageCommand { get; private set; }
         public ICommand AddNetworkCommand { get; private set; }
+        public ICommand ForgetCommand { get; private set; }
 
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
         {
@@ -166,6 +167,13 @@ namespace IsObservableCollBuggy.Models
             CancelCommand = new Command(Cancel);
             OpenHiddenNetworkConnectPageCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
             AddNetworkCommand = new Command(AddNetwork);
+            ForgetCommand = new Command(Forget);
+        }
+
+        void Forget(object obj)
+        {
+            // TODO: Tell the user that the wifi has been fogotten
+            _wifiConnectionService.Forget(obj as Wifi);
         }
 
         private void AddNetwork()
@@ -190,7 +198,7 @@ namespace IsObservableCollBuggy.Models
         void Connect()
         {
             // Todo: Tell the user if connection was successful
-            _wifiConnectionService.ConnectToWifi(CurrentWifi);
+            _wifiConnectionService.Connect(CurrentWifi);
             ActivateNetworkListView();
         }
 
@@ -291,7 +299,7 @@ namespace IsObservableCollBuggy.Models
             IsRefreshing = true;
 
             //TODO: Tell the user this wifi is already configured or connected
-            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRememberedNetwork(CurrentWifi))
+            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRemembered(CurrentWifi))
             {
                 IsRefreshing = false;
                 return;
@@ -304,12 +312,12 @@ namespace IsObservableCollBuggy.Models
         private void AddNetworkOrConnectRemembered(Wifi wifi)
         {
             //TODO: Tell the user this wifi is already configured or connected
-            if (_wifiConnectionService.AlreadyConnected(wifi) || _wifiConnectionService.ConnectToRememberedNetwork(wifi))
+            if (_wifiConnectionService.AlreadyConnected(wifi) || _wifiConnectionService.ConnectToRemembered(wifi))
             {
                 return;
             }
 
-            _wifiConnectionService.ConnectToWifi(wifi);
+            _wifiConnectionService.Connect(wifi);
         }
 
         void ActivateAddHiddenNetworkElement()
@@ -318,7 +326,6 @@ namespace IsObservableCollBuggy.Models
             ConnectNetworkIsVisible = false;
             AddHiddenNetworkIsVisible = true;
         }
-
 
         public void OnDettached()
         {
