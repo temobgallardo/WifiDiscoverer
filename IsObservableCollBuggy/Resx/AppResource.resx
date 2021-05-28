@@ -660,4 +660,10 @@
   <data name="DiagnosticPageWifiTabRefreshList" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="DiagnosticPageWifiTabDisconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="DiagnosticPageWifiTabForget" xml:space="preserve">
+    <value>Forget</value>
+  </data>
 </root>

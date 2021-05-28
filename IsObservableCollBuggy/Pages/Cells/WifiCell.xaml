@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ViewCell  xmlns="http://xamarin.com/schemas/2014/forms"
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
            x:Class="IsObservableCollBuggy.Pages.Cells.WifiCell">
     <Grid Padding="4">
         <Grid.RowDefinitions>
@@ -22,4 +23,10 @@
             </DataTrigger>
         </Grid.Triggers>
     </Grid>
+
+    <ViewCell.ContextActions>
+        <MenuItem Command="{Binding ForgetCommand}"
+                  CommandParameter="{Binding .}"
+                  Text="{x:Static resx:AppResource.DiagnosticPageWifiTabForget}" />
+    </ViewCell.ContextActions>
 </ViewCell>
