@@ -151,6 +151,7 @@ namespace IsObservableCollBuggy.Models
         public ICommand OpenHiddenNetworkConnectPageCommand { get; private set; }
         public ICommand AddNetworkCommand { get; private set; }
         public ICommand ForgetCommand { get; private set; }
+        public ICommand DisconnectCommand { get; private set; }
 
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
         {
@@ -168,14 +169,15 @@ namespace IsObservableCollBuggy.Models
             OpenHiddenNetworkConnectPageCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
             AddNetworkCommand = new Command(AddNetwork);
             ForgetCommand = new Command(Forget);
+            DisconnectCommand = new Command((o) => Disconnect(), canExecute: (w) => EnableWifiToggle);
         }
 
-        void Forget(object obj)
-        {
-            // TODO: Tell the user that the wifi has been fogotten
-            _wifiConnectionService.Forget(obj as Wifi);
-        }
+        // TODO: Tell the user that the wifi has disconnected successfuly
+        private void Disconnect() => _wifiConnectionService.Disconnect();
 
+        // TODO: Tell the user that the wifi has been fogotten
+        void Forget(object obj) => _wifiConnectionService.Forget(obj as Wifi);
+        
         private void AddNetwork()
         {
             if (!EnableWifiToggle) return;
