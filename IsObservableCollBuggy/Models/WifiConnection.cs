@@ -45,6 +45,7 @@ namespace IsObservableCollBuggy.Models
             set
             {
                 SetProperty(ref _enableWifiToggle, value);
+                EnableWifi(value);
             }
         }
 
@@ -52,12 +53,7 @@ namespace IsObservableCollBuggy.Models
         public ObservableCollection<Wifi> Wifis
         {
             get => _wifis;
-            set
-            {
-                //SetPropertyValue(ref _wifis, value);
-                _wifis = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Wifis)));
-            }
+            set => SetPropertyValue(ref _wifis, value);                
         }
 
         Wifi _currentWifi;
@@ -143,7 +139,6 @@ namespace IsObservableCollBuggy.Models
         bool _firstTime = true;
         readonly IWifiConnectionReceiver _wifiConnectionService;
 
-        public ICommand EnableWifiCommand { get; private set; }
         public ICommand SelectedWifiCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand ConnectCommand { get; private set; }
@@ -159,10 +154,8 @@ namespace IsObservableCollBuggy.Models
             _wifiConnectionService = wifiConnectionReceiver;
 
             Wifis = new ObservableCollection<Wifi>();
-            EnableWifiToggle = true;
             HiddenNetwork = new Wifi();
 
-            EnableWifiCommand = new Command(EnableWifi);
             RefreshCommand = new Command(RefreshWifis, canExecute: () => EnableWifiToggle);
             ConnectCommand = new Command(Connect);
             CancelCommand = new Command(Cancel);
@@ -181,6 +174,7 @@ namespace IsObservableCollBuggy.Models
         private void AddNetwork()
         {
             if (!EnableWifiToggle) return;
+
             HiddenNetwork.IsHidden = true;
             // Todo: Tell the user if connection was successful
             AddNetworkOrConnectRemembered(HiddenNetwork);
@@ -206,14 +200,14 @@ namespace IsObservableCollBuggy.Models
 
         public void OnAttached()
         {
-            EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             ActivateNetworkListView();
-            InitializeData();
+            InitializeData(); 
         }
 
         void InitializeData()
         {
-            EnableWifiCommand?.Execute(null);
+            // When enabled wifi list is loaded.
+            EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
         }
 
@@ -254,14 +248,15 @@ namespace IsObservableCollBuggy.Models
         {
             (RefreshCommand as Command).ChangeCanExecute();
             (OpenHiddenNetworkConnectPageCommand as Command).ChangeCanExecute();
+            (DisconnectCommand as Command).ChangeCanExecute();
         }
 
         // TODO: Deprecate on API level 29 since it is not allowed for apps to disable/enable wifi
-        void EnableWifi()
+        void EnableWifi(bool isEnabled)
         {
             ActivateNetworkListView();
 
-            if (_firstTime && _wifiConnectionService.IsWifiEnabled)
+            if (_firstTime && isEnabled)
             {
                 _firstTime = false;
                 RefreshCanExecutes();
@@ -269,12 +264,10 @@ namespace IsObservableCollBuggy.Models
                 return;
             }
 
-            var success = _wifiConnectionService.SetWifiEnabled(!EnableWifiToggle);
+            var success = _wifiConnectionService.SetWifiEnabled(isEnabled);
 
             // TODO: Tell the user that the wifi couldn't be enabled/disabled.
             if (!success) return;
-
-            EnableWifiToggle = !EnableWifiToggle;
 
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
