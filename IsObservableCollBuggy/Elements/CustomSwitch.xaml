@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame BorderColor="Gray"
+       CornerRadius="8"
+       Padding="4"
+       xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:elements="clr-namespace:IsObservableCollBuggy.Elements"
+       x:DataType="elements:CustomSwitch"
+       x:Class="IsObservableCollBuggy.Elements.CustomSwitch" 
+       x:Name="this">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0"
+               x:Name="label" />
+        <Switch Grid.Column="1"
+                x:Name="switch"
+                OnColor="Purple"
+                IsToggled="{Binding IsToggled, Mode=TwoWay}"
+                BindingContext="{x:Reference this}" />
+    </Grid>
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </Frame.GestureRecognizers>
+</Frame>
