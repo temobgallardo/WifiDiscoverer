@@ -14,7 +14,7 @@ namespace IsObservableCollBuggy.Pages
         public WifiView()
         {
             InitializeComponent();
-            _wifiConnection = new WifiConnection(DependencyService.Get< IWifiConnectionReceiver>(), Navigation);
+            _wifiConnection = new WifiConnection(DependencyService.Get<IWifiConnectionReceiver>(), Navigation);
             BindingContext = _wifiConnection;
         }
 
