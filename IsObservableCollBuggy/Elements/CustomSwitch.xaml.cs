@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace IsObservableCollBuggy.Elements

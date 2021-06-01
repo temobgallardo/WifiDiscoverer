@@ -808,6 +808,24 @@ namespace IsObservableCollBuggy.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        internal static string DiagnosticPageWifiTabDisconnect {
+            get {
+                return ResourceManager.GetString("DiagnosticPageWifiTabDisconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forget.
+        /// </summary>
+        internal static string DiagnosticPageWifiTabForget {
+            get {
+                return ResourceManager.GetString("DiagnosticPageWifiTabForget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         internal static string DiagnosticPageWifiTabRefreshList {
