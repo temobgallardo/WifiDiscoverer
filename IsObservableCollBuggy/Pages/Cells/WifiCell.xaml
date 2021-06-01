@@ -25,7 +25,7 @@
     </Grid>
 
     <ViewCell.ContextActions>
-        <MenuItem Command="{Binding ForgetCommand}"
+        <MenuItem x:Name="MenuItem"
                   CommandParameter="{Binding .}"
                   Text="{x:Static resx:AppResource.DiagnosticPageWifiTabForget}" />
     </ViewCell.ContextActions>
