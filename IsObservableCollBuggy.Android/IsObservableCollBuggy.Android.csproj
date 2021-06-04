@@ -102,7 +102,7 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\xml\special_keyboard.xml">
+    <AndroidResource Include="Resources\xml\alphanumeric_keyboard.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -144,19 +144,19 @@
     <AndroidResource Include="Resources\layout\custom_keyboard.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\special_keyboard_caps.xml">
+    <AndroidResource Include="Resources\xml\alphanumeric_caps_keyboard.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\special_keyboard_symbols.xml">
+    <AndroidResource Include="Resources\xml\symbols_keyboard.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\special_keyboard_more_symbols.xml">
+    <AndroidResource Include="Resources\xml\more_symbols_keyboard.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
