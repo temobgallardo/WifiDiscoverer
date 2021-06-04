@@ -7,6 +7,7 @@
              xmlns:effects="clr-namespace:WifiPage.Effects"
              xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
              xmlns:elements="clr-namespace:IsObservableCollBuggy.Elements"
+             xmlns:controls="clr-namespace:IsObservableCollBuggy.Controls"
              x:DataType="viewmodels:WifiConnection"
              x:Name="this">
     <ContentView.Resources>
@@ -125,10 +126,9 @@
                 <Entry x:Name="HiddenNetworkSsid"
                        Placeholder="Ssid/Wifi name"
                        Text="{Binding HiddenNetwork.Ssid}" />
-                <Entry x:Name="NewWifiPassword"
-                       Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
-                       Text="{Binding HiddenNetwork.Password}"
-                       IsPassword="True" />
+                <controls:EntryWithCustomKeyboard x:Name="NewWifiPassword"
+                                                  Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
+                                                  Text="{Binding HiddenNetwork.Password}" />
                 <StackLayout CompressedLayout.IsHeadless="True"
                              Orientation="Horizontal">
                     <Button x:Name="ConnectHiddenNetworkButtom"
@@ -175,8 +175,8 @@
                         TextColor="White">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button"
-                                 Binding="{Binding EnableWifiToggle}"
-                                 Value="False">
+                                     Binding="{Binding EnableWifiToggle}"
+                                     Value="False">
                             <Setter Property="TextColor"
                                     Value="LightGray" />
                         </DataTrigger>
