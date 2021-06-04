@@ -7,6 +7,4 @@
 	android:layout_alignParentBottom="true"
 	android:keyPreviewLayout="@null"
 	android:keyBackground="@drawable/keyboard_background"
-	android:textColor="#242424"
-	android:textAllCaps = "true"
 	android:background="#f2f0f0" />

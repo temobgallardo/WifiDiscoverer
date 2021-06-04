@@ -31,7 +31,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
         bool keyPressed;
         bool _capsOn;
-        bool _specialCharsOn = true;
+        bool _moreSymbols = true;
         bool _isAlphanumericKeyboard = true;
 
         public EntryWithCustomKeyboard EntryWithCustomKeyboard { get => entryWithCustomKeyboard; set => entryWithCustomKeyboard = value; }
@@ -94,16 +94,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
             if (e.HasFocus)
             {
-                _androidLogger.Info("ManualLoginViewModel", "Element is :" + (Element as EntryWithCustomKeyboard)?.ControlName);
-                //if ((Element as EntryWithCustomKeyboard)?.ControlName == "PasswordEntry")
-                //{
-                //    MessagingCenter.Send<string, bool>("ManualLoginFocus", "PasswordEntry", true);
-                //}
-                //if ((Element as EntryWithCustomKeyboard)?.ControlName == "UsernameEntry")
-                //{
-                //    MessagingCenter.Send<string, bool>("ManualLoginFocus", "UsernameEntry", true);
-                //}
-                this.mKeyboardView.OnKeyboardActionListener = this;
+                mKeyboardView.OnKeyboardActionListener = this;
 
                 if (this.Element.Keyboard == Xamarin.Forms.Keyboard.Text)
                     this.CreateCustomKeyboard();
@@ -232,8 +223,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
             if (this.mKeyboardView.Visibility == ViewStates.Gone)
             {
                 // Ensure native keyboard is hidden
-                var imm = (InputMethodManager)this.Context.GetSystemService(Context.InputMethodService);
-                imm.HideSoftInputFromWindow(this.EditText.WindowToken, 0);
+                HideNativeKeyboard();
 
                 this.EditText.InputType = InputTypes.Null;
                 this.mKeyboardView.Enabled = true;
@@ -271,8 +261,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
                                   KeyEventFlags.SoftKeyboard | KeyEventFlags.KeepTouchMode);
 
             // Ensure native keyboard is hidden
-            var imm = (InputMethodManager)Context.GetSystemService(Context.InputMethodService);
-            imm.HideSoftInputFromWindow(EditText.WindowToken, HideSoftInputFlags.None);
+            HideNativeKeyboard();
 
             switch (ev.KeyCode)
             {
@@ -288,7 +277,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
                         EntryWithCustomKeyboard.EnterCommand?.Execute(null);
                     }
                     break;
-                    // TODO: Fix cases to be in line with android keyboard change behavior
                 case Android.Views.Keycode.Tab:
                     if (_isAlphanumericKeyboard)
                     {
@@ -296,7 +284,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
                     }
                     else
                     {
-                        SwitchSymbolsKeyboard(ref _specialCharsOn);
+                        SwitchSymbolsKeyboard(ref _moreSymbols);
                     }
                     break;
                 case Android.Views.Keycode.CtrlLeft:
@@ -304,6 +292,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
                     {
                         mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.symbols_keyboard);
                         _isAlphanumericKeyboard = false;
+                        _moreSymbols = true;
                     }
                     else
                     {
@@ -386,7 +375,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
         public void OnText(ICharSequence text)
         {
-
         }
 
         public void SwipeDown()

@@ -23,24 +23,24 @@
 	</Row>
 	<Row>
 		<Key android:codes="0" android:keyWidth="0dp" android:horizontalGap="5%p" android:keyEdgeFlags="left" />
-		<Key android:codes="29" android:keyLabel="\u00A3" android:keyWidth="9%p" />
-		<Key android:codes="47" android:keyLabel="\u00A2" android:keyWidth="9%p" />
-		<Key android:codes="32" android:keyLabel="\u20AC" android:keyWidth="9%p" />
-		<Key android:codes="34" android:keyLabel="^" android:keyWidth="9%p" />
-		<Key android:codes="35" android:keyLabel="\u00B0" android:keyWidth="9%p" />
-		<Key android:codes="36" android:keyLabel="=" android:keyWidth="9%p" />
-		<Key android:codes="38" android:keyLabel="{" android:keyWidth="9%p" />
-		<Key android:codes="39" android:keyLabel="}" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="\u00A3" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="\u00A2" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="\u20AC" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="^" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="\u00B0" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="=" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="{" android:keyWidth="9%p" />
+		<Key android:codes="0" android:keyLabel="}" android:keyWidth="9%p" />
 	</Row>
 	<Row>
 		<Key android:codes="61" android:keyLabel="\?123" android:keyWidth="8%p" />
-		<Key android:codes="54" android:keyLabel="\\" android:keyWidth="8%p" />
-		<Key android:codes="52" android:keyLabel="\u00A9" android:keyWidth="8%p" />
-		<Key android:codes="31" android:keyLabel="\u00AE" android:keyWidth="8%p" />
-		<Key android:codes="50" android:keyLabel="\u2122" android:keyWidth="8%p" />
-		<Key android:codes="30" android:keyLabel="\u2105" android:keyWidth="8%p" />
-		<Key android:codes="42" android:keyLabel="[" android:keyWidth="8%p" />
-		<Key android:codes="41" android:keyLabel="]" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="\\" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="\u00A9" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="\u00AE" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="\u2122" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="\u2105" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="[" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="]" android:keyWidth="8%p" />
 		<Key android:codes="0" android:keyLabel="\u00A1" android:keyWidth="8%p" />
 		<Key android:codes="0" android:keyLabel="\u00bf" android:keyWidth="8%p" />
 		<Key android:codes="67" android:keyLabel="\u232b" android:keyWidth="8%p" />
