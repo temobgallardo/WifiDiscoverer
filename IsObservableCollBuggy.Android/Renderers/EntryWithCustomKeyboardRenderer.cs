@@ -25,7 +25,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
         EntryWithCustomKeyboard entryWithCustomKeyboard;
 
         KeyboardView mKeyboardView;
-        Android.InputMethodServices.Keyboard mKeyboard;
 
         InputTypes inputTypeToUse;
 
@@ -34,9 +33,14 @@ namespace IsObservableCollBuggy.Droid.Renderers
         bool _moreSymbols = true;
         bool _isAlphanumericKeyboard = true;
 
+        StringBuilder _text;
+
         public EntryWithCustomKeyboard EntryWithCustomKeyboard { get => entryWithCustomKeyboard; set => entryWithCustomKeyboard = value; }
 
-        public EntryWithCustomKeyboardRenderer(Context context) : base(context) { }
+        public EntryWithCustomKeyboardRenderer(Context context) : base(context) 
+        {
+            _text = new StringBuilder();
+        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
@@ -210,9 +214,8 @@ namespace IsObservableCollBuggy.Droid.Renderers
                 activityRootView.AddView(this.mKeyboardView, layoutParams);
             }
 
-            this.HideKeyboardView();
-
-            this.mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
+            HideKeyboardView();
+            mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
         }
 
         // Method to show our custom keyboard
@@ -220,16 +223,16 @@ namespace IsObservableCollBuggy.Droid.Renderers
         {
             // First we must ensure that keyboard is hidden to
             // prevent showing it multiple times
-            if (this.mKeyboardView.Visibility == ViewStates.Gone)
+            if (mKeyboardView.Visibility == ViewStates.Gone)
             {
                 // Ensure native keyboard is hidden
                 HideNativeKeyboard();
 
-                this.EditText.InputType = InputTypes.Null;
-                this.mKeyboardView.Enabled = true;
+                EditText.InputType = InputTypes.Null;
+                mKeyboardView.Enabled = true;
 
                 // Show custom keyboard with animation
-                this.mKeyboardView.Visibility = ViewStates.Visible;
+                mKeyboardView.Visibility = ViewStates.Visible;
             }
         }
 
@@ -241,9 +244,15 @@ namespace IsObservableCollBuggy.Droid.Renderers
             EditText.InputType = InputTypes.Null;
         }
 
+        protected void OnKeyUp(int keyCode, EventTrigger keyEvent)
+        {
+        }
+
         // Implementing IOnKeyboardActionListener interface
         public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode[] keyCodes)
         {
+            //InputConnection inputConnection = KeyboardView.CurrentInputConnection; 
+
             var view = FindViewById<Android.Views.View>(
                 Android.Resource.Id.Content);
             //view.PlaySoundEffect(SoundEffects.Click);
@@ -252,7 +261,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
                 return;
 
             // Ensure key is pressed to avoid removing focus
-            this.keyPressed = true;
+            keyPressed = true;
 
             // Create event for key press
             long eventTime = JavaSystem.CurrentTimeMillis();
@@ -278,14 +287,16 @@ namespace IsObservableCollBuggy.Droid.Renderers
                     }
                     break;
                 case Android.Views.Keycode.Tab:
+                    _capsOn = !_capsOn;
                     if (_isAlphanumericKeyboard)
                     {
-                        SwitchCaps(ref _capsOn);
+                        mKeyboardView.Keyboard.SetShifted(_capsOn);
                     }
                     else
                     {
                         SwitchSymbolsKeyboard(ref _moreSymbols);
                     }
+                    mKeyboardView.InvalidateAllKeys();
                     break;
                 case Android.Views.Keycode.CtrlLeft:
                     if (_isAlphanumericKeyboard)
@@ -366,7 +377,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
             {
                 this.EditText.TransformationMethod = PasswordTransformationMethod.Instance;
             }
-            this.EditText.SetText(this.EditText.Text?.ToUpper(), TextView.BufferType.Editable);
+            //this.EditText.SetText(this.EditText.Text, TextView.BufferType.Editable);
 
             this.mKeyboardView.Visibility = ViewStates.Visible;
 
@@ -375,6 +386,9 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
         public void OnText(ICharSequence text)
         {
+            var currentString = text.ToString();
+            _text.Append(currentString);
+            EditText.Text = _text.ToString();
         }
 
         public void SwipeDown()

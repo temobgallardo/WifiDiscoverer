@@ -35,14 +35,14 @@
 	<Row>
 		<Key android:codes="61" android:keyLabel="~\[&lt;" android:keyWidth="8%p" />
 		<Key android:codes="0" android:keyLabel="\u005C" android:keyWidth="8%p" android:keyOutputText="\u005C" />
-		<Key android:codes="0" android:keyLabel="=" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel="*" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel="&quot;" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel="'" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel=":" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel=";" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel="!" android:keyWidth="8%p" />
-		<Key android:codes="0" android:keyLabel="\u003F" android:keyWidth="8%p" />
+		<Key android:codes="0" android:keyLabel="=" android:keyWidth="8%p" android:keyOutputText="=" />
+		<Key android:codes="0" android:keyLabel="*" android:keyWidth="8%p" android:keyOutputText="*" />
+		<Key android:codes="0" android:keyLabel="&quot;" android:keyWidth="8%p" android:keyOutputText="&quot;" />
+		<Key android:codes="0" android:keyLabel="'" android:keyWidth="8%p" android:keyOutputText="'" />
+		<Key android:codes="0" android:keyLabel=":" android:keyWidth="8%p" android:keyOutputText=":" />
+		<Key android:codes="0" android:keyLabel=";" android:keyWidth="8%p" android:keyOutputText=":" />
+		<Key android:codes="0" android:keyLabel="!" android:keyWidth="8%p" android:keyOutputText="!" />
+		<Key android:codes="0" android:keyLabel="\u003F" android:keyWidth="8%p" android:keyOutputText="\u003F" />
 		<Key android:codes="67" android:keyLabel="\u232b" android:keyWidth="8%p" />
 		<Key android:codes="0" android:keyWidth="0dp" android:horizontalGap="1%p" />
 	</Row>
