@@ -22,17 +22,17 @@ namespace IsObservableCollBuggy.Droid.Renderers
 {
     public class EntryWithCustomKeyboardRenderer : EntryRenderer, IOnKeyboardActionListener
     {
-        private EntryWithCustomKeyboard entryWithCustomKeyboard;
+        EntryWithCustomKeyboard entryWithCustomKeyboard;
 
-        private KeyboardView mKeyboardView;
-        private Android.InputMethodServices.Keyboard mKeyboard;
+        KeyboardView mKeyboardView;
+        Android.InputMethodServices.Keyboard mKeyboard;
 
-        private InputTypes inputTypeToUse;
+        InputTypes inputTypeToUse;
 
-        private bool keyPressed;
-        private bool _capsOn;
-        private bool _specialCharsOn;
-        private bool _moreSpecialOn;
+        bool keyPressed;
+        bool _capsOn;
+        bool _specialCharsOn = true;
+        bool _isAlphanumericKeyboard = true;
 
         public EntryWithCustomKeyboard EntryWithCustomKeyboard { get => entryWithCustomKeyboard; set => entryWithCustomKeyboard = value; }
 
@@ -71,6 +71,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
                 EditText.Touch -= EditText_Touch;
             }
         }
+
         protected override void OnFocusChangeRequested(object sender, VisualElement.FocusRequestArgs e)
         {
             e.Result = true;
@@ -135,22 +136,19 @@ namespace IsObservableCollBuggy.Droid.Renderers
         {
             this.EditText.SetCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
         }
+
         private void EditText_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             // Ensure no key is pressed to clear focus
-
             if (this.EditText.Text.Length != 0 && !this.keyPressed)
             {
-                //this.EditText.InputType = InputTypes.TextFlagCapCharacters;
                 ShowClearButton();
-                // this.EditText.ClearFocus();
             }
             else
             {
                 HideClearButton();
             }
             this.EditText.SetSelection(this.EditText.Text.Length);
-
         }
 
         private void EditText_Click(object sender, System.EventArgs e)
@@ -167,7 +165,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
                 ShowClearButton();
             else
                 HideClearButton();
-
 
             if (this.EditText.GetCompoundDrawables()[2] != null)
             {
@@ -187,6 +184,12 @@ namespace IsObservableCollBuggy.Droid.Renderers
             e.Handled = true;
         }
 
+        void HideNativeKeyboard()
+        {
+            // Ensure native keyboard is hidden
+            var imm = (InputMethodManager)Context.GetSystemService(Context.InputMethodService);
+            imm.HideSoftInputFromWindow(EditText.WindowToken, 0);
+        }
 
         // Keyboard related section
 
@@ -218,9 +221,8 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
             this.HideKeyboardView();
 
-            this.mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard);
+            this.mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
         }
-
 
         // Method to show our custom keyboard
         private void ShowKeyboardWithAnimation()
@@ -244,10 +246,9 @@ namespace IsObservableCollBuggy.Droid.Renderers
         // Method to hide our custom keyboard
         private void HideKeyboardView()
         {
-            this.mKeyboardView.Visibility = ViewStates.Gone;
-            this.mKeyboardView.Enabled = false;
-
-            this.EditText.InputType = InputTypes.Null;
+            mKeyboardView.Visibility = ViewStates.Gone;
+            mKeyboardView.Enabled = false;
+            EditText.InputType = InputTypes.Null;
         }
 
         // Implementing IOnKeyboardActionListener interface
@@ -257,7 +258,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
                 Android.Resource.Id.Content);
             //view.PlaySoundEffect(SoundEffects.Click);
 
-            if (!this.EditText.IsFocused)
+            if (!EditText.IsFocused)
                 return;
 
             // Ensure key is pressed to avoid removing focus
@@ -270,89 +271,96 @@ namespace IsObservableCollBuggy.Droid.Renderers
                                   KeyEventFlags.SoftKeyboard | KeyEventFlags.KeepTouchMode);
 
             // Ensure native keyboard is hidden
-            var imm = (InputMethodManager)this.Context.GetSystemService(Context.InputMethodService);
-            imm.HideSoftInputFromWindow(this.EditText.WindowToken, HideSoftInputFlags.None);
+            var imm = (InputMethodManager)Context.GetSystemService(Context.InputMethodService);
+            imm.HideSoftInputFromWindow(EditText.WindowToken, HideSoftInputFlags.None);
 
             switch (ev.KeyCode)
             {
                 case Android.Views.Keycode.Enter:
                     // Sometimes EditText takes long to update the HasFocus status
-                    if (this.EditText.HasFocus)
+                    if (EditText.HasFocus)
                     {
                         // Close the keyboard, remove focus and launch command associated action
-                        this.HideKeyboardView();
+                        HideKeyboardView();
 
-                        this.ClearFocus();
+                        ClearFocus();
 
-                        this.EntryWithCustomKeyboard.EnterCommand?.Execute(null);
+                        EntryWithCustomKeyboard.EnterCommand?.Execute(null);
                     }
                     break;
                     // TODO: Fix cases to be in line with android keyboard change behavior
                 case Android.Views.Keycode.Tab:
-                    ToCapsKeyboard(ref _capsOn);
-                    break;
-                case Android.Views.Keycode.AltLeft:
-                    ToSymbolsKeyboard(ref _specialCharsOn);
-                    break;
-                case Android.Views.Keycode.AltRight:
-                    ToMoreSymbolsKeyboard(ref _moreSpecialOn);
+                    if (_isAlphanumericKeyboard)
+                    {
+                        SwitchCaps(ref _capsOn);
+                    }
+                    else
+                    {
+                        SwitchSymbolsKeyboard(ref _specialCharsOn);
+                    }
                     break;
                 case Android.Views.Keycode.CtrlLeft:
-                    mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard);
+                    if (_isAlphanumericKeyboard)
+                    {
+                        mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.symbols_keyboard);
+                        _isAlphanumericKeyboard = false;
+                    }
+                    else
+                    {
+                        ToCaps(_capsOn);
+                        _isAlphanumericKeyboard = true;
+                    }
                     break;
             }
 
             // Set the cursor at the end of the text
             this.EditText.SetSelection(this.EditText.Text.Length);
 
-            if (this.EditText.HasFocus)
+            if (EditText.HasFocus)
             {
-                this.DispatchKeyEvent(ev);
+                DispatchKeyEvent(ev);
 
-                this.keyPressed = false;
+                keyPressed = false;
             }
-
         }
 
-        void ToCapsKeyboard(ref bool capsOn)
+        void SwitchCaps(ref bool capsOn)
         {
             if (capsOn)
             {
+                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
                 capsOn = false;
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard);
             }
             else
             {
+                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_caps_keyboard);
                 capsOn = true;
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard_caps);
             }
         }
 
-        void ToSymbolsKeyboard(ref bool symbolsOn)
+        void ToCaps(bool capsOn)
         {
-            if (symbolsOn)
+            if (capsOn)
             {
-                symbolsOn = false;
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard_more_symbols);
+                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_caps_keyboard);
             }
             else
             {
-                symbolsOn = true;
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard);
+                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
             }
         }
 
-        void ToMoreSymbolsKeyboard(ref bool symbolsOn)
+        void SwitchSymbolsKeyboard(ref bool moreSymbols)
         {
-            if (symbolsOn)
+            if (moreSymbols)
             {
-                symbolsOn = false;
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard_more_symbols);
+                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.more_symbols_keyboard);
+                moreSymbols = false;
             }
             else
             {
-                symbolsOn = true;
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.special_keyboard);
+                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.symbols_keyboard);
+                moreSymbols = true;
             }
         }
 
@@ -368,7 +376,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
             if ((Element as EntryWithCustomKeyboard)?.ControlName == "PasswordEntry")
             {
                 this.EditText.TransformationMethod = PasswordTransformationMethod.Instance;
-
             }
             this.EditText.SetText(this.EditText.Text?.ToUpper(), TextView.BufferType.Editable);
 
