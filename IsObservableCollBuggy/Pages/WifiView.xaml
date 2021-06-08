@@ -102,7 +102,7 @@
                        Text="{Binding CurrentWifi.Ssid}" />
                 <Label x:Name="MacAddress"
                        Text="{Binding CurrentWifi.Bssid}" />
-                <Entry x:Name="Password"
+                <controls:EntryWithCustomKeyboard x:Name="Password"
                        Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
                        Text="{Binding CurrentWifi.Password}"
                        IsPassword="True" />
@@ -123,7 +123,7 @@
                          IsVisible="{Binding AddHiddenNetworkIsVisible, Mode=OneWay}">
                 <Label Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
                        TextColor="Black" />
-                <Entry x:Name="HiddenNetworkSsid"
+                <controls:EntryWithCustomKeyboard x:Name="HiddenNetworkSsid"
                        Placeholder="Ssid/Wifi name"
                        Text="{Binding HiddenNetwork.Ssid}" />
                 <controls:EntryWithCustomKeyboard x:Name="NewWifiPassword"
