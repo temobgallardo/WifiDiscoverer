@@ -1,4 +1,4 @@
-﻿using Android.App;
+﻿ using Android.App;
 using Android.Content;
 using Android.InputMethodServices;
 using Android.Runtime;
@@ -32,14 +32,20 @@ namespace IsObservableCollBuggy.Droid.Renderers
         bool _capsOn;
         bool _moreSymbols = true;
         bool _isAlphanumericKeyboard = true;
-
-        StringBuilder _text;
+        bool _isShow = true;
+        readonly Android.InputMethodServices.Keyboard _alphanumemricKeyboard;
+        readonly Android.InputMethodServices.Keyboard _alphanumemricCapsKeyboard;
+        readonly Android.InputMethodServices.Keyboard _symbolsKeyboard;
+        readonly Android.InputMethodServices.Keyboard _moreSymbolsKeyboard;
 
         public EntryWithCustomKeyboard EntryWithCustomKeyboard { get => entryWithCustomKeyboard; set => entryWithCustomKeyboard = value; }
 
-        public EntryWithCustomKeyboardRenderer(Context context) : base(context) 
+        public EntryWithCustomKeyboardRenderer(Context context) : base(context)
         {
-            _text = new StringBuilder();
+            _alphanumemricKeyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
+            _alphanumemricCapsKeyboard = GetKeyboardById(Resource.Xml.alphanumeric_caps_keyboard);
+            _symbolsKeyboard = GetKeyboardById(Resource.Xml.symbols_keyboard);
+            _moreSymbolsKeyboard = GetKeyboardById(Resource.Xml.more_symbols_keyboard);
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
@@ -96,30 +102,29 @@ namespace IsObservableCollBuggy.Droid.Renderers
             if (this.EditText.Text == null)
                 this.EditText.Text = string.Empty;
 
-            if (e.HasFocus)
-            {
-                mKeyboardView.OnKeyboardActionListener = this;
-
-                if (this.Element.Keyboard == Xamarin.Forms.Keyboard.Text)
-                    this.CreateCustomKeyboard();
-                if (!string.IsNullOrWhiteSpace(this.EditText.Text) && this.EditText.Text.Length > 0)
-                {
-                    ShowClearButton();
-                }
-                else
-                {
-                    HideClearButton();
-                }
-
-                this.ShowKeyboardWithAnimation();
-            }
-            else
+            if (!e.HasFocus)
             {
                 // When the control looses focus, we set an empty listener to avoid crashes
                 HideClearButton();
-                this.mKeyboardView.OnKeyboardActionListener = new NullListener();
-                this.HideKeyboardView();
+                mKeyboardView.OnKeyboardActionListener = new NullListener();
+                HideKeyboardView();
+                return;
             }
+
+            mKeyboardView.OnKeyboardActionListener = this;
+
+            if (this.Element.Keyboard == Xamarin.Forms.Keyboard.Text)
+                this.CreateCustomKeyboard();
+            if (!string.IsNullOrWhiteSpace(this.EditText.Text) && this.EditText.Text.Length > 0)
+            {
+                ShowClearButton();
+            }
+            else
+            {
+                HideClearButton();
+            }
+
+            this.ShowKeyboardWithAnimation();
         }
 
         void ShowClearButton()
@@ -161,7 +166,7 @@ namespace IsObservableCollBuggy.Droid.Renderers
             else
                 HideClearButton();
 
-            if (this.EditText.GetCompoundDrawables()[2] != null)
+            if (EditText.GetCompoundDrawables()[2] != null)
             {
                 var loc = new int[2];
                 this.EditText.GetLocationOnScreen(loc);
@@ -174,7 +179,8 @@ namespace IsObservableCollBuggy.Droid.Renderers
                     this.EditText.SetSelection(this.EditText.Text.Length);
                 }
             }
-            this.EditText.InputType = this.inputTypeToUse;
+
+            EditText.InputType = this.inputTypeToUse;
 
             e.Handled = true;
         }
@@ -215,7 +221,8 @@ namespace IsObservableCollBuggy.Droid.Renderers
             }
 
             HideKeyboardView();
-            mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
+            mKeyboardView.Keyboard = _alphanumemricKeyboard;
+            mKeyboardView.OnKeyboardActionListener = this;
         }
 
         // Method to show our custom keyboard
@@ -223,25 +230,35 @@ namespace IsObservableCollBuggy.Droid.Renderers
         {
             // First we must ensure that keyboard is hidden to
             // prevent showing it multiple times
-            if (mKeyboardView.Visibility == ViewStates.Gone)
-            {
-                // Ensure native keyboard is hidden
-                HideNativeKeyboard();
 
-                EditText.InputType = InputTypes.Null;
-                mKeyboardView.Enabled = true;
+            if (mKeyboardView.Visibility != ViewStates.Gone)
+                return;
 
-                // Show custom keyboard with animation
-                mKeyboardView.Visibility = ViewStates.Visible;
-            }
+            // Ensure native keyboard is hidden
+            HideNativeKeyboard();
+
+            EditText.InputType = InputTypes.Null;
+            mKeyboardView.Enabled = true;
+
+            // Show custom keyboard with animation
+            mKeyboardView.Visibility = ViewStates.Visible;
+
+            _isShow = true;
+            _capsOn = false;
         }
 
         // Method to hide our custom keyboard
         private void HideKeyboardView()
         {
+            if (!_isShow) return;
+
             mKeyboardView.Visibility = ViewStates.Gone;
             mKeyboardView.Enabled = false;
             EditText.InputType = InputTypes.Null;
+            _capsOn = false;
+            _isShow = false;
+            _isAlphanumericKeyboard = true;
+            ToCaps(_capsOn);
         }
 
         protected void OnKeyUp(int keyCode, EventTrigger keyEvent)
@@ -251,8 +268,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
         // Implementing IOnKeyboardActionListener interface
         public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode[] keyCodes)
         {
-            //InputConnection inputConnection = KeyboardView.CurrentInputConnection; 
-
             var view = FindViewById<Android.Views.View>(
                 Android.Resource.Id.Content);
             //view.PlaySoundEffect(SoundEffects.Click);
@@ -290,26 +305,32 @@ namespace IsObservableCollBuggy.Droid.Renderers
                     _capsOn = !_capsOn;
                     if (_isAlphanumericKeyboard)
                     {
-                        mKeyboardView.Keyboard.SetShifted(_capsOn);
+                        ToCaps2(_capsOn);
                     }
                     else
                     {
                         SwitchSymbolsKeyboard(ref _moreSymbols);
                     }
+
                     mKeyboardView.InvalidateAllKeys();
                     break;
                 case Android.Views.Keycode.CtrlLeft:
                     if (_isAlphanumericKeyboard)
                     {
-                        mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.symbols_keyboard);
+                        mKeyboardView.Keyboard = _symbolsKeyboard;
                         _isAlphanumericKeyboard = false;
                         _moreSymbols = true;
                     }
                     else
                     {
-                        ToCaps(_capsOn);
+                        ToCaps2(_capsOn);
                         _isAlphanumericKeyboard = true;
                     }
+
+                    mKeyboardView.InvalidateAllKeys();
+                    break;
+                case Android.Views.Keycode.Escape:
+                    HideKeyboardView();
                     break;
             }
 
@@ -322,6 +343,13 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
                 keyPressed = false;
             }
+        }
+
+        void ToCaps(bool capsOn)
+        {
+            mKeyboardView.Keyboard = _alphanumemricKeyboard;
+            mKeyboardView.Keyboard.SetShifted(capsOn);
+            mKeyboardView.InvalidateAllKeys();
         }
 
         void SwitchCaps(ref bool capsOn)
@@ -338,30 +366,34 @@ namespace IsObservableCollBuggy.Droid.Renderers
             }
         }
 
-        void ToCaps(bool capsOn)
+        void ToCaps2(bool capsOn)
         {
             if (capsOn)
             {
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_caps_keyboard);
+                mKeyboardView.Keyboard = _alphanumemricCapsKeyboard;
             }
             else
             {
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.alphanumeric_keyboard);
+                mKeyboardView.Keyboard = _alphanumemricKeyboard;
             }
+
+            mKeyboardView.InvalidateAllKeys();
         }
 
         void SwitchSymbolsKeyboard(ref bool moreSymbols)
         {
             if (moreSymbols)
             {
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.more_symbols_keyboard);
+                mKeyboardView.Keyboard = _moreSymbolsKeyboard;
                 moreSymbols = false;
             }
             else
             {
-                mKeyboardView.Keyboard = GetKeyboardById(Resource.Xml.symbols_keyboard);
+                mKeyboardView.Keyboard = _symbolsKeyboard;
                 moreSymbols = true;
             }
+
+            mKeyboardView.InvalidateAllKeys();
         }
 
         Android.InputMethodServices.Keyboard GetKeyboardById(int id) => new Android.InputMethodServices.Keyboard(Context, id);
@@ -386,9 +418,11 @@ namespace IsObservableCollBuggy.Droid.Renderers
 
         public void OnText(ICharSequence text)
         {
-            var currentString = text.ToString();
-            _text.Append(currentString);
-            EditText.Text = _text.ToString();
+            var start = EditText.SelectionStart;
+            IEditable editable = EditText.EditableText;
+            string tempText = editable.SubSequence(0, start) + text + editable.SubSequence(start, editable.Length());
+            EditText.SetText(tempText.ToCharArray(), 0, tempText.Length);
+            EditText.SetSelection(start + 1);
         }
 
         public void SwipeDown()
