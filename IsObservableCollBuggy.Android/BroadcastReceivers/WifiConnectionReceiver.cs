@@ -1,8 +1,10 @@
 ﻿using Android.Content;
 using Android.Net.Wifi;
+using Android.Util;
 using IsObservableCollBuggy.Droid.BroadcastReceivers;
 using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -40,14 +42,14 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             if (!string.IsNullOrEmpty(_deviceMacAddress) && _deviceMacAddress != "02:00:00:00:00:00") return _deviceMacAddress;
 
-            foreach(var i in NetworkInterface.GetAllNetworkInterfaces())
+            foreach (var i in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (i.Name != "wlan0") continue;
 
                 StringBuilder macBuilder = new StringBuilder();
 
                 int j = 0;
-                foreach(var c in i.GetPhysicalAddress().ToString())
+                foreach (var c in i.GetPhysicalAddress().ToString())
                 {
                     if (j >= 2)
                     {
@@ -171,19 +173,28 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         public WifiConfiguration AlreadyConfigured(Wifi wifi)
         {
 
-            if(string.IsNullOrEmpty(wifi.Bssid)) return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Ssid == $"\"{wifi.Ssid}\""; });
+            if (string.IsNullOrEmpty(wifi.Bssid)) return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Ssid == $"\"{wifi.Ssid}\""; });
 
             return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
         }
 
-        public bool ConnectToAlreadyConfigured(int networkId) { 
+        public bool ConnectToAlreadyConfigured(int networkId)
+        {
             if (networkId < 0) return false;
+            try
+            {
+                var isDisconnected = _wifiManager.Disconnect();
+                var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0 || _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
+                var isEnabled = _wifiManager.EnableNetwork(networkId, true);
+                var isReconnected = _wifiManager.Reconnect();
+                return isDisconnected && isDisabled && isEnabled && isReconnected;
+            }
+            catch(Exception ex)
+            {
+                Log.Debug(TAG, $"{nameof(ConnectToAlreadyConfigured)} - Error while trying to connect");
+            }
 
-            var isDisconnected = _wifiManager.Disconnect();
-            var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0 || _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
-            var isEnabled = _wifiManager.EnableNetwork(networkId, true);
-            var isReconnected = _wifiManager.Reconnect();
-            return isDisconnected && isDisabled && isEnabled && isReconnected;
+            return false;
         }
 
         WifiConfiguration MapWifiToConfiguration(Wifi wifi)
