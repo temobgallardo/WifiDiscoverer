@@ -268,10 +268,6 @@ namespace IsObservableCollBuggy.Droid.Renderers
         // Implementing IOnKeyboardActionListener interface
         public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode[] keyCodes)
         {
-            var view = FindViewById<Android.Views.View>(
-                Android.Resource.Id.Content);
-            //view.PlaySoundEffect(SoundEffects.Click);
-
             if (!EditText.IsFocused)
                 return;
 
