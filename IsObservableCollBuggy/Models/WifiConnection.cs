@@ -43,7 +43,7 @@ namespace IsObservableCollBuggy.Models
         public ObservableCollection<Wifi> Wifis
         {
             get => _wifis;
-            set => SetPropertyValue(ref _wifis, value);                
+            set => SetPropertyValue(ref _wifis, value);
         }
 
         Wifi _currentWifi;
@@ -121,13 +121,14 @@ namespace IsObservableCollBuggy.Models
             set
             {
                 if (!EnableWifiToggle && !string.IsNullOrEmpty(_deviceMacAddress)) return;
-                                                
+
                 SetProperty(ref _deviceMacAddress, value);
             }
         }
 
         bool _firstTime = true;
         readonly IWifiConnectionReceiver _wifiConnectionService;
+        readonly IToastMessage _toastMessage;
 
         public ICommand SelectedWifiCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
@@ -138,10 +139,11 @@ namespace IsObservableCollBuggy.Models
         public ICommand ForgetCommand { get; private set; }
         public ICommand DisconnectCommand { get; private set; }
 
-        public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, INavigation navigation) : base()
+        public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, IToastMessage toastMessage) : base()
         {
             //_navigationService = navigation; 
             _wifiConnectionService = wifiConnectionReceiver;
+            _toastMessage = toastMessage;
 
             Wifis = new ObservableCollection<Wifi>();
             HiddenNetwork = new Wifi();
@@ -160,13 +162,12 @@ namespace IsObservableCollBuggy.Models
 
         // TODO: Tell the user that the wifi has been fogotten
         void Forget(object obj) => _wifiConnectionService.Forget(obj as Wifi);
-        
+
         private void AddNetwork()
         {
             if (!EnableWifiToggle) return;
 
             HiddenNetwork.IsHidden = true;
-            // Todo: Tell the user if connection was successful
             AddNetworkOrConnectRemembered(HiddenNetwork);
             ActivateNetworkListView();
         }
@@ -183,15 +184,14 @@ namespace IsObservableCollBuggy.Models
 
         void Connect()
         {
-            // Todo: Tell the user if connection was successful
-            _wifiConnectionService.Connect(CurrentWifi);
+            NotifyUserIfConnected(_wifiConnectionService.Connect(CurrentWifi), CurrentWifi);
             ActivateNetworkListView();
         }
 
         public void OnAttached()
         {
             ActivateNetworkListView();
-            InitializeData(); 
+            InitializeData();
         }
 
         void InitializeData()
@@ -256,8 +256,11 @@ namespace IsObservableCollBuggy.Models
 
             var success = _wifiConnectionService.SetWifiEnabled(isEnabled);
 
-            // TODO: Tell the user that the wifi couldn't be enabled/disabled.
-            if (!success) return;
+            if (!success)
+            {
+                _toastMessage.LongAlert("Wifi could not be enabled/disabled. Please, try again!");
+                return;
+            }
 
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
@@ -283,9 +286,9 @@ namespace IsObservableCollBuggy.Models
         {
             IsRefreshing = true;
 
-            //TODO: Tell the user this wifi is already configured or connected
             if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRemembered(CurrentWifi))
             {
+                _toastMessage.LongAlert($"Wifi '{CurrentWifi.Ssid}' already configured or connected");
                 IsRefreshing = false;
                 return;
             }
@@ -296,13 +299,13 @@ namespace IsObservableCollBuggy.Models
 
         private void AddNetworkOrConnectRemembered(Wifi wifi)
         {
-            //TODO: Tell the user this wifi is already configured or connected
             if (_wifiConnectionService.AlreadyConnected(wifi) || _wifiConnectionService.ConnectToRemembered(wifi))
             {
+                _toastMessage.LongAlert($"Wifi '{wifi.Ssid}' already configured or connected");
                 return;
             }
 
-            _wifiConnectionService.Connect(wifi);
+            NotifyUserIfConnected(_wifiConnectionService.Connect(wifi), wifi);
         }
 
         void ActivateAddHiddenNetworkElement()
@@ -310,6 +313,19 @@ namespace IsObservableCollBuggy.Models
             NetworkListIsVisible = false;
             ConnectNetworkIsVisible = false;
             AddHiddenNetworkIsVisible = true;
+        }
+
+        void NotifyUserIfConnected(bool connected, Wifi wifi = null)
+        {
+            var ssid = wifi is null ? CurrentWifi.Ssid : wifi.Ssid;
+            if (connected)
+            {
+                _toastMessage.LongAlert($"Connected succesfully to '{ssid}'");
+            }
+            else
+            {
+                _toastMessage.LongAlert($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
+            }
         }
 
         public void OnDettached()
