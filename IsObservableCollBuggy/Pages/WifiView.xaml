@@ -45,7 +45,9 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0"
                            Text="{Binding DeviceMacAddress, StringFormat='Device MAC address: {0}'}"
-                           TextColor="Purple" />
+                           TextColor="{StaticResource Primary}"
+                           FontSize="{StaticResource BodyLabelFontSize}"
+                           FontFamily="{StaticResource GothamRndLightFontFamily}"/>
                     <elements:CustomSwitch Grid.Column="1"
                                            IsToggled="{Binding EnableWifiToggle}">
                         <elements:CustomSwitch.Triggers>
@@ -55,9 +57,9 @@
                                 <Setter Property="SwitchText"
                                         Value="On" />
                                 <Setter Property="BackgroundColor"
-                                        Value="Purple" />
+                                        Value="{StaticResource Primary}" />
                                 <Setter Property="TextColor"
-                                        Value="White" />
+                                        Value="{StaticResource SemiTransparentWhiteColor}" />
                             </Trigger>
                             <Trigger TargetType="elements:CustomSwitch"
                                      Property="IsToggled"
@@ -65,7 +67,7 @@
                                 <Setter Property="SwitchText"
                                         Value="Off" />
                                 <Setter Property="BackgroundColor"
-                                        Value="LightGray" />
+                                        Value="{StaticResource SemiTransparentWhiteColor}" />
                                 <Setter Property="TextColor"
                                         Value="Black" />
                             </Trigger>
