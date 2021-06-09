@@ -199,6 +199,7 @@ namespace IsObservableCollBuggy.Models
             // When enabled wifi list is loaded.
             EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
+            LoadWifis();
         }
 
         void RefreshWifis()
