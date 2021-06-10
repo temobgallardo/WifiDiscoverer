@@ -287,7 +287,7 @@ namespace IsObservableCollBuggy.Models
         {
             IsRefreshing = true;
 
-            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRemembered(CurrentWifi))
+            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRemembered(CurrentWifi) || _wifiConnectionService.AlreadyConnected(CurrentWifi))
             {
                 _toastMessage.LongAlert($"Wifi '{CurrentWifi.Ssid}' already configured or connected");
                 IsRefreshing = false;
@@ -322,11 +322,18 @@ namespace IsObservableCollBuggy.Models
             if (connected)
             {
                 _toastMessage.LongAlert($"Connected succesfully to '{ssid}'");
+                return;
+            }
+
+            if (_wifiConnectionService.AlreadyConnected(CurrentWifi))
+            {
+                _toastMessage.LongAlert($"Connected succesfully to '{ssid}'");
             }
             else
             {
                 _toastMessage.LongAlert($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
             }
+
         }
 
         public void OnDettached()
