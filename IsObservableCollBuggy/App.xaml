@@ -6,6 +6,7 @@
         <ResourceDictionary>
 
             <!--App Colors-->
+            <Color x:Key="Primary">#751882</Color>
             <Color x:Key="PurpleLight">#751882</Color>
             <Color x:Key="PurpleDark">#411e5d</Color>
             <Color x:Key="GreenLight">#64c91d</Color>
