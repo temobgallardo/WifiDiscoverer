@@ -46,7 +46,7 @@
                     <Label Grid.Column="0"
                            Text="{Binding DeviceMacAddress, StringFormat='Device MAC address: {0}'}"
                            TextColor="{StaticResource Primary}"
-                           FontSize="{StaticResource BodyLabelFontSize}"
+                           FontSize="18"
                            FontFamily="{StaticResource GothamRndLightFontFamily}"/>
                     <elements:CustomSwitch Grid.Column="1"
                                            IsToggled="{Binding EnableWifiToggle}">
