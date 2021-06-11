@@ -8,6 +8,7 @@ namespace Models.Interfaces
         string WifiConnectionReceiverMessage { get; }
         bool IsWifiEnabled { get; }
         string DeviceMacAddress { get; }
+        Wifi ConnectedWifi { get; }
         IList<Wifi> Wifis { get; }
         IList<Wifi> ScanFailure();
         IList<Wifi> ScanSuccess();

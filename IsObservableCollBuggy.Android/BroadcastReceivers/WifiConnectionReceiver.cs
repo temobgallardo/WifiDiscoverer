@@ -24,6 +24,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         readonly WifiManager _wifiManager;
 
+
         IList<ScanResult> _scanResults;
         IList<ScanResult> ScanResults
         {
@@ -67,6 +68,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return string.Empty;
         }
 
+        Wifi _connectedWifi;
+        public Wifi ConnectedWifi { get => _connectedWifi; }
         public IList<Wifi> Wifis { get => ParseScanResultToWifi(_wifiManager.ScanResults); }
 
         public WifiConnectionReceiver()
