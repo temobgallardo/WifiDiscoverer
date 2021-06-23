@@ -16,7 +16,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(WifiConnectionReceiver))]
 namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 {
-    // TODO: Researcg if WifiManager can live on its own to get inline with Separation of Concern Principle
+    // TODO: Research if WifiManager can live on its own to get inline with Separation of Concern Principle
     [BroadcastReceiver(Enabled = false, Exported = false)]
     public class WifiConnectionReceiver : BroadcastReceiver, IWifiConnectionReceiver
     {
@@ -145,7 +145,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             
             int networkId;
             var config = AlreadyConfigured(wifi);
-            if (config?.NetworkId < 0)
+            if (config is null || config?.NetworkId < 0)
             {
                 var conf = MapWifiToConfiguration(wifi);
                 networkId = _wifiManager.AddNetwork(conf);
