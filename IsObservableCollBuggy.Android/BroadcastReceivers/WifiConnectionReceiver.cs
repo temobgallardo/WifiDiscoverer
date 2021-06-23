@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(WifiConnectionReceiver))]
@@ -23,8 +24,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         readonly string _wifiConnectionReceiverMessage = TAG;
 
         readonly WifiManager _wifiManager;
-
-
         IList<ScanResult> _scanResults;
         IList<ScanResult> ScanResults
         {
@@ -34,6 +33,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             }
             get => _scanResults;
         }
+        int currentId = 10;
         public string WifiConnectionReceiverMessage { get => _wifiConnectionReceiverMessage; }
         public bool IsWifiEnabled { get => _wifiManager.IsWifiEnabled; }
         string _deviceMacAddress;
@@ -110,9 +110,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 {
                     Bssid = scan.Bssid,
                     Capabilities = scan.Capabilities,
-                    CenterFreq0 = scan.CenterFreq0,
-                    CenterFreq1 = scan.CenterFreq1,
-                    ChannelWidth = scan.ChannelWidth,
+                    //CenterFreq0 = scan.CenterFreq0,
+                    //CenterFreq1 = scan.CenterFreq1,
+                    //ChannelWidth = scan.ChannelWidth,
                     Frequency = scan.Frequency,
                     Level = scan.Level,
                     Ssid = scan.Ssid,
@@ -139,7 +139,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return ParseScanResultToWifi(ScanResults);
         }
 
-        public bool Connect(Wifi wifi)
+        public async Task<bool> ConnectAsync(Wifi wifi)
         {
             if (wifi == null) return false;
 
@@ -147,13 +147,28 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 return false;
 
             if (string.IsNullOrEmpty(wifi.Password)) return false;
+            
+            int networkId;
+            var config = AlreadyConfigured(wifi);
+            if (config?.NetworkId < 0)
+            {
+                var conf = MapWifiToConfiguration(wifi);
+                networkId = _wifiManager.AddNetwork(conf);
+            }
+            else
+            {
+                networkId = config.NetworkId;
+            }
 
-            var conf = MapWifiToConfiguration(wifi);
-            var networkId = _wifiManager.AddNetwork(conf);
-            return ConnectToAlreadyConfigured(networkId);
+            await ConnectToAlreadyConfiguredAsync(networkId);
+
+            await Task.Delay(4 * 1000);
+
+            var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            return isConnected;
         }
 
-        public bool ConnectToRemembered(Wifi wifi)
+        public async Task<bool> ConnectToRememberedAsync(Wifi wifi)
         {
             if (wifi == null) return false;
 
@@ -161,10 +176,15 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (current == null) return false;
             if (current.NetworkId < 0) return false;
 
-            return ConnectToAlreadyConfigured(current.NetworkId);
+            await ConnectToAlreadyConfiguredAsync(current.NetworkId);
+
+            await Task.Delay(4 * 1000);
+
+            var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            return isConnected;
         }
 
-        public bool AlreadyConnected(Wifi wifi)
+        public async Task<bool> AlreadyConnectedAsync(Wifi wifi)
         {
             if (wifi == null) return false;
 
@@ -175,26 +195,28 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public WifiConfiguration AlreadyConfigured(Wifi wifi)
         {
-
-            if (string.IsNullOrEmpty(wifi.Bssid)) return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Ssid == $"\"{wifi.Ssid}\""; });
-
             return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
         }
 
-        public bool ConnectToAlreadyConfigured(int networkId)
+        public async Task<bool> ConnectToAlreadyConfiguredAsync(int networkId)
         {
             if (networkId < 0) return false;
             try
             {
                 var isDisconnected = _wifiManager.Disconnect();
-                var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0 || _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
+                var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0;
+                _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
+
+                await Task.Delay(2 * 1000);
+
                 var isEnabled = _wifiManager.EnableNetwork(networkId, true);
                 var isReconnected = _wifiManager.Reconnect();
-                return isDisconnected && isDisabled && isEnabled && isReconnected;
+
+                return isEnabled && isReconnected;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log.Debug(TAG, $"{nameof(ConnectToAlreadyConfigured)} - Error while trying to connect");
+                Log.Debug(TAG, $"{nameof(ConnectToAlreadyConfiguredAsync)} - Error while trying to connect");
             }
 
             return false;
@@ -207,14 +229,18 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 Ssid = string.Format($"\"{wifi.Ssid}\""),
                 PreSharedKey = string.Format($"\"{wifi.Password}\""),
                 StatusField = WifiStatus.Enabled,
-                HiddenSSID = wifi.IsHidden
+                HiddenSSID = wifi.IsHidden,
+                //NetworkId = GetId()
             };
 
-            return configuration; //SetupProtocolUsed(wifi, configuration);
+            return SetupProtocolUsed(wifi, configuration);
         }
 
         WifiConfiguration SetupProtocolUsed(Wifi wifi, WifiConfiguration conf)
         {
+            if (string.IsNullOrEmpty(wifi.Capabilities))
+                return conf;
+
             var passWithQuotes = $"\"{wifi.Password}\"";
             if (wifi.Capabilities.ToUpper().Contains("WEP"))
             {
@@ -251,7 +277,14 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
             }
 
+            Log.Error(TAG, $"{nameof(SetupProtocolUsed)} - configuration: {conf}");
+
             return conf;
+        }
+
+        int GetId()
+        {
+            return currentId++;
         }
 
         public bool Disconnect() => _wifiManager.Disconnect();
