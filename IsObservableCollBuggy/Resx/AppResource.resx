@@ -666,4 +666,10 @@
   <data name="DiagnosticPageWifiTabForget" xml:space="preserve">
     <value>Forget</value>
   </data>
+  <data name="DiagnosticPageWifiTabMacPlaceholder" xml:space="preserve">
+    <value>Device MAC address: {0}</value>
+  </data>
+  <data name="DiagnosticPageWifiTabSsidPlaceholder" xml:space="preserve">
+    <value>Ssid/Wifi name</value>
+  </data>
 </root>
