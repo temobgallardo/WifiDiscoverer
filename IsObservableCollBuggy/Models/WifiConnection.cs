@@ -1,32 +1,30 @@
-﻿using System.Windows.Input;
-using Xamarin.Forms;
-using System.Collections.Generic;
-using System;
-using System.Collections.ObjectModel;
-using IsObservableCollBuggy.Models.Models;
-using XamarinUniversity.Infrastructure;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
+using XamarinUniversity.Infrastructure;
 
 namespace IsObservableCollBuggy.Models
 {
     public class WifiConnection : SimpleViewModel, INotifyPropertyChanged
     {
-        protected bool SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!EqualityComparer<T>.Default.Equals(oldValue, newValue))
-            {
-                oldValue = newValue;
-                RaisePropertyChanged(propertyName);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //protected bool SetPropertyValue<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
+        //{
+        //    if (!EqualityComparer<T>.Default.Equals(oldValue, newValue))
+        //    {
+        //        oldValue = newValue;
+        //        RaisePropertyChanged(propertyName);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         bool _enableWifiToggle;
         public bool EnableWifiToggle
@@ -34,7 +32,7 @@ namespace IsObservableCollBuggy.Models
             get => _enableWifiToggle;
             set
             {
-                SetProperty(ref _enableWifiToggle, value);
+                SetPropertyValue(ref _enableWifiToggle, value);
                 EnableWifi(value);
             }
         }
@@ -43,7 +41,7 @@ namespace IsObservableCollBuggy.Models
         public ObservableCollection<Wifi> Wifis
         {
             get => _wifis;
-            set => SetPropertyValue(ref _wifis, value);
+            set => base.SetPropertyValue(ref _wifis, value);
         }
 
         Wifi _currentWifi;
@@ -56,7 +54,7 @@ namespace IsObservableCollBuggy.Models
 
                 if (_currentWifi == value && _currentWifi.IsSelected)
                 {
-                    ActivateConnectNetworkElementOrConnectRemembered();
+                    Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
                     return;
                 }
 
@@ -65,10 +63,17 @@ namespace IsObservableCollBuggy.Models
                     _currentWifi.IsSelected = false;
                 }
 
-                SetProperty(ref _currentWifi, UpdateIsSelected(value, true));
+                SetPropertyValue(ref _currentWifi, UpdateIsSelected(value, true));
 
-                ActivateConnectNetworkElementOrConnectRemembered();
+                Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
             }
+        }
+
+        Wifi _connected;
+        public Wifi Connected
+        {
+            get => _connected;
+            set => SetPropertyValue(ref _connected, UpdateIsSelected(value, true));
         }
 
         Wifi UpdateIsSelected(Wifi value, bool isSelected)
@@ -83,35 +88,35 @@ namespace IsObservableCollBuggy.Models
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
+            set => SetPropertyValue(ref _isRefreshing, value);
         }
 
         bool _networkListIsVisible;
         public bool NetworkListIsVisible
         {
             get => _networkListIsVisible;
-            set => SetProperty(ref _networkListIsVisible, value);
+            set => SetPropertyValue(ref _networkListIsVisible, value);
         }
 
         bool _connectNetworkIsVisible;
         public bool ConnectNetworkIsVisible
         {
             get => _connectNetworkIsVisible;
-            set => SetProperty(ref _connectNetworkIsVisible, value);
+            set => SetPropertyValue(ref _connectNetworkIsVisible, value);
         }
 
         bool _addHiddenNetworkIsVisible;
         public bool AddHiddenNetworkIsVisible
         {
             get => _addHiddenNetworkIsVisible;
-            set => SetProperty(ref _addHiddenNetworkIsVisible, value);
+            set => SetPropertyValue(ref _addHiddenNetworkIsVisible, value);
         }
 
         Wifi _hiddenNetwork;
         public Wifi HiddenNetwork
         {
             get => _hiddenNetwork;
-            set => SetProperty(ref _hiddenNetwork, value);
+            set => SetPropertyValue(ref _hiddenNetwork, value);
         }
 
         string _deviceMacAddress;
@@ -122,7 +127,7 @@ namespace IsObservableCollBuggy.Models
             {
                 if (!EnableWifiToggle && !string.IsNullOrEmpty(_deviceMacAddress)) return;
 
-                SetProperty(ref _deviceMacAddress, value);
+                SetPropertyValue(ref _deviceMacAddress, value);
             }
         }
 
@@ -141,7 +146,6 @@ namespace IsObservableCollBuggy.Models
 
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, IToastMessage toastMessage) : base()
         {
-            //_navigationService = navigation; 
             _wifiConnectionService = wifiConnectionReceiver;
             _toastMessage = toastMessage;
 
@@ -149,26 +153,26 @@ namespace IsObservableCollBuggy.Models
             HiddenNetwork = new Wifi();
 
             RefreshCommand = new Command(RefreshWifis, canExecute: () => EnableWifiToggle);
-            ConnectCommand = new Command(Connect);
+            ConnectCommand = new Command(async () => await ConnectAsync());
             CancelCommand = new Command(Cancel);
             OpenHiddenNetworkConnectPageCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
-            AddNetworkCommand = new Command(AddNetwork);
+            AddNetworkCommand = new Command(async () => await AddNetworkAsync());
             ForgetCommand = new Command(Forget);
             DisconnectCommand = new Command((o) => Disconnect(), canExecute: (w) => EnableWifiToggle);
         }
 
         // TODO: Tell the user that the wifi has disconnected successfuly
-        private void Disconnect() => _wifiConnectionService.Disconnect();
+        private void Disconnect() => _wifiConnectionService.DisconnectAsync();
 
         // TODO: Tell the user that the wifi has been fogotten
-        void Forget(object obj) => _wifiConnectionService.Forget(obj as Wifi);
+        void Forget(object obj) => _wifiConnectionService.ForgetAsync(obj as Wifi);
 
-        private void AddNetwork()
+        private async Task AddNetworkAsync()
         {
             if (!EnableWifiToggle) return;
 
             HiddenNetwork.IsHidden = true;
-            AddNetworkOrConnectRemembered(HiddenNetwork);
+            await AddNetworkOrConnectRememberedAsync (HiddenNetwork);
             ActivateNetworkListView();
         }
 
@@ -182,9 +186,15 @@ namespace IsObservableCollBuggy.Models
             ActivateNetworkListView();
         }
 
-        void Connect()
+        async Task ConnectAsync()
         {
-            NotifyUserIfConnected(_wifiConnectionService.Connect(CurrentWifi), CurrentWifi);
+            var isConnected = await _wifiConnectionService.ConnectAsync(CurrentWifi);
+            if (isConnected)
+            {
+                Connected = CurrentWifi;
+            }
+
+            await NotifyUserIfConnectedAsync (isConnected, CurrentWifi);
             ActivateNetworkListView();
         }
 
@@ -259,7 +269,7 @@ namespace IsObservableCollBuggy.Models
 
             if (!success)
             {
-                _toastMessage.LongAlert("Wifi could not be enabled/disabled. Please, try again!");
+                ToastOnMainThread("Wifi could not be enabled/disabled. Please, try again!");
                 return;
             }
 
@@ -283,30 +293,42 @@ namespace IsObservableCollBuggy.Models
             AddHiddenNetworkIsVisible = false;
         }
 
-        private void ActivateConnectNetworkElementOrConnectRemembered()
+        private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
         {
-            IsRefreshing = true;
-
-            if (_wifiConnectionService.AlreadyConnected(CurrentWifi) || _wifiConnectionService.ConnectToRemembered(CurrentWifi) || _wifiConnectionService.AlreadyConnected(CurrentWifi))
+            var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
+            if (connected)
             {
-                _toastMessage.LongAlert($"Wifi '{CurrentWifi.Ssid}' already configured or connected");
-                IsRefreshing = false;
+                ToastOnMainThread($"Wifi '{CurrentWifi.Ssid}' already connected");
                 return;
             }
 
-            IsRefreshing = false;
+            var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
+            if (remembered)
+            {
+                ToastOnMainThread($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
+                return;
+            }
+
             ActivateConnectNetworkElement();
         }
 
-        private void AddNetworkOrConnectRemembered(Wifi wifi)
+        private async Task AddNetworkOrConnectRememberedAsync(Wifi wifi)
         {
-            if (_wifiConnectionService.AlreadyConnected(wifi) || _wifiConnectionService.ConnectToRemembered(wifi))
+            var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
+            if (connected)
             {
-                _toastMessage.LongAlert($"Wifi '{wifi.Ssid}' already configured or connected");
+                ToastOnMainThread($"Wifi '{CurrentWifi.Ssid}' already connected");
                 return;
             }
 
-            NotifyUserIfConnected(_wifiConnectionService.Connect(wifi), wifi);
+            var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
+            if (remembered)
+            {
+                ToastOnMainThread($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
+                return;
+            }
+
+            await NotifyUserIfConnectedAsync(await _wifiConnectionService.ConnectAsync(wifi), wifi);
         }
 
         void ActivateAddHiddenNetworkElement()
@@ -316,25 +338,26 @@ namespace IsObservableCollBuggy.Models
             AddHiddenNetworkIsVisible = true;
         }
 
-        void NotifyUserIfConnected(bool connected, Wifi wifi = null)
+        async Task NotifyUserIfConnectedAsync(bool connected, Wifi wifi = null)
         {
             var ssid = wifi is null ? CurrentWifi.Ssid : wifi.Ssid;
             if (connected)
             {
-                _toastMessage.LongAlert($"Connected succesfully to '{ssid}'");
+                ToastOnMainThread($"Connected succesfully to '{ssid}'");
                 return;
             }
 
-            if (_wifiConnectionService.AlreadyConnected(CurrentWifi))
+            if (await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi))
             {
-                _toastMessage.LongAlert($"Connected succesfully to '{ssid}'");
+                ToastOnMainThread($"Connected succesfully to '{ssid}'");
             }
             else
             {
-                _toastMessage.LongAlert($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
+                ToastOnMainThread($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
             }
-
         }
+
+        void ToastOnMainThread(string msg) => Device.BeginInvokeOnMainThread(() => _toastMessage.LongAlert(msg));        
 
         public void OnDettached()
         {

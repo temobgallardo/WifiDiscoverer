@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WifiPage.Models.Commons;
 
 namespace IsObservableCollBuggy.Models.Models
@@ -12,9 +11,6 @@ namespace IsObservableCollBuggy.Models.Models
         public int WifiStandard { get; }
         public bool IsPasspointNetwork { get; }
         public int Level { get; set; }
-        public int ChannelWidth { get; set; }
-        public int CenterFreq1 { get; set; }
-        public int CenterFreq0 { get; set; }
         public string Capabilities { get; set; }
         string _bssid;
         public string Bssid { get => _bssid; set => SetProperty(ref _bssid, value); }

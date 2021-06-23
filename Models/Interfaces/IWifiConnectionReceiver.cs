@@ -1,5 +1,6 @@
 ﻿using IsObservableCollBuggy.Models.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Models.Interfaces
 {
@@ -12,12 +13,12 @@ namespace Models.Interfaces
         IList<Wifi> Wifis { get; }
         IList<Wifi> ScanFailure();
         IList<Wifi> ScanSuccess();
-        bool Connect(Wifi wifi);
-        bool Disconnect();
-        bool Forget(Wifi wifi);
-        bool ConnectToAlreadyConfigured(int networkId);
-        bool ConnectToRemembered(Wifi wifi);
-        bool AlreadyConnected(Wifi wifi);
+        Task<bool> ConnectAsync(Wifi wifi);
+        Task<bool> DisconnectAsync();
+        Task<bool> ForgetAsync(Wifi wifi);
+        Task<bool> ConnectToAlreadyConfiguredAsync(int networkId);
+        Task<bool> ConnectToRememberedAsync(Wifi wifi);
+        Task<bool> AlreadyConnectedAsync(Wifi wifi);
         bool SetWifiEnabled(bool enabled);
         void StartScan();
     }
