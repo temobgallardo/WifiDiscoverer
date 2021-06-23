@@ -33,12 +33,10 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             }
             get => _scanResults;
         }
-        int currentId = 10;
         public string WifiConnectionReceiverMessage { get => _wifiConnectionReceiverMessage; }
         public bool IsWifiEnabled { get => _wifiManager.IsWifiEnabled; }
         string _deviceMacAddress;
         public string DeviceMacAddress { get => GetMacAddres(); }
-
         string GetMacAddres()
         {
             if (!string.IsNullOrEmpty(_deviceMacAddress) && _deviceMacAddress != "02:00:00:00:00:00") return _deviceMacAddress;
@@ -110,9 +108,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 {
                     Bssid = scan.Bssid,
                     Capabilities = scan.Capabilities,
-                    //CenterFreq0 = scan.CenterFreq0,
-                    //CenterFreq1 = scan.CenterFreq1,
-                    //ChannelWidth = scan.ChannelWidth,
                     Frequency = scan.Frequency,
                     Level = scan.Level,
                     Ssid = scan.Ssid,
@@ -162,7 +157,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             await ConnectToAlreadyConfiguredAsync(networkId);
 
-            await Task.Delay(4 * 1000);
+            await Task.Delay(1 * 1000);
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             return isConnected;
@@ -178,7 +173,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             await ConnectToAlreadyConfiguredAsync(current.NetworkId);
 
-            await Task.Delay(4 * 1000);
+            await Task.Delay(1 * 1000);
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             return isConnected;
@@ -207,7 +202,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0;
                 _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
 
-                await Task.Delay(2 * 1000);
+                await Task.Delay(4 * 1000);
 
                 var isEnabled = _wifiManager.EnableNetwork(networkId, true);
                 var isReconnected = _wifiManager.Reconnect();
@@ -216,7 +211,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             }
             catch (Exception ex)
             {
-                Log.Debug(TAG, $"{nameof(ConnectToAlreadyConfiguredAsync)} - Error while trying to connect");
+                Log.Debug(TAG, $"{nameof(ConnectToAlreadyConfiguredAsync)} - Error while trying to connect. Message: {ex.Message}. StackTrace: {ex.StackTrace}");
             }
 
             return false;
@@ -229,8 +224,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 Ssid = string.Format($"\"{wifi.Ssid}\""),
                 PreSharedKey = string.Format($"\"{wifi.Password}\""),
                 StatusField = WifiStatus.Enabled,
-                HiddenSSID = wifi.IsHidden,
-                //NetworkId = GetId()
+                HiddenSSID = wifi.IsHidden
             };
 
             return SetupProtocolUsed(wifi, configuration);
@@ -262,7 +256,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 conf.AllowedPairwiseCiphers.Set((int)PairwiseCipherType.Tkip);
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Ccmp);
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
-
                 conf.PreSharedKey = passWithQuotes;
             }
             else
@@ -277,19 +270,12 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 conf.AllowedGroupCiphers.Set((int)GroupCipherType.Tkip);
             }
 
-            Log.Error(TAG, $"{nameof(SetupProtocolUsed)} - configuration: {conf}");
-
             return conf;
         }
 
-        int GetId()
-        {
-            return currentId++;
-        }
+        public async Task<bool> DisconnectAsync() => _wifiManager.Disconnect();
 
-        public bool Disconnect() => _wifiManager.Disconnect();
-
-        public bool Forget(Wifi wifi)
+        public async Task<bool> ForgetAsync(Wifi wifi)
         {
             if (wifi is null) return false;
 
