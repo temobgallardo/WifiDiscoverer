@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="IsObservableCollBuggy.App">
+             x:Class="IsObservableCollBuggy.App"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             android:Application.WindowSoftInputModeAdjust="Resize">
     <Application.Resources>
         <ResourceDictionary>
 
@@ -56,16 +58,30 @@
             </OnPlatform>
 
             <!--Font Values-->
-
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="GothamRndBoldFontFamily">
+                <On Platform="Android"
+                    Value="GothamRnd-Bold.otf#GothamRnd-Bold" />
+            </OnPlatform>
             <OnPlatform x:TypeArguments="x:String"
                         x:Key="GothamRndBookFontFamily">
                 <On Platform="Android"
                     Value="GothamRnd-Book.otf#GothamRnd-Book" />
             </OnPlatform>
             <OnPlatform x:TypeArguments="x:String"
+                        x:Key="GothamRndLightFontFamily">
+                <On Platform="Android"
+                    Value="GothamRnd-Light.otf#GothamRnd-Light" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
                         x:Key="GothamRndMediumFontFamily">
                 <On Platform="Android"
                     Value="GothamRnd-Medium.otf#GothamRnd-Medium" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="Neutra2DisplayBoldFontFamily">
+                <On Platform="Android"
+                    Value="Neutra2Display-Bold.otf#Neutra2Display-Bold" />
             </OnPlatform>
             <OnPlatform x:TypeArguments="x:String"
                         x:Key="Neutra2DisplayTitlingFontFamily">
@@ -78,9 +94,14 @@
                     Value="Neutra2Text-Bold.otf#Neutra2Text-Bold" />
             </OnPlatform>
             <OnPlatform x:TypeArguments="x:String"
-                        x:Key="GothamRndLightFontFamily">
+                        x:Key="Neutra2TextBookFontFamily">
                 <On Platform="Android"
-                    Value="GothamRnd-Light.otf#GothamRnd-Light" />
+                    Value="Neutra2Text-Book.otf#Neutra2Text-Book" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="Neutra2TextDemiFontFamily">
+                <On Platform="Android"
+                    Value="Neutra2Text-Demi.otf#Neutra2Text-Demi" />
             </OnPlatform>
 
             <!--Styles-->
