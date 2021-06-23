@@ -12,20 +12,6 @@ namespace IsObservableCollBuggy.Models
 {
     public class WifiConnection : SimpleViewModel, INotifyPropertyChanged
     {
-        //protected bool SetPropertyValue<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
-        //{
-        //    if (!EqualityComparer<T>.Default.Equals(oldValue, newValue))
-        //    {
-        //        oldValue = newValue;
-        //        RaisePropertyChanged(propertyName);
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
         bool _enableWifiToggle;
         public bool EnableWifiToggle
         {
