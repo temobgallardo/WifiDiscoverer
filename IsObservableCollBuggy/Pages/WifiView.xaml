@@ -75,7 +75,7 @@
                     </elements:CustomSwitch>
                 </Grid>
                 <Label Grid.Column="0"
-                       Text="{Binding DeviceMacAddress, StringFormat='Device MAC address: {0}'}"
+                       Text="{Binding DeviceMacAddress, StringFormat={x:Static resx:AppResource.DiagnosticPageWifiTabMacPlaceholder}}"
                        TextColor="#6D6E70"
                        FontSize="{StaticResource ButtonFontSize}"
                        FontFamily="{StaticResource GothamRndMediumFontFamily}" />
@@ -131,7 +131,7 @@
                 <Label Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
                        TextColor="Black" />
                 <controls:EntryWithCustomKeyboard x:Name="HiddenNetworkSsid"
-                                                  Placeholder="Ssid/Wifi name"
+                                                  Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabSsidPlaceholder}"
                                                   Text="{Binding HiddenNetwork.Ssid}" />
                 <controls:EntryWithCustomKeyboard x:Name="NewWifiPassword"
                                                   Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
@@ -150,45 +150,20 @@
                          Orientation="Horizontal"
                          Grid.Column="0"
                          Grid.Row="2">
-                <Button BackgroundColor="Purple"
+                <Button BackgroundColor="#1285A5"
                         Command="{Binding OpenHiddenNetworkConnectPageCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                        TextColor="White">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button"
-                                     Binding="{Binding EnableWifiToggle}"
-                                     Value="False">
-                            <Setter Property="TextColor"
-                                    Value="LightGray" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
-                <Button BackgroundColor="Purple"
+                        TextColor="White" />
+
+                <Button BackgroundColor="#1285A5"
                         Command="{Binding RefreshCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
-                        TextColor="White">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button"
-                                     Binding="{Binding EnableWifiToggle}"
-                                     Value="False">
-                            <Setter Property="TextColor"
-                                    Value="LightGray" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
-                <Button BackgroundColor="Purple"
+                        TextColor="White" />
+
+                <Button BackgroundColor="#1285A5"
                         Command="{Binding DisconnectCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        TextColor="White">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button"
-                                     Binding="{Binding EnableWifiToggle}"
-                                     Value="False">
-                            <Setter Property="TextColor"
-                                    Value="LightGray" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        TextColor="White" />
             </StackLayout>
         </Grid>
     </ContentView.Content>
