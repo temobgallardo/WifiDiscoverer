@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Frame CornerRadius="8"
+<Frame CornerRadius="16"
        Padding="4"
        HasShadow="False"
        xmlns="http://xamarin.com/schemas/2014/forms"
