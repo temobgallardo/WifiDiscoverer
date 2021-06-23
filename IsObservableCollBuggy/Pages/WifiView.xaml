@@ -34,20 +34,16 @@
             <StackLayout CompressedLayout.IsHeadless="True"
                          Grid.Column="0"
                          Grid.Row="0">
-                <Label Text="{x:Static resx:AppResource.DiagnosticPageWifiTabTitleText}"
-                       Style="{StaticResource HeaderLabelLine2TextStyle}"
-                       TextColor="Color.ForestGreen"
-                       FontSize="25" />
                 <Grid CompressedLayout.IsHeadless="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="90" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0"
-                           Text="{Binding DeviceMacAddress, StringFormat='Device MAC address: {0}'}"
-                           TextColor="{StaticResource Primary}"
-                           FontSize="18"
-                           FontFamily="{StaticResource GothamRndLightFontFamily}"/>
+                           Text="{x:Static resx:AppResource.DiagnosticPageWifiTabTitleText}"
+                           TextColor="#6D6E70"
+                           FontSize="{StaticResource ButtonFontSize}"
+                           FontFamily="{StaticResource GothamRndMediumFontFamily}" />
                     <elements:CustomSwitch Grid.Column="1"
                                            IsToggled="{Binding EnableWifiToggle}">
                         <elements:CustomSwitch.Triggers>
@@ -55,26 +51,35 @@
                                      Property="IsToggled"
                                      Value="True">
                                 <Setter Property="SwitchText"
-                                        Value="On" />
+                                        Value="ON" />
                                 <Setter Property="BackgroundColor"
-                                        Value="{StaticResource Primary}" />
+                                        Value="#A0D7A4" />
                                 <Setter Property="TextColor"
-                                        Value="{StaticResource SemiTransparentWhiteColor}" />
+                                        Value="#40AE49" />
+                                <Setter Property="BorderColor"
+                                        Value="#40AE49" />
                             </Trigger>
                             <Trigger TargetType="elements:CustomSwitch"
                                      Property="IsToggled"
                                      Value="False">
                                 <Setter Property="SwitchText"
-                                        Value="Off" />
+                                        Value="OFF" />
                                 <Setter Property="BackgroundColor"
-                                        Value="{StaticResource SemiTransparentWhiteColor}" />
+                                        Value="#EEB491" />
                                 <Setter Property="TextColor"
-                                        Value="Black" />
+                                        Value="#DC6922" />
+                                <Setter Property="BorderColor"
+                                        Value="#DC6922" />
                             </Trigger>
                         </elements:CustomSwitch.Triggers>
                     </elements:CustomSwitch>
                 </Grid>
-                <BoxView Color="Gray"
+                <Label Grid.Column="0"
+                       Text="{Binding DeviceMacAddress, StringFormat='Device MAC address: {0}'}"
+                       TextColor="#6D6E70"
+                       FontSize="{StaticResource ButtonFontSize}"
+                       FontFamily="{StaticResource GothamRndMediumFontFamily}" />
+                <BoxView Color="#B6B7B8"
                          HeightRequest="1" />
             </StackLayout>
             <ListView Grid.Column="0"
@@ -105,9 +110,9 @@
                 <Label x:Name="MacAddress"
                        Text="{Binding CurrentWifi.Bssid}" />
                 <controls:EntryWithCustomKeyboard x:Name="Password"
-                       Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
-                       Text="{Binding CurrentWifi.Password}"
-                       IsPassword="True" />
+                                                  Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
+                                                  Text="{Binding CurrentWifi.Password}"
+                                                  IsPassword="True" />
                 <StackLayout CompressedLayout.IsHeadless="True"
                              Orientation="Horizontal">
                     <Button x:Name="ConnectButtom"
@@ -126,8 +131,8 @@
                 <Label Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
                        TextColor="Black" />
                 <controls:EntryWithCustomKeyboard x:Name="HiddenNetworkSsid"
-                       Placeholder="Ssid/Wifi name"
-                       Text="{Binding HiddenNetwork.Ssid}" />
+                                                  Placeholder="Ssid/Wifi name"
+                                                  Text="{Binding HiddenNetwork.Ssid}" />
                 <controls:EntryWithCustomKeyboard x:Name="NewWifiPassword"
                                                   Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
                                                   Text="{Binding HiddenNetwork.Password}" />
