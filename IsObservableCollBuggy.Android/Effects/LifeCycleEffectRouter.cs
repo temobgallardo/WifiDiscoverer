@@ -1,14 +1,14 @@
-﻿using System;
+﻿using IsObservableCollBuggy.Droid.Effects;
+using IsObservableCollBuggy.Effects;
+using System;
 using System.Linq;
-using WifiPage.Droid.Effects;
-using WifiPage.Effects;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using View = Android.Views.View;
 
 [assembly: ResolutionGroupName(LifecycleEffect.effectResolutionGroupName)]
 [assembly: ExportEffect(typeof(LifeCycleEffectRouter), nameof(LifecycleEffect))]
-namespace WifiPage.Droid.Effects
+namespace IsObservableCollBuggy.Droid.Effects
 {
     /// <summary>
     /// Android implementation of the <see cref="LifecycleEffect" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace WifiPage.Effects
+namespace IsObservableCollBuggy.Effects
 {
     public class LifecycleEffect : RoutingEffect
     {

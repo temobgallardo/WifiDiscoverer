@@ -4,7 +4,7 @@
              x:Class="IsObservableCollBuggy.Pages.WifiView"
              xmlns:cells="clr-namespace:IsObservableCollBuggy.Pages.Cells"
              xmlns:viewmodels="clr-namespace:IsObservableCollBuggy.Models"
-             xmlns:effects="clr-namespace:WifiPage.Effects"
+             xmlns:effects="clr-namespace:IsObservableCollBuggy.Effects"
              xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
              xmlns:elements="clr-namespace:IsObservableCollBuggy.Elements"
              xmlns:controls="clr-namespace:IsObservableCollBuggy.Controls"
