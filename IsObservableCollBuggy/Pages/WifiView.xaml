@@ -153,17 +153,49 @@
                 <Button BackgroundColor="#1285A5"
                         Command="{Binding OpenHiddenNetworkConnectPageCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                        TextColor="White" />
-
+                        TextColor="White">
+                    <Button.Effects>
+                        <effects:GradientBackgroundColorEffect>
+                            <effects:GradientBackgroundColorEffect.GradientColors>
+                                <OnPlatform x:TypeArguments="effects:GradientColors">
+                                    <On Platform="Android"
+                                        Value="#1285A5, #7FC8C4" />
+                                </OnPlatform>
+                            </effects:GradientBackgroundColorEffect.GradientColors>
+                        </effects:GradientBackgroundColorEffect>
+                    </Button.Effects>
+                </Button>
                 <Button BackgroundColor="#1285A5"
                         Command="{Binding RefreshCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
-                        TextColor="White" />
-
+                        TextColor="White">
+                    <Button.Effects>
+                        <effects:GradientBackgroundColorEffect>
+                            <effects:GradientBackgroundColorEffect.GradientColors>
+                                <OnPlatform x:TypeArguments="effects:GradientColors">
+                                    <On Platform="Android"
+                                        Value="#1285A5, #7FC8C4" />
+                                </OnPlatform>
+                            </effects:GradientBackgroundColorEffect.GradientColors>
+                        </effects:GradientBackgroundColorEffect>
+                    </Button.Effects>
+                </Button>
                 <Button BackgroundColor="#1285A5"
                         Command="{Binding DisconnectCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        TextColor="White" />
+                        TextColor="White"
+                        effects:GradientEffect.IsEnable="{Binding EnableWifiToggle}">
+                    <Button.Effects>
+                        <effects:GradientBackgroundColorEffect>
+                            <effects:GradientBackgroundColorEffect.GradientColors>
+                                <OnPlatform x:TypeArguments="effects:GradientColors">
+                                    <On Platform="Android"
+                                        Value="#1285A5, #7FC8C4" />
+                                </OnPlatform>
+                            </effects:GradientBackgroundColorEffect.GradientColors>
+                        </effects:GradientBackgroundColorEffect>
+                    </Button.Effects>
+                </Button>
             </StackLayout>
         </Grid>
     </ContentView.Content>
