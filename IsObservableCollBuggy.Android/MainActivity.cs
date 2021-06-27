@@ -52,13 +52,13 @@ namespace IsObservableCollBuggy.Droid
                     // Location permission has been granted, preview can be displayed
                     Log.Info(TAG, "Location permission has now been granted. Showing preview.");
                     Snackbar.Make(FindViewById(Android.Resource.Id.Content), Resource.String.permission_location_granted, Snackbar.LengthShort).Show();
-                    MessagingCenter.Send(this, TAG + "." + "RequestLocationPermision", true);
+                    MessagingCenter.Send<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision", true);
                 }
                 else
                 {
                     Log.Info(TAG, "Location permission was NOT granted.");
                     Snackbar.Make(FindViewById(Android.Resource.Id.Content), Resource.String.permission_location_not_granted, Snackbar.LengthShort).Show();
-                    MessagingCenter.Send(this, TAG + "." + "RequestLocationPermision", false);
+                    MessagingCenter.Send<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision", false);
                 }
             }
             else

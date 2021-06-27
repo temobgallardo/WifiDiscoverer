@@ -14,7 +14,7 @@ namespace IsObservableCollBuggy.Models
 
         public ICommand MotorMoveToBotCommand { get; }
         public ICommand MotorMoveToMidCommand { get; }
-        public ICommand MotorMoveToTopCommand { get; }
+
         public ICommand DevelopmentServerCommand { get; }
         public ICommand StagingServerCommand { get; }
         public ICommand ProductionServerCommand { get; }
@@ -31,6 +31,7 @@ namespace IsObservableCollBuggy.Models
         public ICommand SendAtlasLogsCommand { get; }
         public ICommand SendSqliteCommand { get; }
         public ICommand ExitCommand { get; }
+        bool _isLocationPermissionGrantedForWifi;
 
         #region Bindable Props
 
@@ -743,10 +744,41 @@ namespace IsObservableCollBuggy.Models
 
         public Diagnostics()
         {
-            TabClickCommand = new Command(async (tab) => await SelectTab(tab));
+            TabClickCommand = new Command((tab) => SelectTab(tab));
         }
 
-        private async Task SelectTab(object tab)
+        internal void OnAppearing()
+        {
+            EnableTabBasedOnPermission();
+        }
+
+        void EnableTabBasedOnPermission()
+        {
+            if (_isLocationPermissionGrantedForWifi) return;
+
+            EnableStatusTab();
+        }
+
+        void EnableStatusTab()
+        {
+            IsStatusTabVisible = true;
+            IsDomeTabVisible = false;
+            IsBatteryTabVisible = false;
+            IsLampTabVisible = false;
+            IsLoginTabVisible = false;
+            IsAdbTabVisible = false;
+            IsAboutTabVisible = false;
+            IsServerMenuTabVisible = false;
+            IsWifiTabVisible = false;
+        }
+
+        public ICommand MotorMoveToTopCommand { get; }
+
+        internal void OnDisappearing()
+        {
+        }
+
+        private void SelectTab(object tab)
         {
             var tabTypeValue = (string)tab;
             IsStatusTabVisible = tabTypeValue == "Status";
@@ -760,7 +792,7 @@ namespace IsObservableCollBuggy.Models
             FocusWifiTab(tabTypeValue == "Wifi");
         }
 
-        void FocusWifiTab(bool isSelected)
+        private void FocusWifiTab(bool isSelected)
         {
             IsWifiTabVisible = isSelected;
 
@@ -776,6 +808,12 @@ namespace IsObservableCollBuggy.Models
         private void SetIsWifiTabVisible(bool isPermissionGranted)
         {
             IsWifiTabVisible = isPermissionGranted;
+            _isLocationPermissionGrantedForWifi = isPermissionGranted;
+
+            if (isPermissionGranted)
+            {
+                MessagingCenter.Unsubscribe<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision"); 
+            }
         }
 
         public void Dispose()
