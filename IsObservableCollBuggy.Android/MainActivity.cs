@@ -29,6 +29,11 @@ namespace IsObservableCollBuggy.Droid
             Manifest.Permission.AccessCoarseLocation,
             Manifest.Permission.AccessFineLocation
         };
+        private const int REQUEST_READ_PHONE_STATE = 5;
+        private readonly string[] PERMISSIONS_READ_PHONE_STATE = {
+            Manifest.Permission.ReadPhoneState,
+            "android.permission.READ_PRIVILEGED_PHONE_STATE"
+        };
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -76,6 +81,8 @@ namespace IsObservableCollBuggy.Droid
             RegisterReceiver(_wifiReceiver, intentFilter);
 
             MessagingCenter.Subscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
+
+            RequestPrivilegedPhoneStatePermission();
         }
         protected override void OnPause()
         {
@@ -122,6 +129,11 @@ namespace IsObservableCollBuggy.Droid
             {
                 ActivityCompat.RequestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION);
             }
+        }
+
+        void RequestPrivilegedPhoneStatePermission()
+        {
+            ActivityCompat.RequestPermissions(this, PERMISSIONS_READ_PHONE_STATE, REQUEST_READ_PHONE_STATE);
         }
     }
 }
