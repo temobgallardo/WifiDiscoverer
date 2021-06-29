@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace IsObservableCollBuggy.Pages.Cells
@@ -17,7 +16,7 @@ namespace IsObservableCollBuggy.Pages.Cells
         {
             var control = (WifiCell)bindable;
 
-            control.MenuItem.Command = (ICommand) newValue;
+            //control.MenuItem.Command = (ICommand)newValue;
         }
 
         public WifiCell()
