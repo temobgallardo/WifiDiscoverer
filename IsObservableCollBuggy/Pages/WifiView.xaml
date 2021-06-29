@@ -29,7 +29,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="7*" />
-                <RowDefinition Height="1*" />
+                <RowDefinition Height="1.5*" />
             </Grid.RowDefinitions>
             <StackLayout CompressedLayout.IsHeadless="True"
                          Grid.Column="0"
@@ -37,18 +37,21 @@
                 <Grid CompressedLayout.IsHeadless="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
                     <Label Grid.Column="0"
                            Text="{x:Static resx:AppResource.DiagnosticPageWifiTabTitleText}"
                            TextColor="#6D6E70"
                            FontSize="{StaticResource ButtonFontSize}"
                            FontFamily="{StaticResource GothamRndMediumFontFamily}" />
                     <elements:CustomSwitch Grid.Column="1"
-                                           IsToggled="{Binding EnableWifiToggle}">
+                                           IsToggledLocal="{Binding EnableWifiToggle}">
                         <elements:CustomSwitch.Triggers>
                             <Trigger TargetType="elements:CustomSwitch"
-                                     Property="IsToggled"
+                                     Property="IsToggledLocal"
                                      Value="True">
                                 <Setter Property="SwitchText"
                                         Value="ON" />
@@ -60,7 +63,7 @@
                                         Value="#40AE49" />
                             </Trigger>
                             <Trigger TargetType="elements:CustomSwitch"
-                                     Property="IsToggled"
+                                     Property="IsToggledLocal"
                                      Value="False">
                                 <Setter Property="SwitchText"
                                         Value="OFF" />
@@ -106,9 +109,13 @@
                          x:DataType="viewmodels:WifiConnection"
                          IsVisible="{Binding ConnectNetworkIsVisible, Mode=OneWay}">
                 <Label x:Name="WifiName"
-                       Text="{Binding CurrentWifi.Ssid}" />
+                       Text="{Binding CurrentWifi.Ssid}"
+                       FontSize="{StaticResource ButtonFontSize}"
+                       FontFamily="{StaticResource GothamRndMediumFontFamily}" />
                 <Label x:Name="MacAddress"
-                       Text="{Binding CurrentWifi.Bssid}" />
+                       Text="{Binding CurrentWifi.Bssid}"
+                       FontSize="{StaticResource ButtonFontSize}"
+                       FontFamily="{StaticResource GothamRndMediumFontFamily}" />
                 <controls:EntryWithCustomKeyboard x:Name="Password"
                                                   Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiPasswordPlaceholder}"
                                                   Text="{Binding CurrentWifi.Password}"
@@ -116,9 +123,11 @@
                 <StackLayout CompressedLayout.IsHeadless="True"
                              Orientation="Horizontal">
                     <Button x:Name="ConnectButtom"
+                            Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
                             Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}" />
                     <Button x:Name="CancelButtom"
+                            Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
                             Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
                 </StackLayout>
@@ -129,7 +138,9 @@
                          x:DataType="viewmodels:WifiConnection"
                          IsVisible="{Binding AddHiddenNetworkIsVisible, Mode=OneWay}">
                 <Label Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                       TextColor="Black" />
+                       TextColor="Black"
+                       FontSize="{StaticResource ButtonFontSize}"
+                       FontFamily="{StaticResource GothamRndMediumFontFamily}" />
                 <controls:EntryWithCustomKeyboard x:Name="HiddenNetworkSsid"
                                                   Placeholder="{x:Static resx:AppResource.DiagnosticPageWifiTabSsidPlaceholder}"
                                                   Text="{Binding HiddenNetwork.Ssid}" />
@@ -139,22 +150,33 @@
                 <StackLayout CompressedLayout.IsHeadless="True"
                              Orientation="Horizontal">
                     <Button x:Name="ConnectHiddenNetworkButtom"
+                            Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
                             Command="{Binding BindingContext.AddNetworkCommand, Source={x:Reference this}}  " />
                     <Button x:Name="ConnectoHiddenNetworkCancelButtom"
+                            Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
                             Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
                 </StackLayout>
             </StackLayout>
-            <StackLayout CompressedLayout.IsHeadless="True"
+            <StackLayout 
                          Orientation="Horizontal"
                          Grid.Column="0"
-                         Grid.Row="2">
-                <Button BackgroundColor="#1285A5"
+                         Grid.Row="2"
+                         x:DataType="viewmodels:WifiConnection"
+                         IsVisible="{Binding FooterButtonsVisible, Mode=OneWay}">
+                <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding OpenHiddenNetworkConnectPageCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                        TextColor="White">
-                    <Button.Effects>
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}" >
+                    <!--<Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding IsLanguageConfirmEnabled}"
+                                     Value="false">
+                            <Setter Property="BackgroundColor"
+                                    Value="#F3F2F1" />
+                        </DataTrigger>
+                    </Button.Triggers>-->
+                    <!--<Button.Effects>
                         <effects:GradientBackgroundColorEffect>
                             <effects:GradientBackgroundColorEffect.GradientColors>
                                 <OnPlatform x:TypeArguments="effects:GradientColors">
@@ -163,13 +185,12 @@
                                 </OnPlatform>
                             </effects:GradientBackgroundColorEffect.GradientColors>
                         </effects:GradientBackgroundColorEffect>
-                    </Button.Effects>
+                    </Button.Effects>-->
                 </Button>
-                <Button BackgroundColor="#1285A5"
+                <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding RefreshCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
-                        TextColor="White">
-                    <Button.Effects>
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}" >
+                    <!--<Button.Effects>
                         <effects:GradientBackgroundColorEffect>
                             <effects:GradientBackgroundColorEffect.GradientColors>
                                 <OnPlatform x:TypeArguments="effects:GradientColors">
@@ -178,14 +199,13 @@
                                 </OnPlatform>
                             </effects:GradientBackgroundColorEffect.GradientColors>
                         </effects:GradientBackgroundColorEffect>
-                    </Button.Effects>
+                    </Button.Effects>-->
                 </Button>
-                <Button BackgroundColor="#1285A5"
+                <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding DisconnectCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        TextColor="White"
-                        effects:GradientEffect.IsEnable="{Binding EnableWifiToggle}">
-                    <Button.Effects>
+                        effects:GradientEffect.IsEnable="{Binding EnableWifiToggle}" >
+                    <!--<Button.Effects>
                         <effects:GradientBackgroundColorEffect>
                             <effects:GradientBackgroundColorEffect.GradientColors>
                                 <OnPlatform x:TypeArguments="effects:GradientColors">
@@ -194,7 +214,7 @@
                                 </OnPlatform>
                             </effects:GradientBackgroundColorEffect.GradientColors>
                         </effects:GradientBackgroundColorEffect>
-                    </Button.Effects>
+                    </Button.Effects>-->
                 </Button>
             </StackLayout>
         </Grid>

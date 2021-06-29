@@ -98,6 +98,13 @@ namespace IsObservableCollBuggy.Models
             set => SetPropertyValue(ref _addHiddenNetworkIsVisible, value);
         }
 
+        bool _footerButtonsVisible;
+        public bool FooterButtonsVisible
+        {
+            get => _footerButtonsVisible;
+            set => SetPropertyValue(ref _footerButtonsVisible, value);
+        }
+
         Wifi _hiddenNetwork;
         public Wifi HiddenNetwork
         {
@@ -270,6 +277,7 @@ namespace IsObservableCollBuggy.Models
             NetworkListIsVisible = true;
             ConnectNetworkIsVisible = false;
             AddHiddenNetworkIsVisible = false;
+            FooterButtonsVisible = true;
         }
 
         void ActivateConnectNetworkElement()
@@ -277,6 +285,15 @@ namespace IsObservableCollBuggy.Models
             NetworkListIsVisible = false;
             ConnectNetworkIsVisible = true;
             AddHiddenNetworkIsVisible = false;
+            FooterButtonsVisible = false;
+        }
+
+        void ActivateAddHiddenNetworkElement()
+        {
+            NetworkListIsVisible = false;
+            ConnectNetworkIsVisible = false;
+            AddHiddenNetworkIsVisible = true; 
+            FooterButtonsVisible = false;
         }
 
         private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
@@ -315,13 +332,6 @@ namespace IsObservableCollBuggy.Models
             }
 
             await NotifyUserIfConnectedAsync(await _wifiConnectionService.ConnectAsync(wifi), wifi);
-        }
-
-        void ActivateAddHiddenNetworkElement()
-        {
-            NetworkListIsVisible = false;
-            ConnectNetworkIsVisible = false;
-            AddHiddenNetworkIsVisible = true;
         }
 
         async Task NotifyUserIfConnectedAsync(bool connected, Wifi wifi = null)
