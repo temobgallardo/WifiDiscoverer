@@ -7,8 +7,8 @@ namespace IsObservableCollBuggy.Elements
     public partial class CustomSwitch : Frame
 
     {
-        public bool IsToggled { get => (bool)GetValue(IsToggledProperty); set => SetValue(IsToggledProperty, value); }
-        public static readonly BindableProperty IsToggledProperty = BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(CustomSwitch), false, BindingMode.TwoWay, propertyChanged: IsToggledPropertyChanged);
+        public bool IsToggledLocal { get => (bool)GetValue(IsToggledLocalProperty); set => SetValue(IsToggledLocalProperty, value); }
+        public static readonly BindableProperty IsToggledLocalProperty = BindableProperty.Create(nameof(IsToggledLocal), typeof(bool), typeof(CustomSwitch), false, BindingMode.TwoWay, propertyChanged: IsToggledPropertyChanged);
         private static void IsToggledPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (oldValue == newValue) return;
@@ -44,7 +44,7 @@ namespace IsObservableCollBuggy.Elements
 
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-            IsToggled = !IsToggled;
+            IsToggledLocal = !IsToggledLocal;
         }
     }
 }
