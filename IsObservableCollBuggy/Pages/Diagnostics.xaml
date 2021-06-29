@@ -7,7 +7,8 @@
              xmlns:resources="clr-namespace:IsObservableCollBuggy.Resx"
              x:DataType="models:Diagnostics"
              x:Class="IsObservableCollBuggy.Pages.Diagnostics"
-             BackgroundColor="{StaticResource BaseContentPageBackground}">
+             BackgroundColor="{StaticResource BaseContentPageBackground}"
+             x:Name="this">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -18,7 +19,6 @@
     <ContentPage.Content>
         <StackLayout CompressedLayout.IsHeadless="True"
                      Spacing="0"
-                     BackgroundColor="Purple"
                      x:DataType="models:Diagnostics">
 
             <!--status bar begin-->
@@ -1485,7 +1485,7 @@
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 x:DataType="models:WifiConnection"
-                                IsVisible="{Binding BackgroundColor, Source={x:Reference WifiTab}, Converter={StaticResource SelectedTabColorToBool}}" />
+                                IsVisible="{Binding BindingContext.IsWifiTabVisible, Source={x:Reference this}}" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>
