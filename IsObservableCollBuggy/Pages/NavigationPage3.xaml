@@ -4,9 +4,11 @@
              x:Class="IsObservableCollBuggy.Pages.NavigationPage3">
     <ContentPage.Content>
         <StackLayout CompressedLayout.IsHeadless="True">
-            <Button Text="Navigate to Page Main"
+            <Button x:Name="NavigateButton"
+                    Text="Navigate to Page Main"
                     VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked"/>
+                    HorizontalOptions="CenterAndExpand"
+                    Clicked="Button_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

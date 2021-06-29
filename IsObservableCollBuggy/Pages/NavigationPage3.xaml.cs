@@ -7,6 +7,7 @@ namespace IsObservableCollBuggy.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NavigationPage3 : ContentPage
     {
+        ContentPage diagnostics = new Diagnostics();
         public NavigationPage3()
         {
             InitializeComponent();
@@ -14,7 +15,7 @@ namespace IsObservableCollBuggy.Pages
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MainPage());
+            await Navigation.PushAsync(diagnostics);
         }
     }
 }
