@@ -736,7 +736,7 @@ namespace IsObservableCollBuggy.Models
             set
             {
                 _isWifiTabVisible = value;
-               
+
                 RaisePropertyChanged(() => IsWifiTabVisible);
             }
         }
@@ -747,16 +747,55 @@ namespace IsObservableCollBuggy.Models
             TabClickCommand = new Command((tab) => SelectTab(tab));
         }
 
-        internal void OnAppearing()
+        public void OnAppearing()
         {
-            EnableTabBasedOnPermission();
+            EnableWifiTab();
+            //EnableTabBasedOnPermission();
         }
 
         void EnableTabBasedOnPermission()
         {
-            if (_isLocationPermissionGrantedForWifi) return;
+            if (_isLocationPermissionGrantedForWifi)
+            {
+                EnableWifiTab();
+                return;
+            }
 
-            EnableStatusTab();
+            //EnableStatusTab();
+        }
+
+        void EnableStatusTab2(string tabToEnable, bool enable)
+        {
+            switch (tabToEnable)
+            {
+                case nameof(IsStatusTabVisible):
+                    IsStatusTabVisible = enable;
+                    break;
+                case nameof(IsDomeTabVisible):
+                    IsDomeTabVisible = enable;
+                    break;
+                case nameof(IsBatteryTabVisible):
+                    IsBatteryTabVisible = enable;
+                    break;
+                case nameof(IsLampTabVisible):
+                    IsLampTabVisible = enable;
+                    break;
+                case nameof(IsLoginTabVisible):
+                    IsLoginTabVisible = enable;
+                    break;
+                case nameof(IsAdbTabVisible):
+                    IsAdbTabVisible = false;
+                    break;
+                case nameof(IsAboutTabVisible):
+                    IsAboutTabVisible = false;
+                    break;
+                case nameof(IsServerMenuTabVisible):
+                    IsServerMenuTabVisible = false;
+                    break;
+                case nameof(IsWifiTabVisible):
+                    IsWifiTabVisible = false;
+                    break;
+            }
         }
 
         void EnableStatusTab()
@@ -771,10 +810,22 @@ namespace IsObservableCollBuggy.Models
             IsServerMenuTabVisible = false;
             IsWifiTabVisible = false;
         }
+        void EnableWifiTab()
+        {
+            IsStatusTabVisible = false;
+            IsDomeTabVisible = false;
+            IsBatteryTabVisible = false;
+            IsLampTabVisible = false;
+            IsLoginTabVisible = false;
+            IsAdbTabVisible = false;
+            IsAboutTabVisible = false;
+            IsServerMenuTabVisible = false;
+            IsWifiTabVisible = true;
+        }
 
         public ICommand MotorMoveToTopCommand { get; }
 
-        internal void OnDisappearing()
+        public void OnDisappearing()
         {
         }
 
@@ -812,7 +863,7 @@ namespace IsObservableCollBuggy.Models
 
             if (isPermissionGranted)
             {
-                MessagingCenter.Unsubscribe<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision"); 
+                MessagingCenter.Unsubscribe<IAccessLocationPermission, bool>(this, "MainActivity.RequestLocationPermision");
             }
         }
 
