@@ -275,6 +275,20 @@
                         Value="{StaticResource GothamRndBookFontFamily}" />
             </Style>
 
+            <Style x:Key="ActiveButton"
+                   TargetType="Button">
+                <Setter Property="FontSize"
+                        Value="{StaticResource ButtonFontSize}" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndBookFontFamily}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="BackgroundColor"
+                        Value="#1285A5" />
+                <Setter Property="MinimumHeightRequest"
+                        Value="90" />
+            </Style>
+
             <Style x:Key="CancelProtocolButton"
                    TargetType="Button">
                 <Setter Property="FontSize"
