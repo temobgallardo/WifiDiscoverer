@@ -655,7 +655,7 @@
     <value>Cancel</value>
   </data>
   <data name="DiagnosticPageWifiTabConnectHiddenNetwork" xml:space="preserve">
-    <value>Add Wi-Fi</value>
+    <value>Add Network</value>
   </data>
   <data name="DiagnosticPageWifiTabRefreshList" xml:space="preserve">
     <value>Refresh</value>
@@ -671,5 +671,17 @@
   </data>
   <data name="DiagnosticPageWifiTabSsidPlaceholder" xml:space="preserve">
     <value>Ssid/Wifi name</value>
+  </data>
+  <data name="PermissionLocationRationale" xml:space="preserve">
+    <value>In order to connect to a network the application need location permission</value>
+  </data>
+  <data name="PermissionLocationOkButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PermissionLocationGranted" xml:space="preserve">
+    <value>Location permission granted</value>
+  </data>
+  <data name="PermissionLocationNotGranted" xml:space="preserve">
+    <value>Location permission not granted</value>
   </data>
 </root>
