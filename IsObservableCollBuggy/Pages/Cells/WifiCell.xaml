@@ -11,8 +11,7 @@
         <Label Grid.Row="0"
                x:Name="WifiName"
                Text="{Binding Ssid}"
-               FontSize="{x:StaticResource BodyLabelFontSize}"
-               FontFamily="{x:StaticResource GothamRndBoldFontFamily}" >
+               Style="{x:StaticResource BodyLabelTextStyle}" >
             <Label.Triggers>
                 <DataTrigger TargetType="Label"
                              Binding="{Binding IsSelected}"
@@ -22,6 +21,12 @@
                 </DataTrigger>
             </Label.Triggers>
         </Label>
+        <Label Grid.Column="1"
+               x:Name="IsConnected"
+               Text="{x:Static resx:AppResource.WifiCellConnected}"
+               IsVisible="{Binding IsConnected}"
+               Style="{StaticResource BodyLabelTextStyle}"
+               FontSize="14" />
         <Grid.Triggers>
             <DataTrigger TargetType="Grid"
                          Binding="{Binding IsSelected}"
