@@ -204,7 +204,7 @@
                 <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding DisconnectCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        effects:GradientEffect.IsEnable="{Binding EnableWifiToggle}" >
+                        effects:GradientEffect.IsEnable="{Binding EnableWifiToggle}">
                     <!--<Button.Effects>
                         <effects:GradientBackgroundColorEffect>
                             <effects:GradientBackgroundColorEffect.GradientColors>
@@ -216,6 +216,9 @@
                         </effects:GradientBackgroundColorEffect>
                     </Button.Effects>-->
                 </Button>
+                <Button Style="{StaticResource ActiveButton}"
+                        Command="{Binding RemoveNetworkCommand}"
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}" />
             </StackLayout>
         </Grid>
     </ContentView.Content>
