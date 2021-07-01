@@ -21,6 +21,8 @@ namespace IsObservableCollBuggy.Models.Models
         public string Password { get => _password; set => SetProperty(ref _password, value); }
         bool _isHidden;
         public bool IsHidden { get => _isHidden; set => SetProperty(ref _isHidden, value); }
+        private bool _isConnected;
+        public bool IsConnected { get => _isConnected; set => SetProperty(ref _isConnected, value); }
     }
 
     public class WifiComprarer : IEqualityComparer<Wifi>
