@@ -78,6 +78,9 @@ namespace IsObservableCollBuggy.Droid
 
             var intentFilter = new IntentFilter();
             intentFilter.AddAction(WifiManager.ScanResultsAvailableAction);
+            intentFilter.AddAction(WifiManager.SupplicantConnectionChangeAction);
+            intentFilter.AddAction(WifiManager.NetworkStateChangedAction);
+            intentFilter.AddAction(WifiManager.SupplicantStateChangedAction);
             RegisterReceiver(_wifiReceiver, intentFilter);
 
             MessagingCenter.Subscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
