@@ -3,19 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:IsObservableCollBuggy.Models"
              xmlns:local="clr-namespace:IsObservableCollBuggy.Pages"
-             xmlns:converters="clr-namespace:IsObservableCollBuggy.Converters"
              xmlns:resources="clr-namespace:IsObservableCollBuggy.Resx"
              x:DataType="models:Diagnostics"
              x:Class="IsObservableCollBuggy.Pages.Diagnostics"
              BackgroundColor="{StaticResource BaseContentPageBackground}"
              x:Name="this">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:SelectedTabColorToBoolConverter x:Key="SelectedTabColorToBool" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <ContentPage.Content>
         <StackLayout CompressedLayout.IsHeadless="True"
                      Spacing="0"
