@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Net;
 using Android.Net.Wifi;
 using Android.Util;
 using IsObservableCollBuggy.Droid.BroadcastReceivers;
@@ -24,6 +25,10 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         readonly string _wifiConnectionReceiverMessage = TAG;
 
         readonly WifiManager _wifiManager;
+        NetworkInfo _networkInfo { get; set; }
+        SupplicantState _supplicantState;
+        Wifi _currentWifi;
+        Wifi CurrentWifi { get => _currentWifi; set => _currentWifi = value; }
         IList<ScanResult> _scanResults;
         IList<ScanResult> ScanResults
         {
@@ -66,9 +71,10 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return string.Empty;
         }
 
-        Wifi _connectedWifi;
-        public Wifi ConnectedWifi { get => _connectedWifi; }
+        public Wifi ConnectedWifi { get => ConnectionInfoToWifi(_wifiManager.ConnectionInfo); }
         public IList<Wifi> Wifis { get => ParseScanResultToWifi(_wifiManager.ScanResults); }
+
+        public event EventHandler<NetworkConnectedEventArgs> RaiseNetworkConnected;
 
         public WifiConnectionReceiver()
         {
@@ -85,7 +91,56 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 case WifiManager.ScanResultsAvailableAction:
                     ScanResultsAvailable(intent.GetBooleanExtra(WifiManager.ExtraResultsUpdated, false));
                     break;
+                case WifiManager.SupplicantConnectionChangeAction:
+                    var isConnected = intent.GetBooleanExtra(WifiManager.ExtraSupplicantConnected, false);
+                    break;
+                case WifiManager.NetworkStateChangedAction:
+                    _networkInfo = intent.GetParcelableExtra(WifiManager.ExtraNetworkInfo) as NetworkInfo;
+                    break;
+                case WifiManager.SupplicantStateChangedAction:
+                    _supplicantState = intent.GetParcelableExtra(WifiManager.ExtraNewState) as SupplicantState;
+                    var isSupplicantError = intent.HasExtra(WifiManager.ExtraSupplicantError);
+
+                    if (_supplicantState == SupplicantState.Disconnected && isSupplicantError)
+                    {
+                        RemoveNetwork();
+                    }
+                    break;
             }
+        }
+
+        void RemoveNetwork()
+        {
+            try
+            {
+
+                _currentWifi.IsConnected = false;
+                RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(_currentWifi));
+
+                var current = AlreadyConfigured(_currentWifi);
+                if (current == null) return;
+                if (current.NetworkId < 0) return;
+
+                _wifiManager.RemoveNetwork(current.NetworkId);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(TAG, ex.Message);
+            }
+        }
+
+        public async Task<bool> RemoveNetworkAsync(Wifi wifi)
+        {
+            if (wifi is null) return false;
+
+            wifi.IsConnected = false;
+            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
+
+            var current = AlreadyConfigured(wifi);
+            if (current == null) return false;
+            if (current.NetworkId < 0) return false;
+
+            return _wifiManager.RemoveNetwork(current.NetworkId);
         }
 
         void ScanResultsAvailable(bool success)
@@ -111,7 +166,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                     Frequency = scan.Frequency,
                     Level = scan.Level,
                     Ssid = scan.Ssid,
-                    Timestamp = scan.Timestamp
+                    Timestamp = scan.Timestamp,
+                    IsConnected = _wifiManager.ConnectionInfo.SSID == $"\"{scan.Ssid}\""
                 };
             }).ToList();
         }
@@ -142,7 +198,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 return false;
 
             if (string.IsNullOrEmpty(wifi.Password)) return false;
-            
+
             int networkId;
             var config = AlreadyConfigured(wifi);
             if (config is null || config?.NetworkId < 0)
@@ -160,12 +216,28 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             await Task.Delay(1 * 1000);
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            wifi.IsConnected = isConnected;
+            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
             return isConnected;
         }
 
         public async Task<bool> ConnectToRememberedAsync(Wifi wifi)
         {
             if (wifi == null) return false;
+
+            CurrentWifi = wifi;
+            //CurrentWifi = new Wifi { 
+            //    Bssid = wifi.Bssid, 
+            //    Capabilities = wifi.Capabilities, 
+            //    Frequency = wifi.Frequency, 
+            //    IsConnected = wifi.IsConnected, 
+            //    IsHidden = wifi.IsHidden, 
+            //    IsSelected = wifi.IsSelected, 
+            //    Level = wifi.Level, 
+            //    Password = wifi.Password, 
+            //    Timestamp = wifi.Timestamp, 
+            //    Ssid = wifi.Ssid
+            //};
 
             var current = AlreadyConfigured(wifi);
             if (current == null) return false;
@@ -176,6 +248,11 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             await Task.Delay(1 * 1000);
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            wifi.IsConnected = isConnected;
+            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
+
+            //if (_supplicantState == SupplicantState.Invalid) return false;
+            //if (_networkInfo.GetDetailedState() == NetworkInfo.DetailedState.Disconnected) return false;
             return isConnected;
         }
 
@@ -183,8 +260,23 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             if (wifi == null) return false;
 
-            var isCurrentSsid = !string.IsNullOrEmpty(wifi.Ssid) && _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            CurrentWifi = new Wifi
+            {
+                Bssid = wifi.Bssid,
+                Capabilities = wifi.Capabilities,
+                Frequency = wifi.Frequency,
+                IsConnected = wifi.IsConnected,
+                IsHidden = wifi.IsHidden,
+                IsSelected = wifi.IsSelected,
+                Level = wifi.Level,
+                Password = wifi.Password,
+                Timestamp = wifi.Timestamp,
+                Ssid = wifi.Ssid
+            };
 
+            var isCurrentSsid = !string.IsNullOrEmpty(wifi.Ssid) && _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            wifi.IsConnected = isCurrentSsid;
+            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
             return isCurrentSsid && _wifiManager.ConnectionInfo.NetworkId > -1;
         }
 
@@ -289,5 +381,16 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);
 
         public void StartScan() => _wifiManager.StartScan();
+
+        private Wifi ConnectionInfoToWifi(WifiInfo info)
+        {
+            return new Wifi
+            {
+                Ssid = info.SSID,
+                Bssid = info.MacAddress,
+                Frequency = info.Frequency,
+                IsConnected = true
+            };
+        }
     }
 }
