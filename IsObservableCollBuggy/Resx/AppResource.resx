@@ -684,4 +684,28 @@
   <data name="PermissionLocationNotGranted" xml:space="preserve">
     <value>Location permission not granted</value>
   </data>
+  <data name="WifiCellConnected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="WifiConnectionViewModelConnectedSuccesfully" xml:space="preserve">
+    <value>Connected succesfully to {0}</value>
+  </data>
+  <data name="WifiConnectionViewModelConnectedUnsuccesfully" xml:space="preserve">
+    <value>Unable to connect to {0}. It can be due to the password or connection issues. Try again, please!</value>
+  </data>
+  <data name="WifiConnectionViewModelCouldNotDisableWifi" xml:space="preserve">
+    <value>Wifi could not be enabled/disabled. Please, try again!</value>
+  </data>
+  <data name="WifiConnectionViewModelAlreadyConnected" xml:space="preserve">
+    <value>Wifi {0} already connected</value>
+  </data>
+  <data name="WifiConnectionViewModelAlreadyConfigured" xml:space="preserve">
+    <value>Wifi {} already configured. Connecting...</value>
+  </data>
+  <data name="WifiConnectionViewModelTryingToConnect" xml:space="preserve">
+    <value>Trying to connecto to {0}. A moment, please.</value>
+  </data>
+  <data name="DiagnosticPageWifiTabRemoveNetwork" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>
