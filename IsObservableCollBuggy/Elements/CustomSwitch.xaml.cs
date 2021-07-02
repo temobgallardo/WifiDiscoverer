@@ -14,7 +14,7 @@ namespace IsObservableCollBuggy.Elements
             if (oldValue == newValue) return;
 
             var control = (CustomSwitch)bindable;
-            control.@switch.IsToggled = (bool)newValue;
+            control.Switcher.IsToggled = (bool)newValue;
         }
 
         public string SwitchText { get => (string)GetValue(SwitchTextProperty); set => SetValue(SwitchTextProperty, value); }
@@ -24,7 +24,7 @@ namespace IsObservableCollBuggy.Elements
             if (oldValue == newValue) return;
 
             var control = (CustomSwitch)bindable;
-            control.label.Text = (string)newValue;
+            control.SwitcherLabel.Text = (string)newValue;
         }
 
         public Color TextColor { get => (Color)GetValue(TextColorProperty); set => SetValue(TextColorProperty, value); }
@@ -34,7 +34,7 @@ namespace IsObservableCollBuggy.Elements
             if (oldValue == newValue) return;
 
             var control = (CustomSwitch)bindable;
-            control.label.TextColor = (Color)newValue;
+            control.SwitcherLabel.TextColor = (Color)newValue;
         }
 
         public CustomSwitch()
