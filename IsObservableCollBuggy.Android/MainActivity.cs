@@ -72,26 +72,38 @@ namespace IsObservableCollBuggy.Droid
                 base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             }
         }
-        protected override void OnResume()
+        protected override void OnStart()
         {
-            base.OnResume();
+            base.OnStart();
 
             var intentFilter = new IntentFilter();
             intentFilter.AddAction(WifiManager.ScanResultsAvailableAction);
             intentFilter.AddAction(WifiManager.SupplicantConnectionChangeAction);
-            intentFilter.AddAction(WifiManager.NetworkStateChangedAction);
-            intentFilter.AddAction(WifiManager.SupplicantStateChangedAction);
+            //intentFilter.AddAction(WifiManager.NetworkStateChangedAction);
+            //intentFilter.AddAction(WifiManager.SupplicantStateChangedAction);
             RegisterReceiver(_wifiReceiver, intentFilter);
 
             MessagingCenter.Subscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
 
             RequestPrivilegedPhoneStatePermission();
         }
+        protected override void OnResume()
+        {
+            base.OnResume();
+        }
         protected override void OnPause()
+        {
+            base.OnPause();
+        }
+        protected override void OnStop()
         {
             UnregisterReceiver(_wifiReceiver);
             MessagingCenter.Unsubscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST);
-            base.OnPause();
+            base.OnStop();
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
         }
         public void ShowWifiTab()
         {
