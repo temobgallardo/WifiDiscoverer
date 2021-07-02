@@ -24,9 +24,8 @@ namespace IsObservableCollBuggy.Pages
 
         protected override void OnDisappearing()
         {
-            base.OnDisappearing();
-
             _vm.OnDisappearing();
+            base.OnDisappearing();
         }
     }
 }
