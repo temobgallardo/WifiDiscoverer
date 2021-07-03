@@ -22,9 +22,8 @@
             </Label.Triggers>
         </Label>
         <Label Grid.Column="1"
-               x:Name="IsConnected"
-               Text="{x:Static resx:AppResource.WifiCellConnected}"
-               IsVisible="{Binding IsConnected}"
+               x:Name="LabelState"
+               Text="{Binding State}"
                Style="{StaticResource BodyLabelTextStyle}"
                FontSize="14" />
         <Grid.Triggers>
