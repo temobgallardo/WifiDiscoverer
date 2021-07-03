@@ -4,11 +4,13 @@ namespace IsObservableCollBuggy
 {
     public partial class App : Application
     {
+        private Pages.Diagnostics _diagnostics;
         public App()
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            _diagnostics = new Pages.Diagnostics();
+            MainPage = new NavigationPage(_diagnostics);
         }
 
         protected override void OnStart()
@@ -17,6 +19,7 @@ namespace IsObservableCollBuggy
 
         protected override void OnSleep()
         {
+            _diagnostics = null;
         }
 
         protected override void OnResume()
