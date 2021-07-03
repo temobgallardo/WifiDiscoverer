@@ -23,6 +23,8 @@ namespace IsObservableCollBuggy.Models.Models
         public bool IsHidden { get => _isHidden; set => SetProperty(ref _isHidden, value); }
         private bool _isConnected;
         public bool IsConnected { get => _isConnected; set => SetProperty(ref _isConnected, value); }
+        private string _state;
+        public string State { get => _state; set => SetProperty(ref _state, value); }
     }
 
     public class WifiComprarer : IEqualityComparer<Wifi>
@@ -41,5 +43,13 @@ namespace IsObservableCollBuggy.Models.Models
 
             return wifi.Ssid == null ? 0 : wifi.Ssid.GetHashCode();
         }
+    }
+
+    public enum WifiStates
+    {
+        Connected,
+        Connecting,
+        Disconnecting,
+        Disconnected
     }
 }
