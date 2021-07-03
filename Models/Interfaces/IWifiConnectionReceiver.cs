@@ -8,6 +8,7 @@ namespace Models.Interfaces
     public interface IWifiConnectionReceiver
     {
         event EventHandler<NetworkConnectedEventArgs> RaiseNetworkConnected;
+        IBroadcastReceieverCallback Callbacks { get; set; }
         string WifiConnectionReceiverMessage { get; }
         bool IsWifiEnabled { get; }
         string DeviceMacAddress { get; }
@@ -28,11 +29,25 @@ namespace Models.Interfaces
 
     public class NetworkConnectedEventArgs : EventArgs
     {
-        private Wifi _connectedNetwork;
-        public Wifi ConnectedNetwork { get => _connectedNetwork; set => _connectedNetwork = value; }
-        public NetworkConnectedEventArgs(Wifi wifi)
+        private Wifi _network;
+        public Wifi Network { get => _network; set => _network = value; }
+        private WifiStates _state;
+        public WifiStates State { get => _state; set => _state = value; }
+        public NetworkConnectedEventArgs(Wifi wifi, WifiStates state)
         {
-            _connectedNetwork = wifi;
+            Network = wifi;
+            State = state;
         }
+    }
+
+    public interface IBrodcastSevice
+    {
+        void Register(IBroadcastReceieverCallback broadcastReceieverCallback);
+        void UnRegister();
+    }
+
+    public interface IBroadcastReceieverCallback
+    {
+        void Execute(Wifi network, WifiStates state);
     }
 }

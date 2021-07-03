@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Android.Net.NetworkInfo;
 
 [assembly: Dependency(typeof(WifiConnectionReceiver))]
 namespace IsObservableCollBuggy.Droid.BroadcastReceivers
@@ -25,10 +26,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         readonly string _wifiConnectionReceiverMessage = TAG;
 
         readonly WifiManager _wifiManager;
-        NetworkInfo _networkInfo { get; set; }
-        SupplicantState _supplicantState;
-        Wifi _currentWifi;
-        Wifi CurrentWifi { get => _currentWifi; set => _currentWifi = value; }
         IList<ScanResult> _scanResults;
         IList<ScanResult> ScanResults
         {
@@ -73,6 +70,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public Wifi ConnectedWifi { get => ConnectionInfoToWifi(_wifiManager.ConnectionInfo); }
         public IList<Wifi> Wifis { get => ParseScanResultToWifi(_wifiManager.ScanResults); }
+        public IBroadcastReceieverCallback Callbacks { get; set; }
 
         public event EventHandler<NetworkConnectedEventArgs> RaiseNetworkConnected;
 
@@ -91,42 +89,38 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 case WifiManager.ScanResultsAvailableAction:
                     ScanResultsAvailable(intent.GetBooleanExtra(WifiManager.ExtraResultsUpdated, false));
                     break;
-                case WifiManager.SupplicantConnectionChangeAction:
-                    var isConnected = intent.GetBooleanExtra(WifiManager.ExtraSupplicantConnected, false);
-                    break;
                 case WifiManager.NetworkStateChangedAction:
-                    _networkInfo = intent.GetParcelableExtra(WifiManager.ExtraNetworkInfo) as NetworkInfo;
-                    break;
-                case WifiManager.SupplicantStateChangedAction:
-                    _supplicantState = intent.GetParcelableExtra(WifiManager.ExtraNewState) as SupplicantState;
-                    var isSupplicantError = intent.HasExtra(WifiManager.ExtraSupplicantError);
-
-                    if (_supplicantState == SupplicantState.Disconnected && isSupplicantError)
-                    {
-                        RemoveNetwork();
-                    }
+                    var networkInfo = intent.GetParcelableExtra(WifiManager.ExtraNetworkInfo) as NetworkInfo;
+                    ReactOnNetworkStateChanged(networkInfo);
                     break;
             }
         }
 
-        void RemoveNetwork()
+        private void ReactOnNetworkStateChanged(NetworkInfo networkInfo)
         {
-            try
+            var state = networkInfo.GetDetailedState();
+            Log.Debug(TAG, $"{networkInfo.ExtraInfo} - {state}");
+
+            var ssid = networkInfo.ExtraInfo.Replace("\"", string.Empty);
+
+            Models.Models.WifiStates wifiState = WifiStates.Connecting;
+            if (DetailedState.Connected.Equals(state))
             {
-
-                _currentWifi.IsConnected = false;
-                RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(_currentWifi));
-
-                var current = AlreadyConfigured(_currentWifi);
-                if (current == null) return;
-                if (current.NetworkId < 0) return;
-
-                _wifiManager.RemoveNetwork(current.NetworkId);
+                wifiState = WifiStates.Connected;
             }
-            catch (Exception ex)
+            else if (DetailedState.Connecting.Equals(state))
             {
-                Log.Error(TAG, ex.Message);
+                wifiState = WifiStates.Connecting;
+            } else if (DetailedState.Disconnected.Equals(state))
+            {
+                wifiState = WifiStates.Disconnected;
             }
+            else 
+            {
+                return;
+            }
+
+            Callbacks?.Execute(new Wifi { Ssid = ssid }, wifiState);
         }
 
         public async Task<bool> RemoveNetworkAsync(Wifi wifi)
@@ -134,12 +128,13 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (wifi is null) return false;
 
             wifi.IsConnected = false;
-            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
 
             var current = AlreadyConfigured(wifi);
             if (current == null) return false;
             if (current.NetworkId < 0) return false;
 
+            //_wifiManager.ConfiguredNetworks.Remove(current);
+            _wifiManager.DisableNetwork(current.NetworkId);
             return _wifiManager.RemoveNetwork(current.NetworkId);
         }
 
@@ -217,27 +212,13 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             wifi.IsConnected = isConnected;
-            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
+            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, isConnected ? WifiStates.Connected : WifiStates.Disconnected));
             return isConnected;
         }
 
         public async Task<bool> ConnectToRememberedAsync(Wifi wifi)
         {
             if (wifi == null) return false;
-
-            CurrentWifi = wifi;
-            //CurrentWifi = new Wifi { 
-            //    Bssid = wifi.Bssid, 
-            //    Capabilities = wifi.Capabilities, 
-            //    Frequency = wifi.Frequency, 
-            //    IsConnected = wifi.IsConnected, 
-            //    IsHidden = wifi.IsHidden, 
-            //    IsSelected = wifi.IsSelected, 
-            //    Level = wifi.Level, 
-            //    Password = wifi.Password, 
-            //    Timestamp = wifi.Timestamp, 
-            //    Ssid = wifi.Ssid
-            //};
 
             var current = AlreadyConfigured(wifi);
             if (current == null) return false;
@@ -249,10 +230,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             wifi.IsConnected = isConnected;
-            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
-
-            //if (_supplicantState == SupplicantState.Invalid) return false;
-            //if (_networkInfo.GetDetailedState() == NetworkInfo.DetailedState.Disconnected) return false;
+            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, WifiStates.Connecting));
             return isConnected;
         }
 
@@ -260,23 +238,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             if (wifi == null) return false;
 
-            CurrentWifi = new Wifi
-            {
-                Bssid = wifi.Bssid,
-                Capabilities = wifi.Capabilities,
-                Frequency = wifi.Frequency,
-                IsConnected = wifi.IsConnected,
-                IsHidden = wifi.IsHidden,
-                IsSelected = wifi.IsSelected,
-                Level = wifi.Level,
-                Password = wifi.Password,
-                Timestamp = wifi.Timestamp,
-                Ssid = wifi.Ssid
-            };
-
             var isCurrentSsid = !string.IsNullOrEmpty(wifi.Ssid) && _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             wifi.IsConnected = isCurrentSsid;
-            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi));
             return isCurrentSsid && _wifiManager.ConnectionInfo.NetworkId > -1;
         }
 
@@ -365,7 +328,10 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return conf;
         }
 
-        public async Task<bool> DisconnectAsync() => _wifiManager.Disconnect();
+        public async Task<bool> DisconnectAsync() 
+        { 
+            return _wifiManager.Disconnect(); 
+        }
 
         public async Task<bool> ForgetAsync(Wifi wifi)
         {
@@ -389,7 +355,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 Ssid = info.SSID,
                 Bssid = info.MacAddress,
                 Frequency = info.Frequency,
-                IsConnected = true
+                IsConnected = info.SupplicantState == SupplicantState.Completed,
+                State = info.SupplicantState == SupplicantState.Completed ? WifiStates.Connected.ToString() : string.Empty
             };
         }
     }
