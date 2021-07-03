@@ -21,7 +21,6 @@ namespace IsObservableCollBuggy.Droid
     [Activity(Label = "IsObservableCollBuggy", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAccessLocationPermission
     {
-        readonly WifiConnectionReceiver _wifiReceiver = new WifiConnectionReceiver();
         readonly string TAG = nameof(MainActivity);
         public const int REQUEST_LOCATION = 0;
 
@@ -42,6 +41,9 @@ namespace IsObservableCollBuggy.Droid
             //CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            BroadcastService.Init(this);
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
@@ -76,13 +78,6 @@ namespace IsObservableCollBuggy.Droid
         {
             base.OnStart();
 
-            var intentFilter = new IntentFilter();
-            intentFilter.AddAction(WifiManager.ScanResultsAvailableAction);
-            intentFilter.AddAction(WifiManager.SupplicantConnectionChangeAction);
-            //intentFilter.AddAction(WifiManager.NetworkStateChangedAction);
-            //intentFilter.AddAction(WifiManager.SupplicantStateChangedAction);
-            RegisterReceiver(_wifiReceiver, intentFilter);
-
             MessagingCenter.Subscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
 
             RequestPrivilegedPhoneStatePermission();
@@ -97,7 +92,6 @@ namespace IsObservableCollBuggy.Droid
         }
         protected override void OnStop()
         {
-            UnregisterReceiver(_wifiReceiver);
             MessagingCenter.Unsubscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST);
             base.OnStop();
         }
