@@ -10,7 +10,7 @@ using XamarinUniversity.Infrastructure;
 
 namespace IsObservableCollBuggy.Models
 {
-    public class WifiConnection : SimpleViewModel, INotifyPropertyChanged
+    public class WifiConnection : SimpleViewModel, INotifyPropertyChanged, IBroadcastReceieverCallback
     {
         bool _enableWifiToggle;
         public bool EnableWifiToggle
@@ -137,9 +137,10 @@ namespace IsObservableCollBuggy.Models
         public ICommand ForgetCommand { get; private set; }
         public ICommand DisconnectCommand { get; private set; }
         public ICommand RemoveNetworkCommand { get; private set; }
-        
-        public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, IToastMessage toastMessage) : base()
+        IBrodcastSevice _broadcastService;
+        public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, IToastMessage toastMessage, IBrodcastSevice brodcastSevice) : base()
         {
+            _broadcastService = brodcastSevice;
             _wifiConnectionService = wifiConnectionReceiver;
             _toastMessage = toastMessage;
 
@@ -159,12 +160,8 @@ namespace IsObservableCollBuggy.Models
         private async Task RemoveNetworkAsync()
         {
             var isRemoved = await _wifiConnectionService.RemoveNetworkAsync(CurrentWifi);
-            //if (isRemoved)
-            //{
-            //    await ToastOnMainThreadAsync($"Network {CurrentWifi.Ssid} has been forgotten");
-            //}
-
-            Device.BeginInvokeOnMainThread(() => UpdateIsConnectedInWifis());
+            Device.BeginInvokeOnMainThread(UpdateWifiStateOfCurrentConnected);
+            Device.BeginInvokeOnMainThread(UpdateIsConnectedInWifis);
         }
 
         // TODO: Tell the user that the wifi has disconnected successfuly
@@ -178,7 +175,8 @@ namespace IsObservableCollBuggy.Models
             if (!EnableWifiToggle) return;
 
             HiddenNetwork.IsHidden = true;
-            await AddNetworkOrConnectRememberedAsync (HiddenNetwork);
+            HiddenNetwork.State = WifiStates.Connecting.ToString();
+            await AddNetworkOrConnectRememberedAsync(HiddenNetwork);
             ActivateNetworkListView();
         }
 
@@ -189,6 +187,7 @@ namespace IsObservableCollBuggy.Models
 
         void Cancel()
         {
+            CurrentWifi.State = string.Empty;
             ActivateNetworkListView();
         }
 
@@ -198,23 +197,26 @@ namespace IsObservableCollBuggy.Models
             if (isConnected)
             {
                 Connected = CurrentWifi;
+                Connected.State = WifiStates.Connected.ToString();
+                Connected.IsConnected = true;
+                UpdateConnectedStates(CurrentWifi, WifiStates.Connected);
             }
 
-            await NotifyUserIfConnectedAsync (isConnected, CurrentWifi);
             ActivateNetworkListView();
         }
 
         public void OnAttached()
         {
             _wifiConnectionService.RaiseNetworkConnected += async (s, e) => await NetworkConnected(s, e);
+            _broadcastService.Register(this);
             InitializeData();
         }
 
         private async Task NetworkConnected(object sender, NetworkConnectedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() => UpdateIsConnectedInWifis(e.ConnectedNetwork));
-            var connectedString = e.ConnectedNetwork.IsConnected ? "are connected to" : "did not connect to";
-            await ToastOnMainThreadAsync($"You {connectedString} '{e.ConnectedNetwork.Ssid}'.");
+            Device.BeginInvokeOnMainThread(() => UpdateIsConnectedInWifis(e.Network));
+            var connectedString = e.Network.IsConnected ? "are connected to" : "did not connect to";
+            await ToastOnMainThreadAsync($"You {connectedString} '{e.Network.Ssid}'.");
         }
 
         void InitializeData()
@@ -223,7 +225,7 @@ namespace IsObservableCollBuggy.Models
             EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
             LoadWifis();
-            UpdateIsConnectedInWifis();
+            UpdateConnectedWifiState();
         }
 
         void RefreshWifis()
@@ -236,6 +238,7 @@ namespace IsObservableCollBuggy.Models
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
             LoadWifis();
+            UpdateConnectedWifiState();
             IsRefreshing = false;
         }
 
@@ -264,6 +267,7 @@ namespace IsObservableCollBuggy.Models
             (RefreshCommand as Command).ChangeCanExecute();
             (OpenHiddenNetworkConnectPageCommand as Command).ChangeCanExecute();
             (DisconnectCommand as Command).ChangeCanExecute();
+            (RemoveNetworkCommand as Command).ChangeCanExecute();
         }
 
         // TODO: Deprecate on API level 29 since it is not allowed for apps to disable/enable wifi
@@ -313,25 +317,27 @@ namespace IsObservableCollBuggy.Models
         {
             NetworkListIsVisible = false;
             ConnectNetworkIsVisible = false;
-            AddHiddenNetworkIsVisible = true; 
+            AddHiddenNetworkIsVisible = true;
             FooterButtonsVisible = false;
         }
 
         private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
         {
+            UpdateWifiState();
+
             await ToastOnMainThreadAsync($"Connecting to '{CurrentWifi.Ssid}' a moment, please.");
 
             var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
             if (connected)
             {
-                await ToastOnMainThreadAsync($"Wifi '{CurrentWifi.Ssid}' already connected");
+                CurrentWifi.State = WifiStates.Connected.ToString();
                 return;
             }
 
             var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
             if (remembered)
             {
-                await ToastOnMainThreadAsync($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
+                CurrentWifi.State = WifiStates.Connected.ToString();
                 return;
             }
 
@@ -343,14 +349,14 @@ namespace IsObservableCollBuggy.Models
             var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
             if (connected)
             {
-                await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already connected");
+                //await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already connected");
                 return;
             }
 
             var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
             if (remembered)
             {
-                await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
+                //await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
                 return;
             }
 
@@ -386,6 +392,42 @@ namespace IsObservableCollBuggy.Models
             }
         }
 
+        private void UpdateWifiState()
+        {
+            foreach (var wifi in Wifis)
+            {
+                wifi.State = wifi.Ssid == CurrentWifi.Ssid ? WifiStates.Connecting.ToString() : string.Empty;
+            }
+        }
+
+        private void UpdateWifiStateOfCurrentConnected()
+        {
+            foreach (var w in Wifis)
+            {
+                w.State = $"\"{w.Ssid}\"" == _wifiConnectionService.ConnectedWifi.Ssid ? WifiStates.Connected.ToString() : string.Empty;
+            }
+        }
+
+        private void UpdateConnectedWifiState()
+        {
+            if (string.IsNullOrEmpty(_wifiConnectionService.ConnectedWifi.State)) 
+            { 
+                return; 
+            }
+
+            var current = Wifis.FirstOrDefault((w) => $"\"{w.Ssid}\"" == _wifiConnectionService.ConnectedWifi.Ssid);
+            if (current is null) return;
+            current.State = WifiStates.Connected.ToString();
+        }
+
+        private void UpdateConnectedStates(Wifi network, WifiStates state)
+        {
+            foreach (var wifi in Wifis)
+            {
+                wifi.State = network.Ssid == wifi.Ssid ? state.ToString() : string.Empty;
+            }
+        }
+
         private void UpdateIsConnectedInWifis(Wifi network)
         {
             foreach (var wifi in Wifis)
@@ -400,7 +442,34 @@ namespace IsObservableCollBuggy.Models
 
         public void OnDettached()
         {
+            _wifiConnectionService.RaiseNetworkConnected -= async (s, e) => await NetworkConnected(s, e);
             Wifis.Clear();
+            _broadcastService.UnRegister();
+        }
+
+        public void Execute(Wifi wifi, WifiStates state)
+        {
+            if (CurrentWifi is null) return;
+
+            var isCurrentWifi = wifi.Ssid == CurrentWifi.Ssid;
+
+            if (!isCurrentWifi) return;
+
+            if (WifiStates.Connected.Equals(state))
+            {
+                CurrentWifi.IsConnected = true;
+                CurrentWifi.State = state.ToString();
+                UpdateConnectedStates(CurrentWifi, state);
+                NotifyUserIfConnectedAsync(true, CurrentWifi);
+            }
+            if (WifiStates.Disconnected.Equals(state))
+            {
+                CurrentWifi.IsConnected = false;
+                CurrentWifi.State = string.Empty;
+                ToastOnMainThreadAsync($"Couldn't connect to {CurrentWifi.Ssid}. Please, check credentials and try again.");
+                var isRemoved = _wifiConnectionService.RemoveNetworkAsync(CurrentWifi);
+                UpdateWifiStateOfCurrentConnected();
+            }            
         }
     }
 }
