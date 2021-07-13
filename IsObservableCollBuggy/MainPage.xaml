@@ -5,12 +5,22 @@
              xmlns:cells="clr-namespace:IsObservableCollBuggy.Pages.Cells"
              xmlns:viewmodels="clr-namespace:IsObservableCollBuggy.Models"
              xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
+             xmlns:effects="clr-namespace:IsObservableCollBuggy.Effects"
              x:DataType="viewmodels:WifiConnection"
              x:Name="this">
     <ContentPage.Content>
-        <Button Text="Login"
-                BackgroundColor="Purple"
-                HorizontalOptions="Center"
-                Clicked="Button_Clicked" />
+        <StackLayout>
+            <Entry Placeholder="User"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Entry Placeholder="Password"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Button Text="Login"
+                    Clicked="Button_Clicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    effects:Gradient.Colors="#1285A5, #7FC8C4"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

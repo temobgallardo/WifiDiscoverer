@@ -101,7 +101,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             var state = networkInfo.GetDetailedState();
             Log.Debug(TAG, $"{networkInfo.ExtraInfo} - {state}");
 
-            var ssid = networkInfo.ExtraInfo.Replace("\"", string.Empty);
+            var ssid = networkInfo.ExtraInfo?.Replace("\"", string.Empty);
 
             Models.Models.WifiStates wifiState = WifiStates.Connecting;
             if (DetailedState.Connected.Equals(state))
@@ -355,7 +355,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 Ssid = info.SSID,
                 Bssid = info.MacAddress,
                 Frequency = info.Frequency,
-                IsConnected = info.SupplicantState == SupplicantState.Completed,
+                IsConnected = true,
                 State = info.SupplicantState == SupplicantState.Completed ? WifiStates.Connected.ToString() : string.Empty
             };
         }

@@ -5,12 +5,15 @@ namespace IsObservableCollBuggy
     public partial class App : Application
     {
         private Pages.Diagnostics _diagnostics;
+        private MainPage _mainPage;
+
         public App()
         {
             InitializeComponent();
 
             _diagnostics = new Pages.Diagnostics();
-            MainPage = new NavigationPage(_diagnostics);
+            _mainPage = new MainPage();
+            MainPage = new NavigationPage(_mainPage);
         }
 
         protected override void OnStart()
