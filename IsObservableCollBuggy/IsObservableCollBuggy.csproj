@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\WifiPAgeStructure.xaml.cs">
+      <DependentUpon>WifiPageStructure.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\WifiView.xaml.cs">
       <DependentUpon>WifiView.xaml</DependentUpon>
     </Compile>
@@ -38,10 +44,10 @@
     <EmbeddedResource Update="Pages\Diagnostics.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\NavigationPage2.xaml">
+    <EmbeddedResource Update="Pages\WifiPageStructure.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\NavigationPage3.xaml">
+    <EmbeddedResource Update="Pages\Home.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\WifiView.xaml">
