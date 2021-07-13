@@ -187,7 +187,11 @@ namespace IsObservableCollBuggy.Models
 
         void Cancel()
         {
-            CurrentWifi.State = string.Empty;
+            if (CurrentWifi != null)
+            {
+                CurrentWifi.State = string.Empty;
+            }
+
             ActivateNetworkListView();
         }
 
