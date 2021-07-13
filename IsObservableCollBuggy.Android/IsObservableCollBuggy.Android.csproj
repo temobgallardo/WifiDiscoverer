@@ -33,9 +33,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <AotAssemblies>true</AotAssemblies>
-    <EnableLLVM>true</EnableLLVM>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>true</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,6 +68,7 @@
     <PackageReference Include="Xamarin.Android.Support.Annotations" Version="28.0.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BroadcastReceivers\BroadcastService.cs" />
     <Compile Include="BroadcastReceivers\WifiConnectionReceiver.cs" />
     <Compile Include="Effects\BaseEffect.cs" />
     <Compile Include="Effects\GradientPlatformEffect.cs" />
@@ -170,7 +172,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionIsObservableCollBuggyAndroidHideInfoBar="True" XamarinHotReloadXFormsNugetUpgradeInfoBarIsObservableCollBuggyAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarIsObservableCollBuggyAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionIsObservableCollBuggyAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IsObservableCollBuggy.Pages.Home">
+    <ContentPage.Content>
+        <StackLayout CompressedLayout.IsHeadless="True">
+            <Label Text="Let's do some zapping!"
+                   FontSize="Header" />
+            <Button x:Name="ZappButton"
+                    Text="Zapp"
+                    Clicked="ZappButton_Clicked" />
+            <ActivityIndicator x:Name="ZappSpinner"/>
+            <Button x:Name="NavigateButton"
+                    Text="Configurations"
+                    VerticalOptions="End"
+                    HorizontalOptions="End"
+                    Clicked="NavigateButton_Clicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
