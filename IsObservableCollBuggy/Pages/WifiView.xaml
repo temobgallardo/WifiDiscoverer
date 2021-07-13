@@ -125,11 +125,13 @@
                     <Button x:Name="ConnectButtom"
                             Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
-                            Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}" />
+                            Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}"
+                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
                     <Button x:Name="CancelButtom"
                             Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
-                            Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
+                            Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}"
+                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
                 </StackLayout>
             </StackLayout>
             <StackLayout Grid.Column="0"
@@ -152,11 +154,13 @@
                     <Button x:Name="ConnectHiddenNetworkButtom"
                             Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
-                            Command="{Binding BindingContext.AddNetworkCommand, Source={x:Reference this}}  " />
+                            Command="{Binding BindingContext.AddNetworkCommand, Source={x:Reference this}}"
+                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
                     <Button x:Name="ConnectoHiddenNetworkCancelButtom"
                             Style="{StaticResource ActiveButton}"
                             Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
-                            Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}" />
+                            Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}"
+                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
                 </StackLayout>
             </StackLayout>
             <StackLayout 
@@ -167,8 +171,10 @@
                          IsVisible="{Binding FooterButtonsVisible, Mode=OneWay}">
                 <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding OpenHiddenNetworkConnectPageCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}" >
-                    <!--<Button.Triggers>
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
+                <!--<Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding IsLanguageConfirmEnabled}"
                                      Value="false">
@@ -186,39 +192,21 @@
                             </effects:GradientBackgroundColorEffect.GradientColors>
                         </effects:GradientBackgroundColorEffect>
                     </Button.Effects>-->
-                </Button>
                 <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding RefreshCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}" >
-                    <!--<Button.Effects>
-                        <effects:GradientBackgroundColorEffect>
-                            <effects:GradientBackgroundColorEffect.GradientColors>
-                                <OnPlatform x:TypeArguments="effects:GradientColors">
-                                    <On Platform="Android"
-                                        Value="#1285A5, #7FC8C4" />
-                                </OnPlatform>
-                            </effects:GradientBackgroundColorEffect.GradientColors>
-                        </effects:GradientBackgroundColorEffect>
-                    </Button.Effects>-->
-                </Button>
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
                 <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding DisconnectCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        effects:GradientEffect.IsEnable="{Binding EnableWifiToggle}">
-                    <!--<Button.Effects>
-                        <effects:GradientBackgroundColorEffect>
-                            <effects:GradientBackgroundColorEffect.GradientColors>
-                                <OnPlatform x:TypeArguments="effects:GradientColors">
-                                    <On Platform="Android"
-                                        Value="#1285A5, #7FC8C4" />
-                                </OnPlatform>
-                            </effects:GradientBackgroundColorEffect.GradientColors>
-                        </effects:GradientBackgroundColorEffect>
-                    </Button.Effects>-->
-                </Button>
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
                 <Button Style="{StaticResource ActiveButton}"
                         Command="{Binding RemoveNetworkCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}" />
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
             </StackLayout>
         </Grid>
     </ContentView.Content>

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using View = Android.Views.View;
 
-[assembly: ResolutionGroupName(LifecycleEffect.effectResolutionGroupName)]
+[assembly: ResolutionGroupName("WifiPage.Effects")]
 [assembly: ExportEffect(typeof(LifeCycleEffectRouter), nameof(LifecycleEffect))]
 namespace IsObservableCollBuggy.Droid.Effects
 {

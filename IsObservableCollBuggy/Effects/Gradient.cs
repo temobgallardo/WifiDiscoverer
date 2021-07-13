@@ -6,11 +6,10 @@ using Xamarin.Forms.Xaml;
 
 namespace IsObservableCollBuggy.Effects
 {
-    public class GradientBackgroundColorEffect : RoutingEffect
+    public class GradientRoutingEffect : BaseRoutingEffect
     {
-        public GradientColors GradientColors { get; set; }
-        public static string GradientBackgroundColorEffectId => $"{LifecycleEffect.effectResolutionGroupName}.{nameof(GradientBackgroundColorEffect)}";
-        public GradientBackgroundColorEffect() : base(GradientBackgroundColorEffectId) { }
+        public static string GradientRoutingEffectId => $"WifiPage.Effects.{nameof(GradientRoutingEffect)}";
+        public GradientRoutingEffect() : base(GradientRoutingEffectId) { }
     }
 
     [TypeConverter(typeof(ColorsTypeConverter))]
@@ -94,39 +93,39 @@ namespace IsObservableCollBuggy.Effects
         }
     }
 
-    public static class GradientEffect
+    public static class Gradient
     {
-        public static BindableProperty IsEnableProperty = BindableProperty.Create("IsEnabled", typeof(bool), typeof(GradientEffect), true, propertyChanged: OnIsEnableChanged);
+        public static BindableProperty IsEnableProperty = BindableProperty.Create(
+            propertyName: "IsEnabled",
+            returnType: typeof(bool),
+            declaringType: typeof(Gradient),
+            defaultValue: true,
+            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
 
-        static void OnIsEnableChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (!(bindable is View view))
-            {
-                return;
-            }
+        public static bool GetIsEnable(BindableObject view) => (bool)view.GetValue(IsEnableProperty);       
 
-            bool isActivated = (bool)newValue;
-            if (isActivated)
-            {
-                view.Effects.Add(new GradientBackgroundColorEffect());
-                return;
-            }
+        public static void SetIsEnable(BindableObject view, bool value) => view.SetValue(IsEnableProperty, value);
+        
+        public static BindableProperty OrientationProperty = BindableProperty.Create(
+            propertyName: "Orientation",
+            returnType: typeof(GradientOrientation),
+            declaringType: typeof(Gradient),
+            defaultValue: GradientOrientation.LeftRight,
+            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
 
-            var toRemove = view.Effects.FirstOrDefault(e => e is GradientBackgroundColorEffect);
-            if (toRemove != null)
-            {
-                view.Effects.Remove(toRemove);
-            }
-        }
+        public static GradientOrientation GetOrientation(BindableObject view) => (GradientOrientation)view?.GetValue(OrientationProperty);
 
-        public static bool GetIsEnable(BindableObject view)
-        {
-            return (bool)view.GetValue(IsEnableProperty);
-        }
+        public static void SetOrientation(BindableObject view, GradientOrientation value) => view?.SetValue(OrientationProperty, value);
 
-        public static void SetIsEnable(BindableObject view, bool value)
-        {
-            view.SetValue(IsEnableProperty, value);
-        }
+        public static BindableProperty ColorsProperty = BindableProperty.Create(
+            propertyName: "Colors",
+            returnType: typeof(GradientColors),
+            declaringType: typeof(Gradient),
+            defaultValue: null,
+            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
+
+        public static GradientColors GetColors(BindableObject view) => (GradientColors)view?.GetValue(ColorsProperty);
+
+        public static void SetColors(BindableObject view, GradientColors colors) => view?.SetValue(ColorsProperty, colors);
     }
 }
