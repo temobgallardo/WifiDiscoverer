@@ -9,6 +9,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportEffect(typeof(GradientPlatformEffect), nameof(GradientRoutingEffect))]
 namespace IsObservableCollBuggy.Droid.Effects
 {
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class GradientPlatformEffect : BaseEffect
     {
         private Android.Views.View _view;
@@ -56,9 +57,13 @@ namespace IsObservableCollBuggy.Droid.Effects
 
             if (args.PropertyName == Gradient.ColorsProperty.PropertyName ||
                 args.PropertyName == Gradient.OrientationProperty.PropertyName ||
-                args.PropertyName == Gradient.IsEnableProperty.PropertyName)
+                args.PropertyName == Gradient.CornerRadiusProperty.PropertyName)
             {
                 UpdateGradient();
+            }
+            else if (args.PropertyName == Gradient.IsEnableProperty.PropertyName)
+            {
+                UpdateDisabledGradient();
             }
         }
 
@@ -70,18 +75,41 @@ namespace IsObservableCollBuggy.Droid.Effects
             _gradient.SetColors(colors.Select(x => (int)x.ToAndroid()).ToArray());
             _gradient.SetOrientation(ConvertOrientation());
             _gradient.SetAlpha(GetAlpha());
+            _gradient.SetCornerRadius(Gradient.GetCornerRadius(Element));
 
             _view.ClipToOutline = true; //not to overflow children
             _view.SetBackground(_gradient);
+        }
+        void UpdateDisabledGradient()
+        {
+            UpdateGradient();
+
+            var enabled = Gradient.GetIsEnable(Element);
+            if (enabled) return;
+            
+            switch (_view)
+            {
+                case Android.Widget.Button button:
+                    button.SetTextColor(Color.White.ToAndroid());
+                    break;
+                case Android.Widget.EditText editView:
+                    editView.SetTextColor(Color.White.ToAndroid());
+                    break;
+                case Android.Widget.TextView textView:
+                    textView.SetTextColor(Color.White.ToAndroid());
+                    break;
+                default:
+                    break;
+            }
         }
 
         int GetAlpha()
         {
             var enabled = Gradient.GetIsEnable(Element);
 
-            if (enabled) return 200;
+            if (enabled) return 250;//200;
 
-            return 280;
+            return 90;//280;
         }
 
         GradientDrawable.Orientation ConvertOrientation()
