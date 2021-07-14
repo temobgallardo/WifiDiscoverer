@@ -1,4 +1,5 @@
 ﻿
+using IsObservableCollBuggy.Effects;
 using IsObservableCollBuggy.Models;
 using Models.Interfaces;
 using System;
@@ -10,7 +11,7 @@ namespace IsObservableCollBuggy.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WifiView : ContentView
     {
-        readonly WifiConnection _wifiConnection;
+        private readonly WifiConnection _wifiConnection;
         public WifiView()
         {
             InitializeComponent();
