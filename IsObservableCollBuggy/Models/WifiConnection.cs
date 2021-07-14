@@ -20,6 +20,8 @@ namespace IsObservableCollBuggy.Models
             {
                 SetPropertyValue(ref _enableWifiToggle, value);
                 EnableWifi(value);
+                RefreshCanExecutes();
+                LoadWifis();
             }
         }
 
@@ -127,17 +129,18 @@ namespace IsObservableCollBuggy.Models
         bool _firstTime = true;
         readonly IWifiConnectionReceiver _wifiConnectionService;
         readonly IToastMessage _toastMessage;
+        readonly IBrodcastSevice _broadcastService;
 
         public ICommand SelectedWifiCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand ConnectCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
-        public ICommand OpenHiddenNetworkConnectPageCommand { get; private set; }
+        public ICommand AddHiddenNetworkCommand { get; private set; }
         public ICommand AddNetworkCommand { get; private set; }
         public ICommand ForgetCommand { get; private set; }
         public ICommand DisconnectCommand { get; private set; }
         public ICommand RemoveNetworkCommand { get; private set; }
-        IBrodcastSevice _broadcastService;
+        
         public WifiConnection(IWifiConnectionReceiver wifiConnectionReceiver, IToastMessage toastMessage, IBrodcastSevice brodcastSevice) : base()
         {
             _broadcastService = brodcastSevice;
@@ -211,8 +214,16 @@ namespace IsObservableCollBuggy.Models
 
         public void OnAttached()
         {
+            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
+
             _wifiConnectionService.RaiseNetworkConnected += async (s, e) => await NetworkConnected(s, e);
             _broadcastService.Register(this);
+           
+            if (Wifis is null)
+            {
+                Wifis = new ObservableCollection<Wifi>();
+            }
+
             InitializeData();
         }
 
@@ -228,7 +239,6 @@ namespace IsObservableCollBuggy.Models
             // When enabled wifi list is loaded.
             EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
-            LoadWifis();
             UpdateConnectedWifiState();
         }
 
@@ -282,8 +292,6 @@ namespace IsObservableCollBuggy.Models
             if (_firstTime && isEnabled)
             {
                 _firstTime = false;
-                RefreshCanExecutes();
-                LoadWifis();
                 return;
             }
 
@@ -296,9 +304,6 @@ namespace IsObservableCollBuggy.Models
             }
 
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
-
-            RefreshCanExecutes();
-            LoadWifis();
         }
 
         void ActivateNetworkListView()
@@ -434,6 +439,8 @@ namespace IsObservableCollBuggy.Models
 
         private void UpdateIsConnectedInWifis(Wifi network)
         {
+            if (Wifis is null) return;
+
             foreach (var wifi in Wifis)
             {
                 wifi.IsConnected = _wifiConnectionService.ConnectedWifi.Ssid == $"\"{wifi.Ssid}\"";
@@ -441,13 +448,16 @@ namespace IsObservableCollBuggy.Models
 
             var current = Wifis.FirstOrDefault((w) => w.Ssid == network.Ssid);
             if (current is null) return;
+
             current.IsConnected = network.IsConnected;
         }
 
         public void OnDettached()
         {
+            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
             _wifiConnectionService.RaiseNetworkConnected -= async (s, e) => await NetworkConnected(s, e);
             Wifis.Clear();
+            Wifis = null;
             _broadcastService.UnRegister();
         }
 
