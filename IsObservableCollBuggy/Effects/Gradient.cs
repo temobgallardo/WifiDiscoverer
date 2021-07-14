@@ -127,5 +127,16 @@ namespace IsObservableCollBuggy.Effects
         public static GradientColors GetColors(BindableObject view) => (GradientColors)view?.GetValue(ColorsProperty);
 
         public static void SetColors(BindableObject view, GradientColors colors) => view?.SetValue(ColorsProperty, colors);
+
+        public static BindableProperty CornerRadiusProperty = BindableProperty.Create(
+            propertyName: "CornerRadius",
+            returnType: typeof(float),
+            declaringType: typeof(Gradient),
+            defaultValue: 0f,
+            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
+
+        public static float GetCornerRadius(BindableObject view) => (float)view?.GetValue(CornerRadiusProperty);
+
+        public static void SetCornerRadius(BindableObject view, float radius) => view?.SetValue(CornerRadiusProperty, radius);
     }
 }
