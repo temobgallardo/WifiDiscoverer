@@ -8,13 +8,15 @@
                    FontSize="Header" />
             <Button x:Name="ZappButton"
                     Text="Zapp"
-                    Clicked="ZappButton_Clicked" />
+                    Clicked="ZappButton_Clicked"
+                    Style="{StaticResource ActiveButton}" />
             <ActivityIndicator x:Name="ZappSpinner"/>
             <Button x:Name="NavigateButton"
                     Text="Configurations"
                     VerticalOptions="End"
                     HorizontalOptions="End"
-                    Clicked="NavigateButton_Clicked" />
+                    Clicked="NavigateButton_Clicked" 
+                    Style="{StaticResource ActiveButton}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
