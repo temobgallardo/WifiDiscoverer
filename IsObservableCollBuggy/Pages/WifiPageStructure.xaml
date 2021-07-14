@@ -141,7 +141,7 @@
                          Grid.Column="0"
                          Grid.Row="2">
                 <Button BackgroundColor="Purple"
-                        Command="{Binding OpenHiddenNetworkConnectPageCommand}"
+                        Command="{Binding AddHiddenNetworkCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
                         TextColor="White">
                     <Button.Triggers>

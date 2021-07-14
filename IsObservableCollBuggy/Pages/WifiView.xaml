@@ -10,6 +10,7 @@
              xmlns:controls="clr-namespace:IsObservableCollBuggy.Controls"
              x:DataType="viewmodels:WifiConnection"
              x:Name="this">
+    <!--xmlns:xct="http://xamarin.com/schemas/2020/toolkit"-->
     <ContentView.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="WifiCell">
@@ -21,6 +22,8 @@
     <ContentView.Effects>
         <effects:LifecycleEffect Loaded="ViewLifecycleEffect_OnLoaded"
                                  Unloaded="ViewLifecycleEffect_OnUnloaded" />
+        <!--<xct:LifecycleEffect Loaded="ViewLifecycleEffect_OnLoaded"
+                             Unloaded="ViewLifecycleEffect_OnUnloaded" />-->
     </ContentView.Effects>
 
     <ContentView.Content>
@@ -29,7 +32,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="7*" />
-                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="70" />
             </Grid.RowDefinitions>
             <StackLayout CompressedLayout.IsHeadless="True"
                          Grid.Column="0"
@@ -163,17 +166,16 @@
                             effects:Gradient.Colors="#1285A5, #7FC8C4" />
                 </StackLayout>
             </StackLayout>
-            <StackLayout 
-                         Orientation="Horizontal"
+            <StackLayout Orientation="Horizontal"
                          Grid.Column="0"
                          Grid.Row="2"
                          x:DataType="viewmodels:WifiConnection"
                          IsVisible="{Binding FooterButtonsVisible, Mode=OneWay}">
-                <Button Style="{StaticResource ActiveButton}"
-                        Command="{Binding OpenHiddenNetworkConnectPageCommand}"
+                <Button x:Name="AddNetworkButton"
+                        Style="{StaticResource ActiveButton}"
+                        Command="{Binding AddHiddenNetworkCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
-                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
                 <!--<Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding IsLanguageConfirmEnabled}"
@@ -182,7 +184,7 @@
                                     Value="#F3F2F1" />
                         </DataTrigger>
                     </Button.Triggers>-->
-                    <!--<Button.Effects>
+                <!--<Button.Effects>
                         <effects:GradientBackgroundColorEffect>
                             <effects:GradientBackgroundColorEffect.GradientColors>
                                 <OnPlatform x:TypeArguments="effects:GradientColors">
@@ -192,21 +194,21 @@
                             </effects:GradientBackgroundColorEffect.GradientColors>
                         </effects:GradientBackgroundColorEffect>
                     </Button.Effects>-->
-                <Button Style="{StaticResource ActiveButton}"
+                <Button x:Name="RefreshButton"
+                        Style="{StaticResource ActiveButton}"
                         Command="{Binding RefreshCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
-                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
-                <Button Style="{StaticResource ActiveButton}"
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
+                <Button x:Name="DisconnectButton"
+                        Style="{StaticResource ActiveButton}"
                         Command="{Binding DisconnectCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
-                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
-                <Button Style="{StaticResource ActiveButton}"
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
+                <Button x:Name="RemoveNetworkCommand"
+                        Style="{StaticResource ActiveButton}"
                         Command="{Binding RemoveNetworkCommand}"
                         Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
-                        effects:Gradient.Colors="#1285A5, #7FC8C4" />
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
             </StackLayout>
         </Grid>
     </ContentView.Content>

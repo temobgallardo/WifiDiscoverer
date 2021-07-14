@@ -153,7 +153,7 @@ namespace IsObservableCollBuggy.Models
             RefreshCommand = new Command(RefreshWifis, canExecute: () => EnableWifiToggle);
             ConnectCommand = new Command(async () => await ConnectAsync());
             CancelCommand = new Command(Cancel);
-            OpenHiddenNetworkConnectPageCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
+            AddHiddenNetworkCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
             AddNetworkCommand = new Command(async () => await AddNetworkAsync());
             ForgetCommand = new Command(Forget);
             DisconnectCommand = new Command((o) => Disconnect(), canExecute: (w) => EnableWifiToggle);
@@ -279,7 +279,7 @@ namespace IsObservableCollBuggy.Models
         void RefreshCanExecutes()
         {
             (RefreshCommand as Command).ChangeCanExecute();
-            (OpenHiddenNetworkConnectPageCommand as Command).ChangeCanExecute();
+            (AddHiddenNetworkCommand as Command).ChangeCanExecute();
             (DisconnectCommand as Command).ChangeCanExecute();
             (RemoveNetworkCommand as Command).ChangeCanExecute();
         }
