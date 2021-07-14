@@ -18,9 +18,7 @@
                    VerticalOptions="Center" />
             <Button Text="Login"
                     Clicked="Button_Clicked"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    effects:Gradient.Colors="#1285A5, #7FC8C4"/>
+                    Style="{StaticResource ActiveButton}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
