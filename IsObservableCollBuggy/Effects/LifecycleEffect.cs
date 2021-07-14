@@ -12,15 +12,16 @@ namespace IsObservableCollBuggy.Effects
 
         public LifecycleEffect() : base(LifeCycleEffectId)
         {
+            // Don't remove, for linking porposes
 #if __ANDROID__
 			if (System.DateTime.Now.Ticks < 0)
-				_ = new Xamarin.CommunityToolkit.Android.Effects.LifeCycleEffectRouter();
+				_ = new LifecycleEffect();
 #elif __IOS__
 			if (System.DateTime.Now.Ticks < 0)
-				_ = new Xamarin.CommunityToolkit.iOS.Effects.LifeCycleEffectRouter();
+				_ = new LifecycleEffect();
 #elif UWP
 			if (System.DateTime.Now.Ticks < 0)
-				_ = new Xamarin.CommunityToolkit.UWP.Effects.LifeCycleEffectRouter();
+				_ = new LifecycleEffect();
 #endif
         }
 
