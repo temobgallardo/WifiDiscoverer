@@ -4,7 +4,7 @@ namespace IsObservableCollBuggy
 {
     public partial class MainPage : ContentPage
     {
-        private readonly Pages.Home _home = new Pages.Home();
+        private Pages.Home _home;
         public MainPage()
         {
             InitializeComponent();
@@ -13,6 +13,16 @@ namespace IsObservableCollBuggy
         private async void Button_Clicked(object sender, System.EventArgs e)
         {
             await Navigation.PushAsync(_home);
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _home = new Pages.Home();
+        }
+        protected override void OnDisappearing()
+        {
+            _home = null;
+            base.OnDisappearing();
         }
     }
 }
