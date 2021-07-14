@@ -820,7 +820,7 @@ namespace IsObservableCollBuggy.Models
             IsAdbTabVisible = false;
             IsAboutTabVisible = false;
             IsServerMenuTabVisible = false;
-            IsWifiTabVisible = true;
+            FocusWifiTab(isSelected: true);
         }
 
         public ICommand MotorMoveToTopCommand { get; }
