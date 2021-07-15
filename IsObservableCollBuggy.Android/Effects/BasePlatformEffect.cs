@@ -8,7 +8,7 @@ using Xamarin.Forms.Platform.Android;
 
 namespace IsObservableCollBuggy.Droid.Effects
 {
-    public class BaseEffect : PlatformEffect
+    public class BasePlatformEffect : PlatformEffect
     {
         public static bool IsFastRenderers = global::Xamarin.Forms.Forms.Flags.Any(x => x == "FastRenderers_Experimental");
 
@@ -58,27 +58,27 @@ namespace IsObservableCollBuggy.Droid.Effects
             if (!IsSupportedByApi)
                 return;
 
-            var visual = Element as VisualElement;
-            var page = visual.Navigation.NavigationStack.LastOrDefault();
-            if (page == null)
-            {
-                page = visual.Navigation.ModalStack.LastOrDefault();
-                if (page == null)
-                {
-                    // In case the element in DataTemplate, NavigationProxycan't be got.
-                    // Instead of it, the page dismissal is judged by whether the BindingContext is null.
-                    Element.BindingContextChanged += BindingContextChanged;
-                    OnAttachedOverride();
-                    return;
-                }
-            }
+            //var visual = Element as VisualElement;
+            //var page = visual.Navigation.NavigationStack.LastOrDefault();
+            //if (page == null)
+            //{
+            //    page = visual.Navigation.ModalStack.LastOrDefault();
+            //    if (page == null)
+            //    {
+            //        // In case the element in DataTemplate, NavigationProxycan't be got.
+            //        // Instead of it, the page dismissal is judged by whether the BindingContext is null.
+            //        Element.BindingContextChanged += BindingContextChanged;
+            //        OnAttachedOverride();
+            //        return;
+            //    }
+            //}
 
-            // To call certainly a OnDetached method when the page is popped, 
-            // it executes the process removing all the effects in the page at once with Attached bindable property.
-            if (!GetIsRegistered(page))
-            {
-                SetIsRegistered(page, true);
-            }
+            //// To call certainly a OnDetached method when the page is popped, 
+            //// it executes the process removing all the effects in the page at once with Attached bindable property.
+            //if (!GetIsRegistered(page))
+            //{
+            //    SetIsRegistered(page, true);
+            //}
 
             OnAttachedOverride();
         }
@@ -117,7 +117,7 @@ namespace IsObservableCollBuggy.Droid.Effects
         {
             get
             {
-                return (IsFastRenderers && (Element is Xamarin.Forms.Button));
+                return IsFastRenderers && (Element is Xamarin.Forms.Button);
             }
         }
 
@@ -183,7 +183,7 @@ namespace IsObservableCollBuggy.Droid.Effects
             BindableProperty.CreateAttached(
                     "IsRegistered",
                     typeof(bool),
-                    typeof(BaseEffect),
+                    typeof(BasePlatformEffect),
                     default(bool),
                     propertyChanged: IsRegisteredPropertyChanged
                 );

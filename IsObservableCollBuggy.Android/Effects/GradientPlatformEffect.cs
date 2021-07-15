@@ -1,6 +1,7 @@
 ﻿using Android.Graphics.Drawables;
 using IsObservableCollBuggy.Droid.Effects;
 using IsObservableCollBuggy.Effects;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -10,7 +11,7 @@ using Xamarin.Forms.Platform.Android;
 namespace IsObservableCollBuggy.Droid.Effects
 {
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class GradientPlatformEffect : BaseEffect
+    public class GradientPlatformEffect : BasePlatformEffect
     {
         private Android.Views.View _view;
         private GradientDrawable _gradient;
@@ -30,12 +31,19 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         protected override void OnDetachedOverride()
         {
-            if (!IsDisposed)
-            {
-                _view.Background = _orgDrawable;
-                _view.ClipToOutline = false;
-                System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
-            }
+            //if (!IsDisposed)
+            //{
+            //    try
+            //    {
+            //        _view.Background = _orgDrawable;
+            //        _view.ClipToOutline = false;
+            //    }
+            //    catch (ObjectDisposedException e)
+            //    {
+            //        System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
+            //    }
+            //    System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
+            //}
 
             _gradient?.Dispose();
             _gradient = null;
@@ -86,7 +94,7 @@ namespace IsObservableCollBuggy.Droid.Effects
 
             var enabled = Gradient.GetIsEnable(Element);
             if (enabled) return;
-            
+
             switch (_view)
             {
                 case Android.Widget.Button button:
