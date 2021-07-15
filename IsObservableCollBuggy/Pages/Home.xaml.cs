@@ -8,13 +8,11 @@ namespace IsObservableCollBuggy.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Home : ContentPage
     {
-        private/* readonly*/ WifiPageStructure _wifiPageStructure;
-        private/* readonly*/ Diagnostics _diagnostics;
+        private readonly WifiPageStructure _wifiPageStructure = new WifiPageStructure();
+        private readonly Diagnostics _diagnostics = new Diagnostics();
         public Home()
         {
             InitializeComponent();
-            //_wifiPageStructure = new WifiPageStructure();
-            //_diagnostics = new Diagnostics();
         }
 
         private async void ZappButton_Clicked(object s, EventArgs e)
@@ -34,16 +32,10 @@ namespace IsObservableCollBuggy.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            _wifiPageStructure = new WifiPageStructure();
-            _diagnostics = new Diagnostics();
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-
-            _wifiPageStructure = null;
-            _diagnostics = null;
         }
     }
 }
