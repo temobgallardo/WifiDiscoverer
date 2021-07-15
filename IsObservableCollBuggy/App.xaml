@@ -300,8 +300,6 @@
                         Value="Center" />
                 <Setter Property="effects:Gradient.CornerRadius"
                         Value="7" />
-                <Setter Property=""
-                        Value="" />
             </Style>
 
             <Style x:Key="CancelProtocolButton"
