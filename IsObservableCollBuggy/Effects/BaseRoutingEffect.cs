@@ -19,14 +19,22 @@ namespace IsObservableCollBuggy.Effects
 
         public static void AddEffectHandler<TRoutingEffect>(BindableObject bindable, object oldValue, object newValue) where TRoutingEffect : BaseRoutingEffect
         {
-            if (!EffectConfig.EnableTriggerProperty)
+            //if (!EffectConfig.EnableTriggerProperty)
+            //    return;
+
+            //if (!(bindable is VisualElement element) || newValue == null)
+            if (!(bindable is VisualElement element))
                 return;
 
-            if (!(bindable is VisualElement element) || newValue == null)
+            var effects = element.Effects.Where(x => x is GradientRoutingEffect);
+            if (effects.Any() && newValue is null)
+            {
+                effects.Select(e => element.Effects.Remove(e));
                 return;
+            }
 
-            if (EffectShared<TRoutingEffect>.GetIsTriggered(element))
-                return;
+            //if (EffectShared<TRoutingEffect>.GetIsTriggered(element))
+            //    return;
 
             AddEffect<TRoutingEffect>(element);
         }
