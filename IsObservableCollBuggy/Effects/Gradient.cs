@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 
 namespace IsObservableCollBuggy.Effects
 {
-    public class GradientRoutingEffect : BaseRoutingEffect
+    public class GradientRoutingEffect : RoutingEffect
     {
         public static string GradientRoutingEffectId => $"WifiPage.Effects.{nameof(GradientRoutingEffect)}";
         public GradientRoutingEffect() : base(GradientRoutingEffectId) { }
@@ -100,18 +100,18 @@ namespace IsObservableCollBuggy.Effects
             returnType: typeof(bool),
             declaringType: typeof(Gradient),
             defaultValue: true,
-            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
+            propertyChanged: TryGenerateEffect);
 
-        public static bool GetIsEnable(BindableObject view) => (bool)view.GetValue(IsEnableProperty);       
+        public static bool GetIsEnable(BindableObject view) => (bool)view.GetValue(IsEnableProperty);
 
         public static void SetIsEnable(BindableObject view, bool value) => view.SetValue(IsEnableProperty, value);
-        
+
         public static BindableProperty OrientationProperty = BindableProperty.Create(
             propertyName: "Orientation",
             returnType: typeof(GradientOrientation),
             declaringType: typeof(Gradient),
             defaultValue: GradientOrientation.LeftRight,
-            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
+            propertyChanged: TryGenerateEffect);
 
         public static GradientOrientation GetOrientation(BindableObject view) => (GradientOrientation)view?.GetValue(OrientationProperty);
 
@@ -122,7 +122,7 @@ namespace IsObservableCollBuggy.Effects
             returnType: typeof(GradientColors),
             declaringType: typeof(Gradient),
             defaultValue: null,
-            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
+            propertyChanged: TryGenerateEffect);
 
         public static GradientColors GetColors(BindableObject view) => (GradientColors)view?.GetValue(ColorsProperty);
 
@@ -133,10 +133,32 @@ namespace IsObservableCollBuggy.Effects
             returnType: typeof(float),
             declaringType: typeof(Gradient),
             defaultValue: 0f,
-            propertyChanged: BaseRoutingEffect.AddEffectHandler<GradientRoutingEffect>);
+            propertyChanged: TryGenerateEffect);
 
         public static float GetCornerRadius(BindableObject view) => (float)view?.GetValue(CornerRadiusProperty);
 
         public static void SetCornerRadius(BindableObject view, float radius) => view?.SetValue(CornerRadiusProperty, radius);
+
+        public static void TryGenerateEffect(BindableObject view, object oldValue, object newValue)
+        {
+            if (!(view is VisualElement element)) return;
+
+            IEnumerable<GradientRoutingEffect> shadowEffects = element.Effects.OfType<GradientRoutingEffect>();
+
+            if (GetColors(view) is null)
+            {
+                foreach (var e in shadowEffects)
+                {
+                    element.Effects.Remove(e);
+                }
+
+                return;
+            }
+
+            if (!shadowEffects.Any())
+            {
+                element.Effects.Add(new GradientRoutingEffect());
+            }
+        }
     }
 }

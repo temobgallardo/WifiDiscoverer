@@ -26,10 +26,10 @@ namespace IsObservableCollBuggy.Effects
             if (!(bindable is VisualElement element))
                 return;
 
-            var effects = element.Effects.Where(x => x is GradientRoutingEffect);
+            var effects = element.Effects.Where(x => x is TRoutingEffect);
             if (effects.Any() && newValue is null)
             {
-                effects.Select(e => element.Effects.Remove(e));
+                RemoveEffect<TRoutingEffect>(element);
                 return;
             }
 
