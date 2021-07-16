@@ -31,20 +31,6 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         protected override void OnDetachedOverride()
         {
-            //if (!IsDisposed)
-            //{
-            //    try
-            //    {
-            //        _view.Background = _orgDrawable;
-            //        _view.ClipToOutline = false;
-            //    }
-            //    catch (ObjectDisposedException e)
-            //    {
-            //        System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
-            //    }
-            //    System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
-            //}
-
             _gradient?.Dispose();
             _gradient = null;
             _view = null;

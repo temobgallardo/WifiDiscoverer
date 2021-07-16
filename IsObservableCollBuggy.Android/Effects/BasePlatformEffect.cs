@@ -58,27 +58,27 @@ namespace IsObservableCollBuggy.Droid.Effects
             if (!IsSupportedByApi)
                 return;
 
-            //var visual = Element as VisualElement;
-            //var page = visual.Navigation.NavigationStack.LastOrDefault();
-            //if (page == null)
-            //{
-            //    page = visual.Navigation.ModalStack.LastOrDefault();
-            //    if (page == null)
-            //    {
-            //        // In case the element in DataTemplate, NavigationProxycan't be got.
-            //        // Instead of it, the page dismissal is judged by whether the BindingContext is null.
-            //        Element.BindingContextChanged += BindingContextChanged;
-            //        OnAttachedOverride();
-            //        return;
-            //    }
-            //}
+            var visual = Element as VisualElement;
+            var page = visual.Navigation.NavigationStack.LastOrDefault();
+            if (page == null)
+            {
+                page = visual.Navigation.ModalStack.LastOrDefault();
+                if (page == null)
+                {
+                    // In case the element in DataTemplate, NavigationProxy can't be got.
+                    // Instead of it, the page dismissal is judged by whether the BindingContext is null.
+                    Element.BindingContextChanged += BindingContextChanged;
+                    OnAttachedOverride();
+                    return;
+                }
+            }
 
-            //// To call certainly a OnDetached method when the page is popped, 
-            //// it executes the process removing all the effects in the page at once with Attached bindable property.
-            //if (!GetIsRegistered(page))
-            //{
-            //    SetIsRegistered(page, true);
-            //}
+            // To call certainly a OnDetached method when the page is popped, 
+            // it executes the process removing all the effects in the page at once with Attached bindable property.
+            if (!GetIsRegistered(page))
+            {
+                SetIsRegistered(page, true);
+            }
 
             OnAttachedOverride();
         }
@@ -108,7 +108,7 @@ namespace IsObservableCollBuggy.Droid.Effects
             {
                 //If Container is null, it regards this as FastRenderer Element.
                 //But this judging may not become right in the future. 
-                return IsFastRenderers && (Container == null && !(Element is Xamarin.Forms.Button));
+                return IsFastRenderers && Container == null && !(Element is Xamarin.Forms.Button);
             }
         }
 
