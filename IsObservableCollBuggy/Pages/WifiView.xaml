@@ -125,16 +125,20 @@
                                                   IsPassword="True" />
                 <StackLayout CompressedLayout.IsHeadless="True"
                              Orientation="Horizontal">
-                    <Button x:Name="ConnectButtom"
-                            Style="{StaticResource ActiveButton}"
-                            Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
-                            Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}"
-                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
-                    <Button x:Name="CancelButtom"
-                            Style="{StaticResource ActiveButton}"
-                            Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
-                            Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}"
-                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
+                    <controls:XenexButton x:Name="ConnectButtom"
+                                          Style="{StaticResource ActiveButton}"
+                                          Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
+                                          Command="{Binding BindingContext.ConnectCommand, Source={x:Reference this}}"
+                                          Duration="140"
+                                          Event="Clicked"
+                                          ClickScale="1.05" />
+                    <controls:XenexButton x:Name="CancelButtom"
+                                          Style="{StaticResource ActiveButton}"
+                                          Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
+                                          Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}"
+                                          Duration="140"
+                                          Event="Clicked"
+                                          ClickScale="1.05" />
                 </StackLayout>
             </StackLayout>
             <StackLayout Grid.Column="0"
@@ -154,16 +158,20 @@
                                                   Text="{Binding HiddenNetwork.Password}" />
                 <StackLayout CompressedLayout.IsHeadless="True"
                              Orientation="Horizontal">
-                    <Button x:Name="ConnectHiddenNetworkButtom"
-                            Style="{StaticResource ActiveButton}"
-                            Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
-                            Command="{Binding BindingContext.AddNetworkCommand, Source={x:Reference this}}"
-                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
-                    <Button x:Name="ConnectoHiddenNetworkCancelButtom"
-                            Style="{StaticResource ActiveButton}"
-                            Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
-                            Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}"
-                            effects:Gradient.Colors="#1285A5, #7FC8C4" />
+                    <controls:XenexButton x:Name="ConnectHiddenNetworkButtom"
+                                          Style="{StaticResource ActiveButton}"
+                                          Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiConnect}"
+                                          Command="{Binding BindingContext.AddNetworkCommand, Source={x:Reference this}}"
+                                          Duration="140"
+                                          Event="Clicked"
+                                          ClickScale="1.05" />
+                    <controls:XenexButton x:Name="ConnectoHiddenNetworkCancelButtom"
+                                          Style="{StaticResource ActiveButton}"
+                                          Text="{x:Static resx:AppResource.DiagnosticPageWifiTabWifiCancel}"
+                                          Command="{Binding BindingContext.CancelCommand, Source={x:Reference this}}"
+                                          Duration="140"
+                                          Event="Clicked"
+                                          ClickScale="1.05" />
                 </StackLayout>
             </StackLayout>
             <StackLayout Orientation="Horizontal"
@@ -171,11 +179,14 @@
                          Grid.Row="2"
                          x:DataType="viewmodels:WifiConnection"
                          IsVisible="{Binding FooterButtonsVisible, Mode=OneWay}">
-                <Button x:Name="AddNetworkButton"
-                        Style="{StaticResource ActiveButton}"
-                        Command="{Binding AddHiddenNetworkCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
+                <controls:XenexButton x:Name="AddNetworkButton"
+                                      Style="{StaticResource ActiveButton}"
+                                      Command="{Binding AddHiddenNetworkCommand}"
+                                      Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                                      Duration="140"
+                                      Event="Clicked"
+                                      ClickScale="1.05" />
                 <!--<Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding IsLanguageConfirmEnabled}"
@@ -194,21 +205,30 @@
                             </effects:GradientBackgroundColorEffect.GradientColors>
                         </effects:GradientBackgroundColorEffect>
                     </Button.Effects>-->
-                <Button x:Name="RefreshButton"
-                        Style="{StaticResource ActiveButton}"
-                        Command="{Binding RefreshCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
-                <Button x:Name="DisconnectButton"
-                        Style="{StaticResource ActiveButton}"
-                        Command="{Binding DisconnectCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
-                <Button x:Name="RemoveNetworkCommand"
-                        Style="{StaticResource ActiveButton}"
-                        Command="{Binding RemoveNetworkCommand}"
-                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
-                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
+                <controls:XenexButton x:Name="RefreshButton"
+                                      Style="{StaticResource ActiveButton}"
+                                      Command="{Binding RefreshCommand}"
+                                      Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                                      Duration="140"
+                                      Event="Clicked"
+                                      ClickScale="1.05" />
+                <controls:XenexButton x:Name="DisconnectButton"
+                                      Style="{StaticResource ActiveButton}"
+                                      Command="{Binding DisconnectCommand}"
+                                      Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                                      Duration="140"
+                                      Event="Clicked"
+                                      ClickScale="1.05" />
+                <controls:XenexButton x:Name="RemoveNetworkCommand"
+                                      Style="{StaticResource ActiveButton}"
+                                      Command="{Binding RemoveNetworkCommand}"
+                                      Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
+                                      Duration="140"
+                                      Event="Clicked"
+                                      ClickScale="1.05" />
             </StackLayout>
         </Grid>
     </ContentView.Content>

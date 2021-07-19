@@ -2,10 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IsObservableCollBuggy.MainPage"
-             xmlns:cells="clr-namespace:IsObservableCollBuggy.Pages.Cells"
              xmlns:viewmodels="clr-namespace:IsObservableCollBuggy.Models"
-             xmlns:resx="clr-namespace:IsObservableCollBuggy.Resx"
-             xmlns:effects="clr-namespace:IsObservableCollBuggy.Effects"
+             xmlns:controls="clr-namespace:IsObservableCollBuggy.Controls"
              x:DataType="viewmodels:WifiConnection"
              x:Name="this">
     <ContentPage.Content>
@@ -16,9 +14,16 @@
             <Entry Placeholder="Password"
                    HorizontalOptions="Center"
                    VerticalOptions="Center" />
-            <Button Text="Login"
+            <Button x:Name="LoginButton"
+                    Text="Login"
                     Clicked="Button_Clicked"
-                    Style="{StaticResource ActiveButton}"/>
+                    Style="{StaticResource ActiveButton}" />
+            <controls:XenexButton x:Name="XenexButton"
+                                  Text="Xenex Button"
+                                  Style="{StaticResource ActiveButton}"
+                                  Duration="140"
+                                  Event="Clicked"
+                                  ClickScale="1.05" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
