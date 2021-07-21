@@ -103,7 +103,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             var ssid = networkInfo.ExtraInfo?.Replace("\"", string.Empty);
 
-            Models.Models.WifiStates wifiState = WifiStates.Connecting;
+            Models.Models.WifiStates wifiState;
             if (DetailedState.Connected.Equals(state))
             {
                 wifiState = WifiStates.Connected;

@@ -101,9 +101,9 @@ namespace IsObservableCollBuggy.Droid.Effects
         {
             var enabled = Gradient.GetIsEnable(Element);
 
-            if (enabled) return 250;//200;
+            if (enabled) return 250;
 
-            return 90;//280;
+            return 90;
         }
 
         GradientDrawable.Orientation ConvertOrientation()
