@@ -12,7 +12,7 @@ namespace IsObservableCollBuggy.Animations
             set => SetValue(ScaleProperty, value);
         }
         public static BindableProperty ScaleProperty = BindableProperty.Create(
-            propertyName: "ScaleProperty",
+            propertyName: nameof(Scale),
             returnType: typeof(float),
             declaringType: typeof(ClickAnimation),
             defaultValue: 1.0f);
@@ -21,14 +21,14 @@ namespace IsObservableCollBuggy.Animations
         {
             if (Target == null)
             {
-                throw new NullReferenceException("Null Target property.");
+                throw new NullReferenceException("Target property is null.");
             }
 
             return Task.Run(() =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Target.Animate("BounceIn", ScaleUpAndDown(), 16, Convert.ToUInt32(Duration));
+                    Target.Animate(nameof(ScaleUpAndDown), ScaleUpAndDown(), 16, Convert.ToUInt32(Duration));
                 });
             });
         }
