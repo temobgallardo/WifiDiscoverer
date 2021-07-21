@@ -110,27 +110,18 @@ namespace IsObservableCollBuggy.Droid.Effects
         {
             var orientation = Gradient.GetOrientation(Element);
 
-            switch (orientation)
+            return orientation switch
             {
-                case GradientOrientation.LeftRight:
-                    return GradientDrawable.Orientation.LeftRight;
-                case GradientOrientation.BlTr:
-                    return GradientDrawable.Orientation.BlTr;
-                case GradientOrientation.BottomTop:
-                    return GradientDrawable.Orientation.BottomTop;
-                case GradientOrientation.BrTl:
-                    return GradientDrawable.Orientation.BrTl;
-                case GradientOrientation.RightLeft:
-                    return GradientDrawable.Orientation.RightLeft;
-                case GradientOrientation.TrBl:
-                    return GradientDrawable.Orientation.TrBl;
-                case GradientOrientation.TopBottom:
-                    return GradientDrawable.Orientation.TopBottom;
-                case GradientOrientation.TlBr:
-                    return GradientDrawable.Orientation.TlBr;
-                default:
-                    return GradientDrawable.Orientation.LeftRight;
-            }
+                GradientOrientation.LeftRight => GradientDrawable.Orientation.LeftRight,
+                GradientOrientation.BlTr => GradientDrawable.Orientation.BlTr,
+                GradientOrientation.BottomTop => GradientDrawable.Orientation.BottomTop,
+                GradientOrientation.BrTl => GradientDrawable.Orientation.BrTl,
+                GradientOrientation.RightLeft => GradientDrawable.Orientation.RightLeft,
+                GradientOrientation.TrBl => GradientDrawable.Orientation.TrBl,
+                GradientOrientation.TopBottom => GradientDrawable.Orientation.TopBottom,
+                GradientOrientation.TlBr => GradientDrawable.Orientation.TlBr,
+                _ => GradientDrawable.Orientation.LeftRight,
+            };
         }
     }
 }

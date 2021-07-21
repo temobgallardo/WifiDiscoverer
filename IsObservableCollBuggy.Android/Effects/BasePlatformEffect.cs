@@ -100,7 +100,6 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         protected virtual void OnDetachedOverride() { }
 
-
         // whether Element is FastRenderer.(Exept Button)
         protected bool IsFastRenderer
         {
