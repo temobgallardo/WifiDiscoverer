@@ -20,10 +20,7 @@
                     Style="{StaticResource ActiveButton}" />
             <controls:XenexButton x:Name="XenexButton"
                                   Text="Xenex Button"
-                                  Style="{StaticResource ActiveButton}"
-                                  Duration="140"
-                                  Event="Clicked"
-                                  ClickScale="1.05" />
+                                  Style="{StaticResource ActiveButton}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
