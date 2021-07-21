@@ -1,16 +1,17 @@
-﻿using IsObservableCollBuggy.Models.Models;
+﻿using IsObservableCollBuggy.Extensions;
+using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WifiPage.Models.Commons;
 using Xamarin.Forms;
-using XamarinUniversity.Infrastructure;
 
 namespace IsObservableCollBuggy.Models
 {
-    public class WifiConnection : SimpleViewModel, INotifyPropertyChanged, IBroadcastReceieverCallback
+    public class WifiConnection : ObservableModel, INotifyPropertyChanged, IBroadcastReceieverCallback
     {
         bool _enableWifiToggle;
         public bool EnableWifiToggle
@@ -18,7 +19,7 @@ namespace IsObservableCollBuggy.Models
             get => _enableWifiToggle;
             set
             {
-                SetPropertyValue(ref _enableWifiToggle, value);
+                SetProperty(ref _enableWifiToggle, value);
                 EnableWifi(value);
                 RefreshCanExecutes();
                 LoadWifis();
@@ -29,7 +30,7 @@ namespace IsObservableCollBuggy.Models
         public ObservableCollection<Wifi> Wifis
         {
             get => _wifis;
-            set => base.SetPropertyValue(ref _wifis, value);
+            set => base.SetProperty(ref _wifis, value);
         }
 
         Wifi _currentWifi;
@@ -51,7 +52,7 @@ namespace IsObservableCollBuggy.Models
                     _currentWifi.IsSelected = false;
                 }
 
-                SetPropertyValue(ref _currentWifi, UpdateIsSelected(value, true));
+                SetProperty(ref _currentWifi, UpdateIsSelected(value, true));
 
                 Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
             }
@@ -61,7 +62,7 @@ namespace IsObservableCollBuggy.Models
         public Wifi Connected
         {
             get => _connected;
-            set => SetPropertyValue(ref _connected, UpdateIsSelected(value, true));
+            set => SetProperty(ref _connected, UpdateIsSelected(value, true));
         }
 
         Wifi UpdateIsSelected(Wifi value, bool isSelected)
@@ -76,42 +77,42 @@ namespace IsObservableCollBuggy.Models
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set => SetPropertyValue(ref _isRefreshing, value);
+            set => SetProperty(ref _isRefreshing, value);
         }
 
         bool _networkListIsVisible;
         public bool NetworkListIsVisible
         {
             get => _networkListIsVisible;
-            set => SetPropertyValue(ref _networkListIsVisible, value);
+            set => SetProperty(ref _networkListIsVisible, value);
         }
 
         bool _connectNetworkIsVisible;
         public bool ConnectNetworkIsVisible
         {
             get => _connectNetworkIsVisible;
-            set => SetPropertyValue(ref _connectNetworkIsVisible, value);
+            set => SetProperty(ref _connectNetworkIsVisible, value);
         }
 
         bool _addHiddenNetworkIsVisible;
         public bool AddHiddenNetworkIsVisible
         {
             get => _addHiddenNetworkIsVisible;
-            set => SetPropertyValue(ref _addHiddenNetworkIsVisible, value);
+            set => SetProperty(ref _addHiddenNetworkIsVisible, value);
         }
 
         bool _footerButtonsVisible;
         public bool FooterButtonsVisible
         {
             get => _footerButtonsVisible;
-            set => SetPropertyValue(ref _footerButtonsVisible, value);
+            set => SetProperty(ref _footerButtonsVisible, value);
         }
 
         Wifi _hiddenNetwork;
         public Wifi HiddenNetwork
         {
             get => _hiddenNetwork;
-            set => SetPropertyValue(ref _hiddenNetwork, value);
+            set => SetProperty(ref _hiddenNetwork, value);
         }
 
         string _deviceMacAddress;
@@ -122,7 +123,7 @@ namespace IsObservableCollBuggy.Models
             {
                 if (!EnableWifiToggle && !string.IsNullOrEmpty(_deviceMacAddress)) return;
 
-                SetPropertyValue(ref _deviceMacAddress, value);
+                SetProperty(ref _deviceMacAddress, value);
             }
         }
 

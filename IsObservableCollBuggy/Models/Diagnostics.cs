@@ -1,14 +1,12 @@
 ﻿using Models.Interfaces;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using XamarinUniversity.Infrastructure;
-using Xamarin.Essentials;
+using WifiPage.Models.Commons;
 
 namespace IsObservableCollBuggy.Models
 {
-    public class Diagnostics : SimpleViewModel, IDisposable
+    public class Diagnostics : ObservableModel, IDisposable
     {
         public const string DIAGNOSTIC_LOCATION_PERMISSION_REQUEST = "DIAGNOSTIC_LOCATION_PERMISSION_REQUEST";
 
@@ -39,706 +37,450 @@ namespace IsObservableCollBuggy.Models
         public bool IsMoveBottomButtonEnabled
         {
             get => _isMoveBottomButtonEnabled;
-            set
-            {
-                _isMoveBottomButtonEnabled = value;
-                RaisePropertyChanged(() => IsMoveBottomButtonEnabled);
-            }
+            set => SetProperty(ref _isMoveBottomButtonEnabled, value);
         }
 
         private bool _isMoveMiddleButtonEnabled = false;
         public bool IsMoveMiddleButtonEnabled
         {
             get => _isMoveMiddleButtonEnabled;
-            set
-            {
-                _isMoveMiddleButtonEnabled = value;
-                RaisePropertyChanged(() => IsMoveMiddleButtonEnabled);
-            }
+            set => SetProperty(ref _isMoveMiddleButtonEnabled, value);
         }
 
         private bool _isMoveTopButtonEnabled = false;
         public bool IsMoveTopButtonEnabled
         {
             get => _isMoveTopButtonEnabled;
-            set
-            {
-                _isMoveTopButtonEnabled = value;
-                RaisePropertyChanged(() => IsMoveTopButtonEnabled);
-            }
+            set => SetProperty(ref _isMoveTopButtonEnabled, value);
         }
 
         private bool _isDevelopmentServerEnabled = true;
         public bool IsDevelopmentServerEnabled
         {
             get => _isDevelopmentServerEnabled;
-            set
-            {
-                _isDevelopmentServerEnabled = value;
-                RaisePropertyChanged(() => IsDevelopmentServerEnabled);
-            }
+            set => SetProperty(ref _isDevelopmentServerEnabled, value);
         }
 
         private bool _isStagingServerEnabled = true;
         public bool IsStagingServerEnabled
         {
             get => _isStagingServerEnabled;
-            set
-            {
-                _isStagingServerEnabled = value;
-                RaisePropertyChanged(() => IsStagingServerEnabled);
-            }
+            set => SetProperty(ref _isStagingServerEnabled, value);
         }
 
         private bool _isProductionServerEnabled = true;
         public bool IsProductionServerEnabled
         {
             get => _isProductionServerEnabled;
-            set
-            {
-                _isProductionServerEnabled = value;
-                RaisePropertyChanged(() => IsProductionServerEnabled);
-            }
+            set => SetProperty(ref _isProductionServerEnabled, value);
         }
 
         private string _greetingLabelText = string.Empty;
         public string GreetingLabelText
         {
             get => _greetingLabelText;
-            set
-            {
-                _greetingLabelText = value;
-                RaisePropertyChanged(() => GreetingLabelText);
-            }
+            set => SetProperty(ref _greetingLabelText, value);
+
         }
 
         private bool _isBatteryDisconnectButtonEnabled = false;
         public bool BatteryDisconnectButtonEnabled
         {
             get => _isBatteryDisconnectButtonEnabled;
-            set
-            {
-                _isBatteryDisconnectButtonEnabled = value;
-                RaisePropertyChanged(() => BatteryDisconnectButtonEnabled);
-            }
+            set => SetProperty(ref _isBatteryDisconnectButtonEnabled, value);
         }
 
         private bool _isBatteryConnectButtonEnabled = true;
         public bool BatteryConnectButtonEnabled
         {
             get => _isBatteryConnectButtonEnabled;
-            set
-            {
-                _isBatteryConnectButtonEnabled = value;
-                RaisePropertyChanged(() => BatteryConnectButtonEnabled);
-            }
+            set => SetProperty(ref _isBatteryConnectButtonEnabled, value);
         }
 
         private bool _isManualLoginButtonEnabled = true;
         public bool ManualLoginButtonEnabled
         {
             get => _isManualLoginButtonEnabled;
-            set
-            {
-                _isManualLoginButtonEnabled = value;
-                RaisePropertyChanged(() => ManualLoginButtonEnabled);
-            }
+            set => SetProperty(ref _isManualLoginButtonEnabled, value);
         }
 
         private bool _isNfcLoginButtonEnabled = false;
         public bool NfcLoginButtonEnabled
         {
             get => _isNfcLoginButtonEnabled;
-            set
-            {
-                _isNfcLoginButtonEnabled = value;
-                RaisePropertyChanged(() => NfcLoginButtonEnabled);
-            }
+            set => SetProperty(ref _isNfcLoginButtonEnabled, value);
         }
 
         private bool _isBothLoginButtonEnabled = false;
         public bool BothLoginButtonEnabled
         {
             get => _isBothLoginButtonEnabled;
-            set
-            {
-                _isBothLoginButtonEnabled = value;
-                RaisePropertyChanged(() => BothLoginButtonEnabled);
-            }
+            set => SetProperty(ref _isBothLoginButtonEnabled, value);
         }
 
         private bool _isStatusTabVisible = false;
         public bool IsStatusTabVisible
         {
             get => _isStatusTabVisible;
-            set
-            {
-                _isStatusTabVisible = value;
-                RaisePropertyChanged(() => IsStatusTabVisible);
-            }
+            set => SetProperty(ref _isStatusTabVisible, value);
         }
 
         private bool _isDomeTabVisible = false;
         public bool IsDomeTabVisible
         {
             get => _isDomeTabVisible;
-            set
-            {
-                _isDomeTabVisible = value;
-                RaisePropertyChanged(() => IsDomeTabVisible);
-            }
+            set => SetProperty(ref _isDomeTabVisible, value);
         }
 
         private bool _isBatteryTabVisible = false;
         public bool IsBatteryTabVisible
         {
             get => _isBatteryTabVisible;
-            set
-            {
-                _isBatteryTabVisible = value;
-                RaisePropertyChanged(() => IsBatteryTabVisible);
-            }
+            set => SetProperty(ref _isBatteryTabVisible, value);
         }
 
         private bool _isAboutTabVisible = false;
         public bool IsAboutTabVisible
         {
             get => _isAboutTabVisible;
-            set
-            {
-                _isAboutTabVisible = value;
-                RaisePropertyChanged(() => IsAboutTabVisible);
-            }
+            set => SetProperty(ref _isAboutTabVisible, value);
         }
 
         private bool _isAdvanced = false;
         public bool IsAdvanced
         {
             get => _isAdvanced;
-            set
-            {
-                _isAdvanced = value;
-                RaisePropertyChanged(() => IsAdvanced);
-            }
+            set => SetProperty(ref _isAdvanced, value);
         }
 
         private bool _isBasic = true;
         public bool IsBasic
         {
             get => _isBasic;
-            set
-            {
-                _isBasic = value;
-                RaisePropertyChanged(() => IsBasic);
-            }
+            set => SetProperty(ref _isBasic, value);
         }
 
         private bool _isManual = true;
         public bool IsManual
         {
             get => _isManual;
-            set
-            {
-                _isManual = value;
-                RaisePropertyChanged(() => IsManual);
-            }
+            set => SetProperty(ref _isManual, value);
         }
 
         private bool _isLampTabVisible = false;
         public bool IsLampTabVisible
         {
             get => _isLampTabVisible;
-            set
-            {
-                _isLampTabVisible = value;
-                RaisePropertyChanged(() => IsLampTabVisible);
-            }
+            set => SetProperty(ref _isLampTabVisible, value);
         }
 
         private bool _isLoginTabVisible = false;
         public bool IsLoginTabVisible
         {
             get => _isLoginTabVisible;
-            set
-            {
-                _isLoginTabVisible = value;
-                RaisePropertyChanged(() => IsLoginTabVisible);
-            }
+            set => SetProperty(ref _isLoginTabVisible, value);
         }
 
         private bool _isServerMenuTabVisible = false;
         public bool IsServerMenuTabVisible
         {
             get => _isServerMenuTabVisible;
-            set
-            {
-                _isServerMenuTabVisible = value;
-                RaisePropertyChanged(() => IsServerMenuTabVisible);
-            }
+            set => SetProperty(ref _isServerMenuTabVisible, value);
         }
 
         private bool _isAdbTabVisible = false;
         public bool IsAdbTabVisible
         {
             get => _isAdbTabVisible;
-            set
-            {
-                _isAdbTabVisible = value;
-                RaisePropertyChanged(() => IsAdbTabVisible);
-            }
+            set => SetProperty(ref _isAdbTabVisible, value);
         }
 
         private string _lampSerialNumber;
         public string LampSerialNumber
         {
             get => _lampSerialNumber;
-            set
-            {
-                _lampSerialNumber = value;
-                RaisePropertyChanged(() => LampSerialNumber);
-            }
+            set => SetProperty(ref _lampSerialNumber, value);
+            
         }
 
         private string _lampInstructionMessage;
         public string LampInstructionMessage
         {
             get => _lampInstructionMessage;
-            set
-            {
-                _lampInstructionMessage = value;
-                RaisePropertyChanged(() => LampInstructionMessage);
-            }
+            set => SetProperty(ref _lampInstructionMessage, value);
         }
 
         private string _installOrReplaceLampLabel;
         public string InstallOrReplaceLampLabel
         {
             get => _installOrReplaceLampLabel;
-            set
-            {
-                _installOrReplaceLampLabel = value;
-                RaisePropertyChanged(() => InstallOrReplaceLampLabel);
-            }
+            set => SetProperty(ref _installOrReplaceLampLabel, value);
         }
 
         private bool _isLampInstalled;
         public bool IsLampInstalled
         {
             get => _isLampInstalled;
-            set
-            {
-                _isLampInstalled = value;
-                RaisePropertyChanged(() => IsLampInstalled);
-            }
+            set => SetProperty(ref _isLampInstalled, value);
         }
 
         private string _lampPulseCount;
         public string LampPulseCount
         {
             get => _lampPulseCount;
-            set
-            {
-                _lampPulseCount = value;
-                RaisePropertyChanged(() => LampPulseCount);
-            }
+            set => SetProperty(ref _lampPulseCount, value);
         }
 
         private bool _isAdbDisabled;
         public bool IsAdbDisabled
         {
             get => _isAdbDisabled;
-            set
-            {
-                _isAdbDisabled = value;
-                RaisePropertyChanged(() => IsAdbDisabled);
-            }
+            set => SetProperty(ref _isAdbDisabled, value);
         }
 
         private bool _isAdbEnabled;
         public bool IsAdbEnabled
         {
             get => _isAdbEnabled;
-            set
-            {
-                _isAdbEnabled = value;
-                RaisePropertyChanged(() => IsAdbEnabled);
-            }
+            set => SetProperty(ref _isAdbEnabled, value);
         }
 
         private bool _isSendLogsEnabled;
         public bool IsSendLogsEnabled
         {
             get => _isSendLogsEnabled;
-            set
-            {
-                _isSendLogsEnabled = value;
-                RaisePropertyChanged(() => IsSendLogsEnabled);
-            }
+            set => SetProperty(ref _isSendLogsEnabled, value);
         }
 
         private bool _isSendDbEnabled;
         public bool IsSendDbEnabled
         {
             get => _isSendDbEnabled;
-            set
-            {
-                _isSendDbEnabled = value;
-                RaisePropertyChanged(() => IsSendDbEnabled);
-            }
+            set => SetProperty(ref _isSendDbEnabled, value);
         }
 
         private bool _isPlugInAcBtnVisible = false;
         public bool IsPlugInAcBtnVisible
         {
             get => _isPlugInAcBtnVisible;
-            set
-            {
-                _isPlugInAcBtnVisible = value;
-                RaisePropertyChanged(() => IsPlugInAcBtnVisible);
-            }
+            set => SetProperty(ref _isPlugInAcBtnVisible, value);
         }
 
         private string _acErrorMessage;
         public string AcErrorMessage
         {
             get => _acErrorMessage;
-            set
-            {
-                _acErrorMessage = value;
-                RaisePropertyChanged(() => AcErrorMessage);
-            }
+            set => SetProperty(ref _acErrorMessage, value);
         }
 
         private string _atlasVersion;
         public string AtlasVersion
         {
             get => _atlasVersion;
-            set
-            {
-                _atlasVersion = value;
-                RaisePropertyChanged(() => AtlasVersion);
-            }
+            set => SetProperty(ref _atlasVersion, value);
         }
 
         private string _deviceId;
         public string DeviceId
         {
             get => _deviceId;
-            set
-            {
-                _deviceId = value;
-                RaisePropertyChanged(() => DeviceId);
-            }
+            set => SetProperty(ref _deviceId, value);
         }
 
         private string _commitHash;
         public string CommitHash
         {
             get => _commitHash;
-            set
-            {
-                _commitHash = value;
-                RaisePropertyChanged(() => CommitHash);
-            }
+            set => SetProperty(ref _commitHash, value);
         }
 
         private string _branchName;
         public string BranchName
         {
             get => _branchName;
-            set
-            {
-                _branchName = value;
-                RaisePropertyChanged(() => BranchName);
-            }
+            set => SetProperty(ref _branchName, value);
         }
 
         private string _buildTime;
         public string BuildTime
         {
             get => _buildTime;
-            set
-            {
-                _buildTime = value;
-                RaisePropertyChanged(() => BuildTime);
-            }
+            set => SetProperty(ref _buildTime, value);
         }
 
         private string _buildMachine;
         public string BuildMachine
         {
             get => _buildMachine;
-            set
-            {
-                _buildMachine = value;
-                RaisePropertyChanged(() => BuildMachine);
-            }
+            set => SetProperty(ref _buildMachine, value);
         }
 
         private string _usersLastSyncTimeStamp;
         public string UsersLastSyncTimeStamp
         {
             get => _usersLastSyncTimeStamp;
-            set
-            {
-                _usersLastSyncTimeStamp = value;
-                RaisePropertyChanged(() => UsersLastSyncTimeStamp);
-            }
+            set => SetProperty(ref _usersLastSyncTimeStamp, value);
         }
 
         private string _roomsLastSyncTimeStamp;
         public string RoomsLastSyncTimeStamp
         {
             get => _roomsLastSyncTimeStamp;
-            set
-            {
-                _roomsLastSyncTimeStamp = value;
-                RaisePropertyChanged(() => RoomsLastSyncTimeStamp);
-            }
+            set => SetProperty(ref _roomsLastSyncTimeStamp, value);
         }
 
         private string _lampLastSyncTimeStamp;
         public string LampLastSyncTimeStamp
         {
             get => _lampLastSyncTimeStamp;
-            set
-            {
-                _lampLastSyncTimeStamp = value;
-                RaisePropertyChanged(() => LampLastSyncTimeStamp);
-            }
+            set => SetProperty(ref _lampLastSyncTimeStamp, value);
         }
 
         private string _gladosFirmwareVersion;
         public string GladosFirmwareVersion
         {
             get => _gladosFirmwareVersion;
-            set
-            {
-                _gladosFirmwareVersion = value;
-                RaisePropertyChanged(() => GladosFirmwareVersion);
-            }
+            set => SetProperty(ref _gladosFirmwareVersion, value);
         }
 
         private string _gladosHardwareVersion;
         public string GladosHardwareVersion
         {
             get => _gladosHardwareVersion;
-            set
-            {
-                _gladosHardwareVersion = value;
-                RaisePropertyChanged(() => GladosHardwareVersion);
-            }
+            set => SetProperty(ref _gladosHardwareVersion, value);
         }
 
         private string _safetyControlFirmwareVersion;
         public string SafetyControlFirmwareVersion
         {
             get => _safetyControlFirmwareVersion;
-            set
-            {
-                _safetyControlFirmwareVersion = value;
-                RaisePropertyChanged(() => SafetyControlFirmwareVersion);
-            }
+            set => SetProperty(ref _safetyControlFirmwareVersion, value);
         }
 
         private string _remoteConeFirmwareVersion;
         public string RemoteConeFirmwareVersion
         {
             get => _remoteConeFirmwareVersion;
-            set
-            {
-                _remoteConeFirmwareVersion = value;
-                RaisePropertyChanged(() => RemoteConeFirmwareVersion);
-            }
+            set => SetProperty(ref _remoteConeFirmwareVersion, value);
         }
 
         private string _remoteConeHardwareVersion;
         public string RemoteConeHardwareVersion
         {
             get => _remoteConeHardwareVersion;
-            set
-            {
-                _remoteConeHardwareVersion = value;
-                RaisePropertyChanged(() => RemoteConeHardwareVersion);
-            }
+            set => SetProperty(ref _remoteConeHardwareVersion, value);
         }
 
         private string _remoteConeSPFirmwareVersion;
         public string RemoteConeSPFirmwareVersion
         {
             get => _remoteConeSPFirmwareVersion;
-            set
-            {
-                _remoteConeSPFirmwareVersion = value;
-                RaisePropertyChanged(() => RemoteConeSPFirmwareVersion);
-            }
+            set => SetProperty(ref _remoteConeSPFirmwareVersion, value);
         }
 
         private string _powerDistributionFirmwareVersion;
         public string PowerDistributionFirmwareVersion
         {
             get => _powerDistributionFirmwareVersion;
-            set
-            {
-                _powerDistributionFirmwareVersion = value;
-                RaisePropertyChanged(() => PowerDistributionFirmwareVersion);
-            }
+            set => SetProperty(ref _powerDistributionFirmwareVersion, value);
         }
 
         private string _powerDistributionHardwareVersion;
         public string PowerDistributionHardwareVersion
         {
             get => _powerDistributionHardwareVersion;
-            set
-            {
-                _powerDistributionHardwareVersion = value;
-                RaisePropertyChanged(() => PowerDistributionHardwareVersion);
-            }
+            set => SetProperty(ref _powerDistributionHardwareVersion, value);
         }
 
         private string _primaryMotionConeFirmwareVersion;
         public string PrimaryMotionConeFirmwareVersion
         {
             get => _primaryMotionConeFirmwareVersion;
-            set
-            {
-                _primaryMotionConeFirmwareVersion = value;
-                RaisePropertyChanged(() => PrimaryMotionConeFirmwareVersion);
-            }
+            set => SetProperty(ref _primaryMotionConeFirmwareVersion, value);
         }
 
         private string _primaryMotionConeHardwareVersion;
         public string PrimaryMotionConeHardwareVersion
         {
             get => _primaryMotionConeHardwareVersion;
-            set
-            {
-                _primaryMotionConeHardwareVersion = value;
-                RaisePropertyChanged(() => PrimaryMotionConeHardwareVersion);
-            }
+            set => SetProperty(ref _primaryMotionConeHardwareVersion, value);
         }
 
         private string _secondaryMotionConeFirmwareVersion;
         public string SecondaryMotionConeFirmwareVersion
         {
             get => _secondaryMotionConeFirmwareVersion;
-            set
-            {
-                _secondaryMotionConeFirmwareVersion = value;
-                RaisePropertyChanged(() => SecondaryMotionConeFirmwareVersion);
-            }
+            set => SetProperty(ref _secondaryMotionConeFirmwareVersion, value);
         }
 
         private string _secondaryMotionConeHardwareVersion;
         public string SecondaryMotionConeHardwareVersion
         {
             get => _secondaryMotionConeHardwareVersion;
-            set
-            {
-                _secondaryMotionConeHardwareVersion = value;
-                RaisePropertyChanged(() => SecondaryMotionConeHardwareVersion);
-            }
+            set => SetProperty(ref _secondaryMotionConeHardwareVersion, value);
         }
 
         private string _idDongleFirmwareVersion;
         public string IDDongleFirmwareVersion
         {
             get => _idDongleFirmwareVersion;
-            set
-            {
-                _idDongleFirmwareVersion = value;
-                RaisePropertyChanged(() => IDDongleFirmwareVersion);
-            }
+            set => SetProperty(ref _idDongleFirmwareVersion, value);
         }
 
         private string _idDongleHardwareVersion;
         public string IdDongleHardwareVersion
         {
             get => _idDongleHardwareVersion;
-            set
-            {
-                _idDongleHardwareVersion = value;
-                RaisePropertyChanged(() => IdDongleHardwareVersion);
-            }
+            set => SetProperty(ref _idDongleHardwareVersion, value);
         }
 
         private bool _isSaveNewLampEnabled = true;
         public bool IsSaveNewLampEnabled
         {
             get => _isSaveNewLampEnabled;
-            set
-            {
-                _isSaveNewLampEnabled = value;
-                RaisePropertyChanged(() => IsSaveNewLampEnabled);
-            }
+            set => SetProperty(ref _isSaveNewLampEnabled, value);
         }
 
         private string _serialNumber;
         public string SerialNumber
         {
             get => _serialNumber;
-            set
-            {
-                _serialNumber = value;
-                RaisePropertyChanged(() => SerialNumber);
-            }
+            set => SetProperty(ref _serialNumber, value);
         }
 
         private string _messageLabelText;
         public string MessageLabelText
         {
             get => _messageLabelText;
-            set
-            {
-                _messageLabelText = value;
-                RaisePropertyChanged(() => MessageLabelText);
-            }
+            set => SetProperty(ref _messageLabelText, value);
         }
 
         private Color _messageTextColor;
         public Color MessageTextColor
         {
             get => _messageTextColor;
-            set
-            {
-                _messageTextColor = value;
-                RaisePropertyChanged(() => MessageTextColor);
-            }
+            set => SetProperty(ref _messageTextColor, value);
         }
 
         private bool _isMessageVisible = false;
         public bool IsMessageVisible
         {
             get => _isMessageVisible;
-            set
-            {
-                _isMessageVisible = value;
-                RaisePropertyChanged(() => IsMessageVisible);
-            }
+            set => SetProperty(ref _isMessageVisible, value);
         }
 
         private bool _isBackBtnEnabled = true;
         public bool IsBackBtnEnabled
         {
             get => _isBackBtnEnabled;
-            set
-            {
-                _isBackBtnEnabled = value;
-                /*Device.BeginInvokeOnMainThread(() => {*/
-                RaisePropertyChanged(() => IsBackBtnEnabled); /*});*/
-            }
+            set => SetProperty(ref _isBackBtnEnabled, value); /*});*/
         }
 
         private bool _isWifiTabVisible = false;
         public bool IsWifiTabVisible
         {
             get => _isWifiTabVisible;
-            set
-            {
-                _isWifiTabVisible = value;
-
-                RaisePropertyChanged(() => IsWifiTabVisible);
-            }
+            set => SetProperty(ref _isWifiTabVisible, value);
         }
         #endregion
 

@@ -2,38 +2,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using XamarinUniversity.Infrastructure;
 
 namespace IsObservableCollBuggy.Extensions
 {
     public static class CollectionExtensions
     {
-        /// <summary>
-        /// Takes a LINQ GroupBy value and turns it into a set of GroupedObservableCollection objects.
-        /// </summary>
-        /// <returns>The grouped observable.</returns>
-        /// <param name="group">Group.</param>
-        /// <typeparam name="TKey">The 1st type parameter.</typeparam>
-        /// <typeparam name="TValue">The 2nd type parameter.</typeparam>
-        public static IEnumerable<GroupedObservableCollection<TKey, TValue>> ToGroupedObservable<TKey, TValue>(
-           this IEnumerable<IGrouping<TKey, TValue>> group)
-        {
-            foreach (var item in group)
-            {
-                yield return new GroupedObservableCollection<TKey, TValue>(item.Key, item);
-            }
-        }
+        ///// <summary>
+        ///// Takes a LINQ GroupBy value and turns it into a set of GroupedObservableCollection objects.
+        ///// </summary>
+        ///// <returns>The grouped observable.</returns>
+        ///// <param name="group">Group.</param>
+        ///// <typeparam name="TKey">The 1st type parameter.</typeparam>
+        ///// <typeparam name="TValue">The 2nd type parameter.</typeparam>
+        //public static IEnumerable<GroupedObservableCollection<TKey, TValue>> ToGroupedObservable<TKey, TValue>(
+        //   this IEnumerable<IGrouping<TKey, TValue>> group)
+        //{
+        //    foreach (var item in group)
+        //    {
+        //        yield return new GroupedObservableCollection<TKey, TValue>(item.Key, item);
+        //    }
+        //}
 
-        /// <summary>
-        /// Returns an ObservableCollection from a set of enumerable items.
-        /// </summary>
-        /// <returns>The observable collection.</returns>
-        /// <param name="items">Items.</param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static OptimizedObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> items)
-        {
-            return new OptimizedObservableCollection<T>(items);
-        }
+        ///// <summary>
+        ///// Returns an ObservableCollection from a set of enumerable items.
+        ///// </summary>
+        ///// <returns>The observable collection.</returns>
+        ///// <param name="items">Items.</param>
+        ///// <typeparam name="T">The 1st type parameter.</typeparam>
+        //public static OptimizedObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> items)
+        //{
+        //    return new OptimizedObservableCollection<T>(items);
+        //}
 
         /// <summary>
         /// Perform a sort of the items in a collection. This is useful
