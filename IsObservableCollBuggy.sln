@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy.Android", "IsObservableCollBuggy.Android\IsObservableCollBuggy.Android.csproj", "{27DE4DDA-2C86-4DBA-B48B-2ADED8842D39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy", "IsObservableCollBuggy\IsObservableCollBuggy.csproj", "{E15CF26C-CA04-4883-8D35-53491E4BB3DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsObservableCollBuggy", "IsObservableCollBuggy\IsObservableCollBuggy.csproj", "{E15CF26C-CA04-4883-8D35-53491E4BB3DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{2BB9D674-AAE6-4FB2-8B25-3DD835F98F1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{2BB9D674-AAE6-4FB2-8B25-3DD835F98F1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy.NUnit.Tests", "IsObservableCollBuggy.NUnit.Tests\IsObservableCollBuggy.NUnit.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy.xUnit.Tests", "IsObservableCollBuggy.xUnit.TestProject\IsObservableCollBuggy.xUnit.Tests.csproj", "{02141BF6-68C7-4512-8008-4F5D1C2B3B61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,14 @@ Global
 		{2BB9D674-AAE6-4FB2-8B25-3DD835F98F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BB9D674-AAE6-4FB2-8B25-3DD835F98F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BB9D674-AAE6-4FB2-8B25-3DD835F98F1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02141BF6-68C7-4512-8008-4F5D1C2B3B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02141BF6-68C7-4512-8008-4F5D1C2B3B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02141BF6-68C7-4512-8008-4F5D1C2B3B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02141BF6-68C7-4512-8008-4F5D1C2B3B61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

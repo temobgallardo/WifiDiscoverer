@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:animations="clr-namespace:IsObservableCollBuggy.Animations;assembly=IsObservableCollBuggy"
+             xmlns:triggers="clr-namespace:IsObservableCollBuggy.Triggers;assembly=IsObservableCollBuggy"
+             x:Class="IsObservableCollBuggy.xUnit.Tests.ClickAnimationTest">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <animations:ClickAnimation Target="{x:Reference AnimatedLabel}"
+                                       x:Key="ClickAnimation"
+                                       Scale="1.0" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="AnimatedLabel">
+                <Label.Triggers>
+                    <EventTrigger Event="Clicked">
+                        <triggers:BeginAnimation Animation="{StaticResource ClickAnimation}" />
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
