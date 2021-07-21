@@ -143,22 +143,15 @@ namespace IsObservableCollBuggy.Effects
         {
             if (!(view is VisualElement element)) return;
 
-            IEnumerable<GradientRoutingEffect> shadowEffects = element.Effects.OfType<GradientRoutingEffect>();
+            var gradient = element.Effects.FirstOrDefault(e => e is GradientRoutingEffect);
 
-            if (GetColors(view) is null)
-            {
-                foreach (var e in shadowEffects)
-                {
-                    element.Effects.Remove(e);
-                }
+            if (gradient != null)
+                element.Effects.Remove(gradient);
 
+            if (newValue is null)
                 return;
-            }
 
-            if (!shadowEffects.Any())
-            {
-                element.Effects.Add(new GradientRoutingEffect());
-            }
+            element.Effects.Add(new GradientRoutingEffect());
         }
     }
 }
