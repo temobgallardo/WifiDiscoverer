@@ -156,8 +156,8 @@ namespace IsObservableCollBuggy.Models
             CancelCommand = new Command(Cancel);
             AddHiddenNetworkCommand = new Command((s) => OpenHiddenNetworkConnectPage(), canExecute: (w) => EnableWifiToggle);
             AddNetworkCommand = new Command(async () => await AddNetworkAsync());
-            ForgetCommand = new Command(Forget);
-            DisconnectCommand = new Command((o) => Disconnect(), canExecute: (w) => EnableWifiToggle);
+            ForgetCommand = new Command(async (o) => await ForgetAsync(o));
+            DisconnectCommand = new Command(async (o) => await DisconnectAsync(), canExecute: (w) => EnableWifiToggle);
             RemoveNetworkCommand = new Command(async (s) => await RemoveNetworkAsync(), canExecute: (w) => EnableWifiToggle);
         }
 
@@ -169,10 +169,10 @@ namespace IsObservableCollBuggy.Models
         }
 
         // TODO: Tell the user that the wifi has disconnected successfuly
-        private void Disconnect() => _wifiConnectionService.DisconnectAsync();
+        private async Task DisconnectAsync() => await _wifiConnectionService.DisconnectAsync();
 
         // TODO: Tell the user that the wifi has been fogotten
-        void Forget(object obj) => _wifiConnectionService.ForgetAsync(obj as Wifi);
+        async Task ForgetAsync(object obj) => await _wifiConnectionService.ForgetAsync(obj as Wifi);
 
         private async Task AddNetworkAsync()
         {
@@ -202,13 +202,13 @@ namespace IsObservableCollBuggy.Models
         async Task ConnectAsync()
         {
             var isConnected = await _wifiConnectionService.ConnectAsync(CurrentWifi);
-            if (isConnected)
-            {
-                Connected = CurrentWifi;
-                Connected.State = WifiStates.Connected.ToString();
-                Connected.IsConnected = true;
-                UpdateConnectedStates(CurrentWifi, WifiStates.Connected);
-            }
+            //if (isConnected)
+            //{
+            //    Connected = CurrentWifi;
+            //    Connected.State = WifiStates.Connected.ToString();
+            //    Connected.IsConnected = true;
+            //    UpdateConnectedStates(CurrentWifi, WifiStates.Connected);
+            //}
 
             ActivateNetworkListView();
         }
@@ -232,7 +232,7 @@ namespace IsObservableCollBuggy.Models
         {
             Device.BeginInvokeOnMainThread(() => UpdateIsConnectedInWifis(e.Network));
             var connectedString = e.Network.IsConnected ? "are connected to" : "did not connect to";
-            await ToastOnMainThreadAsync($"You {connectedString} '{e.Network.Ssid}'.");
+            //await ToastOnMainThreadAsync($"You {connectedString} '{e.Network.Ssid}'.");
         }
 
         void InitializeData()
@@ -300,7 +300,7 @@ namespace IsObservableCollBuggy.Models
 
             if (!success)
             {
-                ToastOnMainThreadAsync("Wifi could not be enabled/disabled. Please, try again!");
+                //ToastOnMainThreadAsync("Wifi could not be enabled/disabled. Please, try again!");
                 return;
             }
 
@@ -309,33 +309,33 @@ namespace IsObservableCollBuggy.Models
 
         void ActivateNetworkListView()
         {
-            NetworkListIsVisible = true;
             ConnectNetworkIsVisible = false;
             AddHiddenNetworkIsVisible = false;
+            NetworkListIsVisible = true;
             FooterButtonsVisible = true;
         }
 
         void ActivateConnectNetworkElement()
         {
             NetworkListIsVisible = false;
-            ConnectNetworkIsVisible = true;
             AddHiddenNetworkIsVisible = false;
             FooterButtonsVisible = false;
+            ConnectNetworkIsVisible = true;
         }
 
         void ActivateAddHiddenNetworkElement()
         {
             NetworkListIsVisible = false;
             ConnectNetworkIsVisible = false;
-            AddHiddenNetworkIsVisible = true;
             FooterButtonsVisible = false;
+            AddHiddenNetworkIsVisible = true;
         }
 
         private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
         {
             UpdateWifiState();
 
-            await ToastOnMainThreadAsync($"Connecting to '{CurrentWifi.Ssid}' a moment, please.");
+            //await ToastOnMainThreadAsync($"Connecting to '{CurrentWifi.Ssid}' a moment, please.");
 
             var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
             if (connected)
@@ -378,17 +378,17 @@ namespace IsObservableCollBuggy.Models
             var ssid = wifi is null ? CurrentWifi.Ssid : wifi.Ssid;
             if (connected)
             {
-                await ToastOnMainThreadAsync($"Connected succesfully to '{ssid}'");
+                //await ToastOnMainThreadAsync($"Connected succesfully to '{ssid}'");
                 return;
             }
 
             if (await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi))
             {
-                await ToastOnMainThreadAsync($"Connected succesfully to '{ssid}'");
+                //await ToastOnMainThreadAsync($"Connected succesfully to '{ssid}'");
             }
             else
             {
-                await ToastOnMainThreadAsync($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
+                //await ToastOnMainThreadAsync($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
             }
         }
 
@@ -430,27 +430,11 @@ namespace IsObservableCollBuggy.Models
             current.State = WifiStates.Connected.ToString();
         }
 
-        private void UpdateConnectedStates(Wifi network, WifiStates state)
-        {
-            foreach (var wifi in Wifis)
-            {
-                wifi.State = network.Ssid == wifi.Ssid ? state.ToString() : string.Empty;
-            }
-        }
-
         private void UpdateIsConnectedInWifis(Wifi network)
         {
-            if (Wifis is null) return;
+            if (Wifis is null || network is null) return;
 
-            foreach (var wifi in Wifis)
-            {
-                wifi.IsConnected = _wifiConnectionService.ConnectedWifi.Ssid == $"\"{wifi.Ssid}\"";
-            }
-
-            var current = Wifis.FirstOrDefault((w) => w.Ssid == network.Ssid);
-            if (current is null) return;
-
-            current.IsConnected = network.IsConnected;
+            Wifis.Select((w) => w.Ssid != network.Ssid ? w.IsConnected = false : w.IsConnected = network.IsConnected);
         }
 
         public void OnDettached()
@@ -470,21 +454,42 @@ namespace IsObservableCollBuggy.Models
 
             if (!isCurrentWifi) return;
 
-            if (WifiStates.Connected.Equals(state))
+            if (WifiStates.Connecting == state)
+            {
+                CurrentWifi.IsConnected = false;
+                CurrentWifi.State = state.ToString();
+                //UpdateConnectedStates(CurrentWifi, state);
+                Wifis.Select(w => w.Ssid == wifi.Ssid ? w.State = state.ToString() : w.State = string.Empty);
+            }
+            if (WifiStates.Connected == state)
             {
                 CurrentWifi.IsConnected = true;
                 CurrentWifi.State = state.ToString();
-                UpdateConnectedStates(CurrentWifi, state);
-                NotifyUserIfConnectedAsync(true, CurrentWifi);
+                //UpdateConnectedStates(CurrentWifi, state);
+                Wifis.Select(w => w.Ssid == wifi.Ssid ? w.State = state.ToString() : w.State = string.Empty);
             }
-            if (WifiStates.Disconnected.Equals(state))
+            if (WifiStates.Disconnecting == state)
             {
                 CurrentWifi.IsConnected = false;
                 CurrentWifi.State = string.Empty;
-                ToastOnMainThreadAsync($"Couldn't connect to {CurrentWifi.Ssid}. Please, check credentials and try again.");
-                var isRemoved = _wifiConnectionService.RemoveNetworkAsync(CurrentWifi);
-                UpdateWifiStateOfCurrentConnected();
-            }            
+                _wifiConnectionService.RemoveNetworkAsync(CurrentWifi);
+                //UpdateWifiStateOfCurrentConnected();
+                Wifis.Select(w => w.State = string.Empty);
+            }
+            if (WifiStates.Disconnected == state)
+            {
+                CurrentWifi.IsConnected = false;
+                CurrentWifi.State = string.Empty;
+                _wifiConnectionService.RemoveNetworkAsync(CurrentWifi);
+                //UpdateWifiStateOfCurrentConnected();
+                Wifis.Select(w => w.State = string.Empty);
+            }
+            if (WifiStates.OptainingIp == state)
+            {
+                CurrentWifi.IsConnected = false;
+                CurrentWifi.State = state.ToString();
+                Wifis.Select(w => w.Ssid == wifi.Ssid ? w.State = state.ToString() : w.State = string.Empty);
+            }
         }
     }
 }
