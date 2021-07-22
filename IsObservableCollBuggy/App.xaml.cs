@@ -10,8 +10,9 @@ namespace IsObservableCollBuggy
         {
             InitializeComponent();
 
-            _mainPage = new MainPage();
-            MainPage = new NavigationPage(_mainPage);
+            //_mainPage = new MainPage();
+            //MainPage = new NavigationPage(_mainPage);
+            MainPage = new NavigationPage(new Pages.WifiPageStructure());
         }
 
         protected override void OnStart()

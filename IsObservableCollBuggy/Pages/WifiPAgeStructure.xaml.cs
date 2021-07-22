@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IsObservableCollBuggy.Models;
+using Models.Interfaces;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
