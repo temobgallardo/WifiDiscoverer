@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static Android.Net.NetworkInfo;
@@ -24,7 +25,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
     {
         static readonly string TAG = nameof(WifiConnectionReceiver);
         readonly string _wifiConnectionReceiverMessage = TAG;
-
+        Timer _connectionEnsurer;
+        const int _maxTime = 10000;
+        const int _intervalsCheck = 1000;
         readonly WifiManager _wifiManager;
         IList<ScanResult> _scanResults;
         IList<ScanResult> ScanResults
@@ -35,6 +38,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             }
             get => _scanResults;
         }
+
         public string WifiConnectionReceiverMessage { get => _wifiConnectionReceiverMessage; }
         public bool IsWifiEnabled { get => _wifiManager.IsWifiEnabled; }
         string _deviceMacAddress;
@@ -101,26 +105,37 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             var state = networkInfo.GetDetailedState();
             Log.Debug(TAG, $"{networkInfo.ExtraInfo} - {state}");
 
+            var wifiState = GetState(state);
+
             var ssid = networkInfo.ExtraInfo?.Replace("\"", string.Empty);
 
-            Models.Models.WifiStates wifiState;
+            Callbacks?.Execute(new Wifi { Ssid = ssid }, wifiState);
+        }
+
+        private WifiStates GetState(DetailedState state)
+        {
             if (DetailedState.Connected.Equals(state))
             {
-                wifiState = WifiStates.Connected;
+                return WifiStates.Connected;
             }
             else if (DetailedState.Connecting.Equals(state))
             {
-                wifiState = WifiStates.Connecting;
-            } else if (DetailedState.Disconnected.Equals(state))
-            {
-                wifiState = WifiStates.Disconnected;
+                return WifiStates.Connecting;
             }
-            else 
+            else if (DetailedState.Disconnecting.Equals(state))
             {
-                return;
+                return WifiStates.Disconnected;
+            }
+            else if (DetailedState.Disconnected.Equals(state))
+            {
+                return WifiStates.Disconnected;
+            }
+            else if(DetailedState.ObtainingIpaddr.Equals(state))
+            {
+                return WifiStates.OptainingIp;
             }
 
-            Callbacks?.Execute(new Wifi { Ssid = ssid }, wifiState);
+            return WifiStates.Disconnected;
         }
 
         public async Task<bool> RemoveNetworkAsync(Wifi wifi)
@@ -198,22 +213,33 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             var config = AlreadyConfigured(wifi);
             if (config is null || config?.NetworkId < 0)
             {
+                Log.Debug(TAG, $"{nameof(ConnectAsync)} - trying to get a configuration value");
                 var conf = MapWifiToConfiguration(wifi);
                 networkId = _wifiManager.AddNetwork(conf);
             }
             else
             {
+                Log.Debug(TAG, $"{nameof(ConnectAsync)} - Already connected. Network Id = {config.NetworkId}");
                 networkId = config.NetworkId;
             }
 
+            Log.Debug(TAG, $"{nameof(ConnectAsync)} - Trying to connect to already configured.");
             await ConnectToAlreadyConfiguredAsync(networkId);
 
-            await Task.Delay(1 * 1000);
+            await Task.Delay(3 * 1000);
 
-            var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
+            var isConnected = IsConnected(_wifiManager.ConnectionInfo.SupplicantState);
+            Log.Debug(TAG, $"{nameof(ConnectAsync)} - IsConnected = {isConnected}");
             wifi.IsConnected = isConnected;
             RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, isConnected ? WifiStates.Connected : WifiStates.Disconnected));
             return isConnected;
+        }
+
+        private bool IsConnected(SupplicantState supplicant)
+        {
+            if(supplicant == SupplicantState.Completed) return true;
+            
+            return false;
         }
 
         public async Task<bool> ConnectToRememberedAsync(Wifi wifi)
@@ -226,7 +252,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             await ConnectToAlreadyConfiguredAsync(current.NetworkId);
 
-            await Task.Delay(1 * 1000);
+            await Task.Delay(2 * 1000);
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             wifi.IsConnected = isConnected;
@@ -245,7 +271,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public WifiConfiguration AlreadyConfigured(Wifi wifi)
         {
-            return _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
+            var configuration = _wifiManager.ConfiguredNetworks.FirstOrDefault((w) => { return w.Bssid == $"\"{wifi.Bssid}\"" || w.Ssid == $"\"{wifi.Ssid}\""; });
+            return configuration;
         }
 
         public async Task<bool> ConnectToAlreadyConfiguredAsync(int networkId)
@@ -257,7 +284,14 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0;
                 _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
 
-                await Task.Delay(4 * 1000);
+                //using (_connectionEnsurer = new System.Threading.Timer())
+                //{
+                //    _connectionEnsurer.Elapsed += EnableAndReconnect;
+                //    _connectionEnsurer.Interval = _intervalsCheck;
+                //    _connectionEnsurer.SynchronizingObject = null;
+                //    _connectionEnsurer.Start();
+                //}
+                await Task.Delay(6 * 1000);
 
                 var isEnabled = _wifiManager.EnableNetwork(networkId, true);
                 var isReconnected = _wifiManager.Reconnect();
@@ -328,9 +362,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return conf;
         }
 
-        public async Task<bool> DisconnectAsync() 
-        { 
-            return _wifiManager.Disconnect(); 
+        public async Task<bool> DisconnectAsync()
+        {
+            return _wifiManager.Disconnect();
         }
 
         public async Task<bool> ForgetAsync(Wifi wifi)
@@ -358,6 +392,45 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 IsConnected = true,
                 State = info.SupplicantState == SupplicantState.Completed ? WifiStates.Connected.ToString() : string.Empty
             };
+        }
+
+        public class WifiStatusChecker
+        {
+            private int _invokeCount;
+            private int _maxCount;
+            private Wifi _wifiToConnect;
+            private WifiConnectionReceiver _wifiManager;
+
+            public event EventHandler<WifiStates> Timeout;
+
+            public WifiStatusChecker(int count, Wifi wifi, WifiConnectionReceiver manager)
+            {
+                _invokeCount = 0;
+                _maxCount = count;
+                _wifiToConnect = wifi;
+                _wifiManager = manager;
+            }
+
+            // This method is called by the timer delegate.
+            public async Task CheckStatus(System.Threading.Timer timer)
+            {
+                _invokeCount++;
+                var connected = await _wifiManager.AlreadyConnectedAsync(_wifiToConnect);
+                Log.Debug(TAG, $"{nameof(CheckStatus)} - trying to connect {_wifiToConnect.Ssid} ({_invokeCount}, {_maxCount}), connected? {connected}");
+
+                if (_invokeCount != _maxCount && !connected) return;
+
+                if (!connected)
+                {
+                    Timeout?.Invoke(this, WifiStates.Noconnected);
+                }
+                else
+                {
+                    Timeout?.Invoke(this, WifiStates.Connected);
+                }
+
+                timer.Dispose();
+            }
         }
     }
 }
