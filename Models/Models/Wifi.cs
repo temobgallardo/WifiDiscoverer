@@ -50,6 +50,9 @@ namespace IsObservableCollBuggy.Models.Models
         Connected,
         Connecting,
         Disconnecting,
-        Disconnected
+        Disconnected,
+        OptainingIp,
+        Noconnected,
+        Uknown
     }
 }
