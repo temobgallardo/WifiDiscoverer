@@ -130,7 +130,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             {
                 return WifiStates.Disconnected;
             }
-            else if(DetailedState.ObtainingIpaddr.Equals(state))
+            else if (DetailedState.ObtainingIpaddr.Equals(state))
             {
                 return WifiStates.OptainingIp;
             }
@@ -149,6 +149,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (current.NetworkId < 0) return false;
 
             //_wifiManager.ConfiguredNetworks.Remove(current);
+            _wifiManager.Disconnect();
             _wifiManager.DisableNetwork(current.NetworkId);
             return _wifiManager.RemoveNetwork(current.NetworkId);
         }
@@ -211,34 +212,39 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             int networkId;
             var config = AlreadyConfigured(wifi);
-            if (config is null || config?.NetworkId < 0)
+            if (config is null || config?.NetworkId < 0 || config.StatusField != WifiStatus.Current)
             {
                 Log.Debug(TAG, $"{nameof(ConnectAsync)} - trying to get a configuration value");
                 var conf = MapWifiToConfiguration(wifi);
                 networkId = _wifiManager.AddNetwork(conf);
             }
+            else if (config.StatusField == WifiStatus.Current)
+            {
+                Log.Debug(TAG, $"{nameof(ConnectAsync)} - Already connected. Current network is == ${config.Ssid}");
+                return true;
+            }
             else
             {
-                Log.Debug(TAG, $"{nameof(ConnectAsync)} - Already connected. Network Id = {config.NetworkId}");
+                Log.Debug(TAG, $"{nameof(ConnectAsync)} - Already configured. Network Id = {config.NetworkId}");
                 networkId = config.NetworkId;
             }
 
             Log.Debug(TAG, $"{nameof(ConnectAsync)} - Trying to connect to already configured.");
             await ConnectToAlreadyConfiguredAsync(networkId);
 
-            await Task.Delay(3 * 1000);
+            //await Task.Delay(3 * 1000);
 
-            var isConnected = IsConnected(_wifiManager.ConnectionInfo.SupplicantState);
-            Log.Debug(TAG, $"{nameof(ConnectAsync)} - IsConnected = {isConnected}");
-            wifi.IsConnected = isConnected;
-            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, isConnected ? WifiStates.Connected : WifiStates.Disconnected));
-            return isConnected;
+            //var isConnected = IsConnected(_wifiManager.ConnectionInfo.SupplicantState);
+            //Log.Debug(TAG, $"{nameof(ConnectAsync)} - IsConnected = {isConnected}");
+            //wifi.IsConnected = isConnected;
+            //RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, isConnected ? WifiStates.Connected : WifiStates.Disconnected));
+            return true;
         }
 
         private bool IsConnected(SupplicantState supplicant)
         {
-            if(supplicant == SupplicantState.Completed) return true;
-            
+            if (supplicant == SupplicantState.Completed) return true;
+
             return false;
         }
 
@@ -265,8 +271,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (wifi == null) return false;
 
             var isCurrentSsid = !string.IsNullOrEmpty(wifi.Ssid) && _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
-            wifi.IsConnected = isCurrentSsid;
-            return isCurrentSsid && _wifiManager.ConnectionInfo.NetworkId > -1;
+            var isConnected = isCurrentSsid ? IsConnected(_wifiManager.ConnectionInfo.SupplicantState) : false;
+            return isConnected;
         }
 
         public WifiConfiguration AlreadyConfigured(Wifi wifi)
@@ -278,11 +284,15 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         public async Task<bool> ConnectToAlreadyConfiguredAsync(int networkId)
         {
             if (networkId < 0) return false;
+
             try
             {
+                // It will disassociate the current network.
                 var isDisconnected = _wifiManager.Disconnect();
-                var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0;
-                _wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
+
+                //var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0;
+                // It will prevent automatic connection.
+                //_wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
 
                 //using (_connectionEnsurer = new System.Threading.Timer())
                 //{
@@ -291,12 +301,12 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 //    _connectionEnsurer.SynchronizingObject = null;
                 //    _connectionEnsurer.Start();
                 //}
-                await Task.Delay(6 * 1000);
+                //await Task.Delay(4 * 1000);
 
                 var isEnabled = _wifiManager.EnableNetwork(networkId, true);
-                var isReconnected = _wifiManager.Reconnect();
+                //var isReconnected = _wifiManager.Reconnect();
 
-                return isEnabled && isReconnected;
+                return isEnabled;// && isReconnected;
             }
             catch (Exception ex)
             {
@@ -364,6 +374,24 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public async Task<bool> DisconnectAsync()
         {
+            var id = _wifiManager.ConnectionInfo.NetworkId;
+
+            _wifiManager.Disconnect();
+            _wifiManager.DisableNetwork(id);
+            return _wifiManager.Disconnect();
+        }
+        public async Task<bool> DisconnectAsync(Wifi current)
+        {
+            int id = -1;
+            if(current.Ssid == _wifiManager.ConnectionInfo.SSID)
+            {
+                id = _wifiManager.ConnectionInfo.NetworkId;
+            }
+
+            if (id < 0) 
+
+            _wifiManager.Disconnect();
+            _wifiManager.DisableNetwork(id);
             return _wifiManager.Disconnect();
         }
 
@@ -386,7 +414,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             return new Wifi
             {
-                Ssid = info.SSID,
+                Ssid = info.SSID.Replace("\"", string.Empty),
                 Bssid = info.MacAddress,
                 Frequency = info.Frequency,
                 IsConnected = true,

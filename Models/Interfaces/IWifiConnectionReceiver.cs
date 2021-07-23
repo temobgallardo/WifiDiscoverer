@@ -17,7 +17,8 @@ namespace Models.Interfaces
         IList<Wifi> ScanFailure();
         IList<Wifi> ScanSuccess();
         Task<bool> ConnectAsync(Wifi wifi);
-        Task<bool> DisconnectAsync();
+        Task<bool> DisconnectAsync(); 
+        Task<bool> DisconnectAsync(Wifi wifi);
         Task<bool> ForgetAsync(Wifi wifi);
         Task<bool> ConnectToAlreadyConfiguredAsync(int networkId);
         Task<bool> ConnectToRememberedAsync(Wifi wifi);
