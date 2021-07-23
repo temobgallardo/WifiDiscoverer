@@ -15,6 +15,7 @@ using Xamarin.Forms;
 using Views = Android.Views;
 using IsObservableCollBuggy.Models;
 using Models.Interfaces;
+using IsObservableCollBuggy.Pages;
 
 namespace IsObservableCollBuggy.Droid
 {
@@ -71,14 +72,17 @@ namespace IsObservableCollBuggy.Droid
             else
             {
                 MessagingCenter.Send(this, TAG + "." + "RequestLocationPermision", false);
-                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             }
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         protected override void OnStart()
         {
             base.OnStart();
 
-            MessagingCenter.Subscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
+            MessagingCenter.Subscribe<Models.Diagnostics>(this, Models.Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
+            MessagingCenter.Subscribe<Pages.WifiPageStructure>(this, Pages.WifiPageStructure.LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
+            MessagingCenter.Subscribe<Pages.WifiView>(this, Pages.WifiPageStructure.LOCATION_PERMISSION_REQUEST, (s) => ShowWifiTab());
 
             RequestPrivilegedPhoneStatePermission();
         }
@@ -92,7 +96,9 @@ namespace IsObservableCollBuggy.Droid
         }
         protected override void OnStop()
         {
-            MessagingCenter.Unsubscribe<Diagnostics>(this, Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST);
+            MessagingCenter.Unsubscribe<Models.Diagnostics>(this, Models.Diagnostics.DIAGNOSTIC_LOCATION_PERMISSION_REQUEST);
+            MessagingCenter.Unsubscribe<Pages.WifiPageStructure>(this, Pages.WifiPageStructure.LOCATION_PERMISSION_REQUEST);
+            MessagingCenter.Unsubscribe<Pages.WifiView>(this, Pages.WifiPageStructure.LOCATION_PERMISSION_REQUEST);
             base.OnStop();
         }
         protected override void OnDestroy()
