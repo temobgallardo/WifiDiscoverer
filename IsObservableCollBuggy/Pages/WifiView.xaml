@@ -93,12 +93,13 @@
                       x:Name="NetworkListView"
                       ItemsSource="{Binding Wifis}"
                       SelectedItem="{Binding CurrentWifi}"
+                      ItemTapped="NetworkListView_ItemTapped"
                       IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsRefreshing}"
                       RefreshCommand="{Binding RefreshCommand}"
                       IsVisible="{Binding NetworkListIsVisible}"
                       SeparatorColor="black"
-                      RowHeight="64"
+                      RowHeight="40"
                       Margin="8">
                 <ListView.ItemTemplate>
                     <DataTemplate>
