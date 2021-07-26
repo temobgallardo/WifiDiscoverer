@@ -1,7 +1,9 @@
 ﻿using IsObservableCollBuggy.Models;
 using IsObservableCollBuggy.Models.Models;
+using IsObservableCollBuggy.Pages.Cells;
 using Models.Interfaces;
 using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -53,9 +55,8 @@ namespace IsObservableCollBuggy.Pages
             if (e.Item == null) return;
 
             var lv = (ListView)sender;
-            var si = (Wifi)lv.SelectedItem;
-            si.IsSelected = false;
-            ((ListView)sender).SelectedItem = null;
+
+            lv.SelectedItem = null;
         }
     }
 }
