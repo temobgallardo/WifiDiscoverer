@@ -7,8 +7,7 @@ namespace Models.Interfaces
 {
     public interface IWifiConnectionReceiver
     {
-        event EventHandler<NetworkConnectedEventArgs> RaiseNetworkConnected;
-        IBroadcastReceieverCallback Callbacks { get; set; }
+        IBroadcastReceieverCallback Callback { get; set; }
         string WifiConnectionReceiverMessage { get; }
         bool IsWifiEnabled { get; }
         string DeviceMacAddress { get; }
@@ -18,7 +17,6 @@ namespace Models.Interfaces
         IList<Wifi> ScanSuccess();
         Task<bool> ConnectAsync(Wifi wifi);
         Task<bool> DisconnectAsync(); 
-        Task<bool> DisconnectAsync(Wifi wifi);
         Task<bool> ForgetAsync(Wifi wifi);
         Task<bool> ConnectToAlreadyConfiguredAsync(int networkId);
         Task<bool> ConnectToRememberedAsync(Wifi wifi);

@@ -28,7 +28,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             var intentFilter = new IntentFilter();
             intentFilter.AddAction(WifiManager.ScanResultsAvailableAction);
             intentFilter.AddAction(WifiManager.NetworkStateChangedAction);
-            _wifiReceiver.Callbacks = broadcastReceieverCallback;
+            _wifiReceiver.Callback = broadcastReceieverCallback;
 
             Activity?.RegisterReceiver(_wifiReceiver, intentFilter);
             _alreadyRegister = true;

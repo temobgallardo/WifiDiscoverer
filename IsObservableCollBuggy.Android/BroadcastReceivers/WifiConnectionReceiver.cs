@@ -11,7 +11,6 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static Android.Net.NetworkInfo;
@@ -25,7 +24,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
     {
         static readonly string TAG = nameof(WifiConnectionReceiver);
         readonly string _wifiConnectionReceiverMessage = TAG;
-        Timer _connectionEnsurer;
+        //Timer _connectionEnsurer;
         const int _maxTime = 10000;
         const int _intervalsCheck = 1000;
         readonly WifiManager _wifiManager;
@@ -74,7 +73,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
         public Wifi ConnectedWifi { get => ConnectionInfoToWifi(_wifiManager.ConnectionInfo); }
         public IList<Wifi> Wifis { get => ParseScanResultToWifi(_wifiManager.ScanResults); }
-        public IBroadcastReceieverCallback Callbacks { get; set; }
+        public IBroadcastReceieverCallback Callback { get; set; }
 
         public event EventHandler<NetworkConnectedEventArgs> RaiseNetworkConnected;
 
@@ -109,7 +108,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             var ssid = networkInfo.ExtraInfo?.Replace("\"", string.Empty);
 
-            Callbacks?.Execute(new Wifi { Ssid = ssid }, wifiState);
+            Callback?.Execute(new Wifi { Ssid = ssid }, wifiState);
         }
 
         private WifiStates GetState(DetailedState state)
@@ -148,9 +147,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             if (current == null) return false;
             if (current.NetworkId < 0) return false;
 
-            //_wifiManager.ConfiguredNetworks.Remove(current);
             _wifiManager.Disconnect();
-            _wifiManager.DisableNetwork(current.NetworkId);
             return _wifiManager.RemoveNetwork(current.NetworkId);
         }
 
@@ -205,8 +202,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         {
             if (wifi == null) return false;
 
-            if (!_wifiManager.IsWifiEnabled)
-                return false;
+            if (!_wifiManager.IsWifiEnabled) return false;
 
             if (string.IsNullOrEmpty(wifi.Password)) return false;
 
@@ -230,23 +226,10 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             }
 
             Log.Debug(TAG, $"{nameof(ConnectAsync)} - Trying to connect to already configured.");
-            await ConnectToAlreadyConfiguredAsync(networkId);
-
-            //await Task.Delay(3 * 1000);
-
-            //var isConnected = IsConnected(_wifiManager.ConnectionInfo.SupplicantState);
-            //Log.Debug(TAG, $"{nameof(ConnectAsync)} - IsConnected = {isConnected}");
-            //wifi.IsConnected = isConnected;
-            //RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, isConnected ? WifiStates.Connected : WifiStates.Disconnected));
-            return true;
+            return await ConnectToAlreadyConfiguredAsync(networkId);
         }
 
-        private bool IsConnected(SupplicantState supplicant)
-        {
-            if (supplicant == SupplicantState.Completed) return true;
-
-            return false;
-        }
+        private bool IsConnected(SupplicantState supplicant) => supplicant == SupplicantState.Completed;
 
         public async Task<bool> ConnectToRememberedAsync(Wifi wifi)
         {
@@ -290,23 +273,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 // It will disassociate the current network.
                 var isDisconnected = _wifiManager.Disconnect();
 
-                //var isDisabled = _wifiManager.ConnectionInfo.NetworkId < 0;
-                // It will prevent automatic connection.
-                //_wifiManager.DisableNetwork(_wifiManager.ConnectionInfo.NetworkId);
-
-                //using (_connectionEnsurer = new System.Threading.Timer())
-                //{
-                //    _connectionEnsurer.Elapsed += EnableAndReconnect;
-                //    _connectionEnsurer.Interval = _intervalsCheck;
-                //    _connectionEnsurer.SynchronizingObject = null;
-                //    _connectionEnsurer.Start();
-                //}
-                //await Task.Delay(4 * 1000);
-
                 var isEnabled = _wifiManager.EnableNetwork(networkId, true);
-                //var isReconnected = _wifiManager.Reconnect();
 
-                return isEnabled;// && isReconnected;
+                return isEnabled;
             }
             catch (Exception ex)
             {
@@ -372,29 +341,8 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return conf;
         }
 
-        public async Task<bool> DisconnectAsync()
-        {
-            var id = _wifiManager.ConnectionInfo.NetworkId;
-
-            _wifiManager.Disconnect();
-            _wifiManager.DisableNetwork(id);
-            return _wifiManager.Disconnect();
-        }
-        public async Task<bool> DisconnectAsync(Wifi current)
-        {
-            int id = -1;
-            if(current.Ssid == _wifiManager.ConnectionInfo.SSID)
-            {
-                id = _wifiManager.ConnectionInfo.NetworkId;
-            }
-
-            if (id < 0) 
-
-            _wifiManager.Disconnect();
-            _wifiManager.DisableNetwork(id);
-            return _wifiManager.Disconnect();
-        }
-
+        public async Task<bool> DisconnectAsync() => _wifiManager.Disconnect();
+        
         public async Task<bool> ForgetAsync(Wifi wifi)
         {
             if (wifi is null) return false;
@@ -425,9 +373,9 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         public class WifiStatusChecker
         {
             private int _invokeCount;
-            private int _maxCount;
-            private Wifi _wifiToConnect;
-            private WifiConnectionReceiver _wifiManager;
+            private readonly int _maxCount;
+            private readonly Wifi _wifiToConnect;
+            private readonly WifiConnectionReceiver _wifiManager;
 
             public event EventHandler<WifiStates> Timeout;
 
