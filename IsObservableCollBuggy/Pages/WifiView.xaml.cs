@@ -1,10 +1,7 @@
-﻿
-using IsObservableCollBuggy.Effects;
-using IsObservableCollBuggy.Models;
+﻿using IsObservableCollBuggy.Models;
 using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
