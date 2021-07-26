@@ -51,11 +51,9 @@ namespace IsObservableCollBuggy.Pages
             }
         }
 
-        private async void NetworkListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void NetworkListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null) return;
-
-            //await Task.Delay(250);
 
             var lv = (ListView)sender;
             var si = (Wifi)lv.SelectedItem;
