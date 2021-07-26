@@ -212,7 +212,6 @@ namespace IsObservableCollBuggy.Models
         {
             System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
 
-            _wifiConnectionService.RaiseNetworkConnected += async (s, e) => await NetworkConnected(s, e);
             _broadcastService.Register(this);
 
             if (Wifis is null)
@@ -364,28 +363,8 @@ namespace IsObservableCollBuggy.Models
                 //await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
                 return;
             }
-
-            await NotifyUserIfConnectedAsync(await _wifiConnectionService.ConnectAsync(wifi), wifi);
         }
 
-        async Task NotifyUserIfConnectedAsync(bool connected, Wifi wifi = null)
-        {
-            var ssid = wifi is null ? CurrentWifi.Ssid : wifi.Ssid;
-            if (connected)
-            {
-                //await ToastOnMainThreadAsync($"Connected succesfully to '{ssid}'");
-                return;
-            }
-
-            if (await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi))
-            {
-                //await ToastOnMainThreadAsync($"Connected succesfully to '{ssid}'");
-            }
-            else
-            {
-                //await ToastOnMainThreadAsync($"Unable to connect to '{ssid}'. It can be due to the password or connection issues. Try again, please!");
-            }
-        }
 
         private async Task ToastOnMainThreadAsync(string msg) => await Device.InvokeOnMainThreadAsync(() => _toastMessage.LongAlert(msg));
 
@@ -429,7 +408,6 @@ namespace IsObservableCollBuggy.Models
         public void OnDettached()
         {
             System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
-            _wifiConnectionService.RaiseNetworkConnected -= async (s, e) => await NetworkConnected(s, e);
             Wifis.Clear();
             Wifis = null;
             _broadcastService.UnRegister();
