@@ -1,6 +1,7 @@
 ﻿using IsObservableCollBuggy.Extensions;
 using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -41,16 +42,17 @@ namespace IsObservableCollBuggy.Models
             {
                 if (value == null) return;
 
-                if (_currentWifi == value && _currentWifi.IsSelected)
+                if (_currentWifi != null && _currentWifi.Ssid == value.Ssid)
                 {
                     Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
+                    SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, !_currentWifi.IsSelected));
                     return;
                 }
 
-                if (_currentWifi != null)
+                if (_currentWifi != null && !_firstTime)
                 {
-                    _currentWifi.IsSelected = false;
                     _currentWifi.State = string.Empty;
+                    SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, false));
                 }
 
                 SetProperty(ref _currentWifi, UpdateIsSelected(value, true));
@@ -210,7 +212,7 @@ namespace IsObservableCollBuggy.Models
 
         public void OnAttached()
         {
-            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
+            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Attaching");
 
             _broadcastService.Register(this);
 
@@ -234,6 +236,8 @@ namespace IsObservableCollBuggy.Models
             // When enabled wifi list is loaded.
             EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
+
+            LoadWifis();
             UpdateWifiState();
         }
 
@@ -269,6 +273,8 @@ namespace IsObservableCollBuggy.Models
 
             var distinct = wifiWithNames.Distinct(new WifiComprarer());
             Wifis.AddRange(distinct);
+
+            CurrentWifi = _wifiConnectionService.ConnectedWifi;
             return false;
         }
 
@@ -329,19 +335,13 @@ namespace IsObservableCollBuggy.Models
 
         private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
         {
-            UpdateWifiState();
+            //Device.BeginInvokeOnMainThread(UpdateWifiState);
 
             var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
-            if (connected)
-            {
-                CurrentWifi.State = WifiStates.Connected.ToString();
-                return;
-            }
-
             var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
-            if (remembered)
+            if (connected || remembered)
             {
-                CurrentWifi.State = WifiStates.Connected.ToString();
+                //CurrentWifi.State = WifiStates.Connected.ToString();
                 return;
             }
 
@@ -381,19 +381,9 @@ namespace IsObservableCollBuggy.Models
 
             for(int i = 0; i < Wifis.Count; i++)
             {
-                
-                if(Wifis[i].Ssid == connected.Ssid)
-                {
-                    Wifis[i].State = connected.State;
-                }
-                else
+                if(Wifis[i].Ssid != connected.Ssid)
                 {
                     Wifis[i].State = string.Empty;
-                }
-
-                if(CurrentWifi != null && CurrentWifi.Ssid == connected.Ssid)
-                {
-                    CurrentWifi.State = connected.State;
                 }
             }
         }
@@ -418,6 +408,8 @@ namespace IsObservableCollBuggy.Models
             if (CurrentWifi is null) return;
 
             var isCurrentWifi = wifi.Ssid == CurrentWifi.Ssid;
+
+            System.Diagnostics.Debug.WriteLine($"{nameof(Execute)} - {CurrentWifi.Ssid} : {CurrentWifi.State}");
 
             if (!isCurrentWifi) return;
 
