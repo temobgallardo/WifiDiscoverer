@@ -4,7 +4,7 @@ namespace IsObservableCollBuggy
 {
     public partial class App : Application
     {
-        private MainPage _mainPage;
+        private readonly MainPage _mainPage = new MainPage();
 
         public App()
         {
