@@ -11,7 +11,7 @@
         <Label Grid.Row="0"
                x:Name="WifiName"
                Text="{Binding Ssid}"
-               Style="{x:StaticResource BodyLabelTextStyle}" >
+               Style="{x:StaticResource BodyLabelTextStyle}">
             <Label.Triggers>
                 <DataTrigger TargetType="Label"
                              Binding="{Binding IsSelected}"
@@ -35,10 +35,4 @@
             </DataTrigger>
         </Grid.Triggers>
     </Grid>
-
-    <!--<ViewCell.ContextActions>
-        <MenuItem x:Name="MenuItem"
-                  CommandParameter="{Binding .}"
-                  Text="{x:Static resx:AppResource.DiagnosticPageWifiTabForget}" />
-    </ViewCell.ContextActions>-->
 </ViewCell>
