@@ -11,13 +11,6 @@
              x:DataType="viewmodels:WifiConnection"
              x:Name="this">
     <!--xmlns:xct="http://xamarin.com/schemas/2020/toolkit"-->
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="WifiCell">
-                <cells:WifiCell />
-            </DataTemplate>
-        </ResourceDictionary>
-    </ContentView.Resources>
 
     <ContentView.Effects>
         <effects:LifecycleEffect Loaded="ViewLifecycleEffect_OnLoaded"
@@ -100,13 +93,8 @@
                       IsVisible="{Binding NetworkListIsVisible}"
                       SeparatorColor="black"
                       RowHeight="40"
-                      Margin="8">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <cells:WifiCell />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                      Margin="8"
+                      ItemTemplate="{x:DataTemplate cells:WifiCell}" />
             <StackLayout Grid.Column="0"
                          Grid.Row="1"
                          x:Name="ConnectNetwork"
