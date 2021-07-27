@@ -1,7 +1,6 @@
 ﻿using IsObservableCollBuggy.Extensions;
 using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -206,7 +205,7 @@ namespace IsObservableCollBuggy.Models
         async Task ConnectAsync()
         {
             await _wifiConnectionService.ConnectAsync(CurrentWifi);
-            Device.InvokeOnMainThreadAsync(UpdateWifiState);
+            await Device.InvokeOnMainThreadAsync(UpdateWifiState);
             ActivateNetworkListView();
         }
 
@@ -224,18 +223,12 @@ namespace IsObservableCollBuggy.Models
             InitializeData();
         }
 
-        private async Task NetworkConnected(object sender, NetworkConnectedEventArgs e)
-        {
-            Device.BeginInvokeOnMainThread(() => UpdateIsConnectedInWifis(e.Network));
-            var connectedString = e.Network.IsConnected ? "are connected to" : "did not connect to";
-            //await ToastOnMainThreadAsync($"You {connectedString} '{e.Network.Ssid}'.");
-        }
-
         void InitializeData()
         {
             // When enabled wifi list is loaded.
             EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
+            CurrentWifi = _wifiConnectionService.ConnectedWifi;
 
             LoadWifis();
             UpdateWifiState();
@@ -251,8 +244,8 @@ namespace IsObservableCollBuggy.Models
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
             LoadWifis();
-
             UpdateWifiState();
+
             IsRefreshing = false;
         }
 
@@ -274,8 +267,7 @@ namespace IsObservableCollBuggy.Models
             var distinct = wifiWithNames.Distinct(new WifiComprarer());
             Wifis.AddRange(distinct);
 
-            CurrentWifi = _wifiConnectionService.ConnectedWifi;
-            return false;
+            return true;
         }
 
         void RefreshCanExecutes()
@@ -335,15 +327,11 @@ namespace IsObservableCollBuggy.Models
 
         private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
         {
-            //Device.BeginInvokeOnMainThread(UpdateWifiState);
-
             var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
+            if (connected) return;
+
             var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
-            if (connected || remembered)
-            {
-                //CurrentWifi.State = WifiStates.Connected.ToString();
-                return;
-            }
+            if (remembered) return;
 
             ActivateConnectNetworkElement();
         }
@@ -374,16 +362,15 @@ namespace IsObservableCollBuggy.Models
 
             if (Wifis is null || connected is null) return;
 
-            if(CurrentWifi is null)
+            for (int i = 0; i < Wifis.Count; i++)
             {
-                CurrentWifi = _wifiConnectionService.ConnectedWifi;
-            }
-
-            for(int i = 0; i < Wifis.Count; i++)
-            {
-                if(Wifis[i].Ssid != connected.Ssid)
+                if (Wifis[i].Ssid != connected.Ssid)
                 {
                     Wifis[i].State = string.Empty;
+                }
+                else
+                {
+                    Wifis[i].State = _wifiConnectionService.ConnectedWifi.State;
                 }
             }
         }
