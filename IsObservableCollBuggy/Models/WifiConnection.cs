@@ -1,6 +1,7 @@
 ﻿using IsObservableCollBuggy.Extensions;
 using IsObservableCollBuggy.Models.Models;
 using Models.Interfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace IsObservableCollBuggy.Models
 {
     public class WifiConnection : ObservableModel, INotifyPropertyChanged, IBroadcastReceieverCallback
     {
+        bool _firstTime = true;
+        readonly IWifiConnectionReceiver _wifiConnectionService;
+        readonly IToastMessage _toastMessage;
+        readonly IBrodcastSevice _broadcastService;
+
         bool _enableWifiToggle;
         public bool EnableWifiToggle
         {
@@ -21,6 +27,25 @@ namespace IsObservableCollBuggy.Models
             {
                 SetProperty(ref _enableWifiToggle, value);
                 EnableWifi(value);
+
+                // There is an issue in android API level 27 where if wifi is disabled through Android Settings it will still return true 
+                // sometimes when calling WifiManager.IsWifiEnabled(). That is the reason of this check and subsequent checks.
+                if (!value)
+                {
+                    RefreshCanExecutes();
+                    Wifis.Clear();
+                    return;
+                }
+
+                var isEnabled = _wifiConnectionService.IsWifiEnabled;
+                if (!isEnabled)
+                {
+                    _toastMessage.ShortAlert("Cannot enable wifi.");
+
+                    SetProperty(ref _enableWifiToggle, false);
+                    return;
+                }
+
                 RefreshCanExecutes();
                 LoadWifis();
             }
@@ -30,7 +55,7 @@ namespace IsObservableCollBuggy.Models
         public ObservableCollection<Wifi> Wifis
         {
             get => _wifis;
-            set => base.SetProperty(ref _wifis, value);
+            set => SetProperty(ref _wifis, value);
         }
 
         Wifi _currentWifi;
@@ -39,7 +64,16 @@ namespace IsObservableCollBuggy.Models
             get => _currentWifi;
             set
             {
+                if (!EnableWifiToggle) return;
+
                 if (value == null) return;
+
+                // Current 
+                //if (_firstTime)
+                //{
+                //    SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, false));
+                //    return;
+                //}
 
                 if (_currentWifi != null && _currentWifi.Ssid == value.Ssid)
                 {
@@ -49,7 +83,7 @@ namespace IsObservableCollBuggy.Models
                     return;
                 }
 
-                if (_currentWifi != null && !_firstTime)
+                if (_currentWifi != null /* && !_firstTime*/)
                 {
                     _currentWifi.State = string.Empty;
                     SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, false));
@@ -58,6 +92,7 @@ namespace IsObservableCollBuggy.Models
                 SetProperty(ref _currentWifi, UpdateIsSelected(value, true));
 
                 Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
+
                 UpdateWifiState();
             }
         }
@@ -131,11 +166,8 @@ namespace IsObservableCollBuggy.Models
             }
         }
 
-        bool _firstTime = true;
-        readonly IWifiConnectionReceiver _wifiConnectionService;
-        readonly IToastMessage _toastMessage;
-        readonly IBrodcastSevice _broadcastService;
-
+        public event Action RaiseOnAddNetworkVisible;
+        public event Action RaiseOnConnectToWifiVisible;
         public ICommand SelectedWifiCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         public ICommand ConnectCommand { get; private set; }
@@ -227,13 +259,14 @@ namespace IsObservableCollBuggy.Models
 
         void InitializeData()
         {
-            // When enabled wifi list is loaded.
+            // When enabled is set the Wifis list is loaded. 
             EnableWifiToggle = _wifiConnectionService.IsWifiEnabled;
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
-            CurrentWifi = _wifiConnectionService.ConnectedWifi;
+        }
 
-            LoadWifis();
-            UpdateWifiState();
+        private void UpdateWifiStateFirsTime()
+        {
+            Wifis.Select((w) => w.Ssid == _wifiConnectionService.ConnectedWifi.Ssid ? w = _wifiConnectionService.ConnectedWifi : w);
         }
 
         void RefreshWifis()
@@ -246,6 +279,7 @@ namespace IsObservableCollBuggy.Models
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
 
             LoadWifis();
+            //CurrentWifi = _wifiConnectionService.ConnectedWifi; does not trigger the state value in the cell
             UpdateWifiState();
 
             IsRefreshing = false;
@@ -253,14 +287,8 @@ namespace IsObservableCollBuggy.Models
 
         bool LoadWifis()
         {
-            if (!EnableWifiToggle)
-            {
-                Wifis.Clear();
-                return false;
-            }
-
             var wifis = _wifiConnectionService.Wifis;
-            if (wifis == null) return false;
+            if (wifis == null || wifis.Count == 0) return false;
 
             Wifis.Clear();
             var wifiWithNames = wifis.Where((w) => !string.IsNullOrEmpty(w.Ssid));
@@ -281,26 +309,24 @@ namespace IsObservableCollBuggy.Models
         }
 
         // TODO: Deprecate on API level 29 since it is not allowed for apps to disable/enable wifi
-        void EnableWifi(bool isEnabled)
+        bool EnableWifi(bool isEnabled)
         {
             ActivateNetworkListView();
 
             if (_firstTime && isEnabled)
             {
                 _firstTime = false;
-                return;
+                return _wifiConnectionService.IsWifiEnabled;
             }
 
             var success = _wifiConnectionService.SetWifiEnabled(isEnabled);
 
-            if (!success)
-            {
-                //ToastOnMainThreadAsync("Wifi could not be enabled/disabled. Please, try again!");
-                return;
-            }
+            if (!success) return success;
 
             DeviceMacAddress = _wifiConnectionService.DeviceMacAddress;
             UpdateWifiState();
+
+            return success;
         }
 
         void ActivateNetworkListView()
@@ -317,6 +343,8 @@ namespace IsObservableCollBuggy.Models
             AddHiddenNetworkIsVisible = false;
             FooterButtonsVisible = false;
             ConnectNetworkIsVisible = true;
+
+            Device.BeginInvokeOnMainThread(() => RaiseOnConnectToWifiVisible?.Invoke());
         }
 
         void ActivateAddHiddenNetworkElement()
@@ -325,6 +353,8 @@ namespace IsObservableCollBuggy.Models
             ConnectNetworkIsVisible = false;
             FooterButtonsVisible = false;
             AddHiddenNetworkIsVisible = true;
+
+            Device.BeginInvokeOnMainThread(() => RaiseOnAddNetworkVisible?.Invoke());
         }
 
         private async Task ActivateConnectNetworkElementOrConnectRememberedAsync()
@@ -341,35 +371,29 @@ namespace IsObservableCollBuggy.Models
         private async Task AddNetworkOrConnectRememberedAsync(Wifi wifi)
         {
             var connected = await _wifiConnectionService.AlreadyConnectedAsync(CurrentWifi);
-            if (connected)
-            {
-                //await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already connected");
-                return;
-            }
+            if (connected) return;
 
             var remembered = await _wifiConnectionService.ConnectToRememberedAsync(CurrentWifi);
-            if (remembered)
-            {
-                //await ToastOnMainThreadAsync ($"Wifi '{CurrentWifi.Ssid}' already configured. Connecting...");
-                return;
-            }
+            if (remembered) return;
         }
-
 
         private async Task ToastOnMainThreadAsync(string msg) => await Device.InvokeOnMainThreadAsync(() => _toastMessage.LongAlert(msg));
 
         private void UpdateWifiState()
         {
             var connected = _wifiConnectionService.ConnectedWifi;
+            var isConnected = !connected.Ssid.Contains("unknown");
 
-            if (Wifis is null || connected is null) return;
+            if (Wifis is null || connected is null || !isConnected) return;
+
+            if (Wifis.Count < 0) return;
 
             for (int i = 0; i < Wifis.Count; i++)
             {
                 if (Wifis[i].Ssid != connected.Ssid)
                 {
                     Wifis[i].State = string.Empty;
-                    Wifis[i].IsConnected= false;
+                    Wifis[i].IsConnected = false;
                 }
                 else
                 {
@@ -377,19 +401,6 @@ namespace IsObservableCollBuggy.Models
                     Wifis[i].IsConnected = true;
                 }
             }
-
-            var temp = Wifis.ToArray();
-
-            Wifis.Clear();
-
-            Wifis.AddRange(temp);
-        }
-
-        private void UpdateIsConnectedInWifis(Wifi network)
-        {
-            if (Wifis is null || network is null) return;
-
-            Wifis.Select((w) => w.Ssid != network.Ssid ? w.IsConnected = false : w.IsConnected = network.IsConnected);
         }
 
         public void OnDettached()

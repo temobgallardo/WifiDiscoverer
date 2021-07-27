@@ -24,9 +24,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
     {
         static readonly string TAG = nameof(WifiConnectionReceiver);
         readonly string _wifiConnectionReceiverMessage = TAG;
-        //Timer _connectionEnsurer;
-        const int _maxTime = 10000;
-        const int _intervalsCheck = 1000;
         readonly WifiManager _wifiManager;
         IList<ScanResult> _scanResults;
         IList<ScanResult> ScanResults
@@ -175,7 +172,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                     Level = scan.Level,
                     Ssid = scan.Ssid,
                     Timestamp = scan.Timestamp,
-                    //IsConnected = _wifiManager.ConnectionInfo.SSID == $"\"{scan.Ssid}\""
+                    IsConnected = _wifiManager.ConnectionInfo.SSID == $"\"{scan.Ssid}\""
                 };
             }).ToList();
         }
@@ -245,7 +242,6 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
 
             var isConnected = _wifiManager.ConnectionInfo.SSID == $"\"{wifi.Ssid}\"";
             wifi.IsConnected = isConnected;
-            RaiseNetworkConnected?.Invoke(this, new NetworkConnectedEventArgs(wifi, WifiStates.Connecting));
             return isConnected;
         }
 
@@ -342,7 +338,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
         }
 
         public async Task<bool> DisconnectAsync() => _wifiManager.Disconnect();
-        
+
         public async Task<bool> ForgetAsync(Wifi wifi)
         {
             if (wifi is null) return false;
@@ -354,7 +350,19 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
             return _wifiManager.DisableNetwork(conf.NetworkId);
         }
 
-        public bool SetWifiEnabled(bool enabled) => _wifiManager.SetWifiEnabled(enabled);
+        public bool SetWifiEnabled(bool enabled)
+        {
+            try
+            {
+                return _wifiManager.SetWifiEnabled(enabled);
+            }
+            catch (Exception e)
+            {
+                Log.Debug(TAG, $"Exception while trying to enable wifi - {e.Message}");
+            }
+
+            return false;
+        }
 
         public void StartScan() => _wifiManager.StartScan();
 
@@ -365,7 +373,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                 Ssid = info.SSID.Replace("\"", string.Empty),
                 Bssid = info.MacAddress,
                 Frequency = info.Frequency,
-                IsConnected = true,
+                IsConnected = info.SupplicantState == SupplicantState.Completed,
                 State = info.SupplicantState == SupplicantState.Completed ? WifiStates.Connected.ToString() : string.Empty
             };
         }

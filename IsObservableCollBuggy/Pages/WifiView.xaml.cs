@@ -1,9 +1,6 @@
 ﻿using IsObservableCollBuggy.Models;
-using IsObservableCollBuggy.Models.Models;
-using IsObservableCollBuggy.Pages.Cells;
 using Models.Interfaces;
 using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,16 +19,29 @@ namespace IsObservableCollBuggy.Pages
             _wifiConnection = new WifiConnection(DependencyService.Get<IWifiConnectionReceiver>(), DependencyService.Get<IToastMessage>(), DependencyService.Get<IBrodcastSevice>());
             BindingContext = _wifiConnection;
         }
+        private void FocusEntryOnConnectToNetwork()
+        {
+            Password.Focus();
+        }
+
+        private void FocusEntryOnAddNetwork()
+        {
+            HiddenNetworkSsid.Focus();
+        }
 
         protected void ViewLifecycleEffect_OnLoaded(object sender, EventArgs e)
         {
             _wifiConnection.OnAttached();
+            _wifiConnection.RaiseOnAddNetworkVisible += FocusEntryOnAddNetwork;
+            _wifiConnection.RaiseOnConnectToWifiVisible += FocusEntryOnConnectToNetwork;
             // TODO: comment this when launching from diagnostics page
             FocusWifiTab();
         }
 
         protected void ViewLifecycleEffect_OnUnloaded(object sender, EventArgs e)
         {
+            _wifiConnection.RaiseOnAddNetworkVisible -= FocusEntryOnAddNetwork;
+            _wifiConnection.RaiseOnConnectToWifiVisible -= FocusEntryOnConnectToNetwork;
             _wifiConnection.OnDettached();
         }
 
@@ -55,6 +65,12 @@ namespace IsObservableCollBuggy.Pages
             if (e.Item == null) return;
 
             var lv = (ListView)sender;
+
+            //((Wifi)e.Item).State = "=)"; This set the value in the cell
+
+            //var items = (ObservableCollection<Wifi>)lv.ItemsSource;
+            //var current = (Wifi)e.Item; 
+            //items.Select((w) => w.State == WifiStates.Connected.ToString() && w.Ssid != current.Ssid ? w.State = "+)": w.State = "=("); this doesnt update the listview
 
             lv.SelectedItem = null;
         }
