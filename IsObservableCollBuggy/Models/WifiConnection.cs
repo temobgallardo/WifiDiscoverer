@@ -45,6 +45,7 @@ namespace IsObservableCollBuggy.Models
                 {
                     Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
                     SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, !_currentWifi.IsSelected));
+                    UpdateWifiState();
                     return;
                 }
 
@@ -57,6 +58,7 @@ namespace IsObservableCollBuggy.Models
                 SetProperty(ref _currentWifi, UpdateIsSelected(value, true));
 
                 Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
+                UpdateWifiState();
             }
         }
 
@@ -367,12 +369,20 @@ namespace IsObservableCollBuggy.Models
                 if (Wifis[i].Ssid != connected.Ssid)
                 {
                     Wifis[i].State = string.Empty;
+                    Wifis[i].IsConnected= false;
                 }
                 else
                 {
                     Wifis[i].State = _wifiConnectionService.ConnectedWifi.State;
+                    Wifis[i].IsConnected = true;
                 }
             }
+
+            var temp = Wifis.ToArray();
+
+            Wifis.Clear();
+
+            Wifis.AddRange(temp);
         }
 
         private void UpdateIsConnectedInWifis(Wifi network)
