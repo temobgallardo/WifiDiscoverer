@@ -175,7 +175,7 @@ namespace IsObservableCollBuggy.Droid.BroadcastReceivers
                     Level = scan.Level,
                     Ssid = scan.Ssid,
                     Timestamp = scan.Timestamp,
-                    IsConnected = _wifiManager.ConnectionInfo.SSID == $"\"{scan.Ssid}\""
+                    //IsConnected = _wifiManager.ConnectionInfo.SSID == $"\"{scan.Ssid}\""
                 };
             }).ToList();
         }
