@@ -37,15 +37,6 @@ namespace IsObservableCollBuggy.Models
                     return;
                 }
 
-                var isEnabled = _wifiConnectionService.IsWifiEnabled;
-                if (!isEnabled)
-                {
-                    _toastMessage.ShortAlert("Cannot enable wifi.");
-
-                    SetProperty(ref _enableWifiToggle, false);
-                    return;
-                }
-
                 RefreshCanExecutes();
                 LoadWifis();
             }
@@ -68,13 +59,6 @@ namespace IsObservableCollBuggy.Models
 
                 if (value == null) return;
 
-                // Current 
-                //if (_firstTime)
-                //{
-                //    SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, false));
-                //    return;
-                //}
-
                 if (_currentWifi != null && _currentWifi.Ssid == value.Ssid)
                 {
                     Task.Run(async () => await ActivateConnectNetworkElementOrConnectRememberedAsync());
@@ -83,7 +67,7 @@ namespace IsObservableCollBuggy.Models
                     return;
                 }
 
-                if (_currentWifi != null /* && !_firstTime*/)
+                if (_currentWifi != null)
                 {
                     _currentWifi.State = string.Empty;
                     SetProperty(ref _currentWifi, UpdateIsSelected(_currentWifi, false));
@@ -407,7 +391,6 @@ namespace IsObservableCollBuggy.Models
         {
             System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached Disposing");
             Wifis.Clear();
-            Wifis = null;
             _broadcastService.UnRegister();
         }
 
