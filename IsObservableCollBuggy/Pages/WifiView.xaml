@@ -189,14 +189,11 @@
                                       Command="{Binding DisconnectCommand}"
                                       Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
                                       effects:Gradient.IsEnable="{Binding EnableWifiToggle}"/>
-                <controls:XenexButton x:Name="RemoveNetworkCommand"
-                                      Style="{StaticResource ActiveButton}"
+                <Button x:Name="RemoveNetworkCommand"
+                                      Style="{StaticResource ActiveButton2}"
                                       Command="{Binding RemoveNetworkCommand}"
                                       Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
-                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"
-                                      Duration="140"
-                                      TriggeringEvent="Clicked"
-                                      ClickScale="1.05" />
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
             </StackLayout>
         </Grid>
     </ContentView.Content>

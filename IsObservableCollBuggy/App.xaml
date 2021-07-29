@@ -354,22 +354,6 @@
                         Value="{StaticResource PurpleDark}" />
             </Style>
 
-            <!--<Style x:Key="ItemSelectedStyle"
-                   TargetType="controls:GradientFrame">
-                <Setter Property="StartColor"
-                        Value="#cc99ff" />
-                <Setter Property="EndColor"
-                        Value="#cc99ff" />
-            </Style>
-
-            <Style x:Key="ItemUnSelectedStyle"
-                   TargetType="controls:GradientFrame">  
-                <Setter Property="StartColor"
-                        Value="#741881" />
-                <Setter Property="EndColor"
-                        Value="#421E5D" />
-            </Style>-->
-
             <Style x:Key="AgreeButton"
                    TargetType="Button">
                 <Setter Property="BackgroundColor"
@@ -396,6 +380,34 @@
                         Value="{DynamicResource GothamRndLightFontFamily}" />
             </Style>
 
+            <Style x:Key="ActiveButton2"
+                   TargetType="Button">
+                <Setter Property="FontSize"
+                        Value="{StaticResource ButtonFontSize}" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource GothamRndBookFontFamily}" />
+                <Setter Property="TextColor"
+                        Value="White" />
+                <Setter Property="effects:Gradient.Colors"
+                        Value="#1285A5, #7FC8C4" />
+                <Setter Property="MinimumHeightRequest"
+                        Value="60" />
+                <Setter Property="HeightRequest"
+                        Value="65" />
+                <Setter Property="MinimumWidthRequest"
+                        Value="95" />
+                <Setter Property="WidthRequest"
+                        Value="140" />
+                <Setter Property="HorizontalOptions"
+                        Value="Center" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+                <Setter Property="effects:Gradient.CornerRadius"
+                        Value="7" />
+                <Setter Property="effects:Touch.Color"
+                        Value="#7FC8C5" />
+            </Style>
+            
             <!--Data Templates-->
 
         </ResourceDictionary>

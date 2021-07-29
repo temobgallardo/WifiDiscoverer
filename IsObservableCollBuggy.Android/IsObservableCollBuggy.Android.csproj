@@ -71,8 +71,10 @@
     <Compile Include="BroadcastReceivers\BroadcastService.cs" />
     <Compile Include="BroadcastReceivers\WifiConnectionReceiver.cs" />
     <Compile Include="Effects\BasePlatformEffect.cs" />
+    <Compile Include="Effects\GestureCollectors\TouchCollector.cs" />
     <Compile Include="Effects\GradientPlatformEffect.cs" />
     <Compile Include="Effects\LifeCycleEffectRouter.cs" />
+    <Compile Include="Effects\TouchPlatformEffect.cs" />
     <Compile Include="Helpers\ContextMenuDisabler.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NativeImplementations\SnackBarImpl.cs" />
@@ -172,7 +174,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionIsObservableCollBuggyAndroidHideInfoBar="True" XamarinHotReloadXFormsNugetUpgradeInfoBarIsObservableCollBuggyAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarIsObservableCollBuggyAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionIsObservableCollBuggyAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
