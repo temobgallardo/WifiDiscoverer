@@ -1,21 +1,16 @@
 ﻿using System;
-
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using IsObservableCollBuggy.Droid.BroadcastReceivers;
-using Android.Content;
-using Android.Net.Wifi;
 using Android;
 using Android.Support.V4.App;
 using Android.Util;
 using Android.Support.Design.Widget;
 using Xamarin.Forms;
 using Views = Android.Views;
-using IsObservableCollBuggy.Models;
 using Models.Interfaces;
-using IsObservableCollBuggy.Pages;
 
 namespace IsObservableCollBuggy.Droid
 {
