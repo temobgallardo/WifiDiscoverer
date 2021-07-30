@@ -46,7 +46,9 @@ namespace IsObservableCollBuggy.Droid.Effects
                 Clickable = false,
                 Focusable = false,
             };
-            //Container.LayoutChange += ViewOnLayoutChange;
+
+
+            Container.LayoutChange += ViewOnLayoutChange;
 
             if (EnableRipple)
                 _viewOverlay.Background = CreateRipple(_color);
@@ -62,11 +64,11 @@ namespace IsObservableCollBuggy.Droid.Effects
         {
             if (IsDisposed) return;
 
-            //Container.RemoveView(_viewOverlay);
+            Container.RemoveView(_viewOverlay);
             _viewOverlay.Pressed = false;
             _viewOverlay.Foreground = null;
             _viewOverlay.Dispose();
-            //Container.LayoutChange -= ViewOnLayoutChange;
+            Container.LayoutChange -= ViewOnLayoutChange;
 
             if (EnableRipple)
                 _ripple?.Dispose();
