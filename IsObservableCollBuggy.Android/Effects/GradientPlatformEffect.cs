@@ -11,15 +11,16 @@ using Xamarin.Forms.Platform.Android;
 namespace IsObservableCollBuggy.Droid.Effects
 {
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class GradientPlatformEffect : BasePlatformEffect
+    public class GradientPlatformEffect : PlatformEffect
     {
         private Android.Views.View _view;
         private GradientDrawable _gradient;
         private Drawable _orgDrawable;
+        protected bool IsSupportedByApi => Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop;
 
         public const string TAG = nameof(GradientPlatformEffect);
 
-        protected override void OnAttachedOverride()
+        protected override void OnAttached()
         {
             _view = Container ?? Control;
 
@@ -29,7 +30,7 @@ namespace IsObservableCollBuggy.Droid.Effects
             UpdateGradient();
         }
 
-        protected override void OnDetachedOverride()
+        protected override void OnDetached()
         {
             _gradient?.Dispose();
             _gradient = null;
@@ -43,11 +44,6 @@ namespace IsObservableCollBuggy.Droid.Effects
 
             if (!IsSupportedByApi)
                 return;
-
-            if (IsDisposed)
-            {
-                return;
-            }
 
             if (args.PropertyName == Gradient.ColorsProperty.PropertyName ||
                 args.PropertyName == Gradient.OrientationProperty.PropertyName ||
