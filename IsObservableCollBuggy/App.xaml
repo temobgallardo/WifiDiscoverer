@@ -284,8 +284,6 @@
                         Value="{StaticResource GothamRndBookFontFamily}" />
                 <Setter Property="TextColor"
                         Value="White" />
-                <Setter Property="effects:Gradient.Colors"
-                        Value="#1285A5, #7FC8C4" />
                 <Setter Property="MinimumHeightRequest"
                         Value="60" />
                 <Setter Property="HeightRequest"
@@ -298,8 +296,12 @@
                         Value="Center" />
                 <Setter Property="VerticalOptions"
                         Value="Center" />
+                <Setter Property="effects:Gradient.Colors"
+                        Value="#1285A5, #7FC8C4" />
                 <Setter Property="effects:Gradient.CornerRadius"
                         Value="7" />
+                <Setter Property="effects:Gradient.TouchColor"
+                        Value="AliceBlue" />
             </Style>
 
             <Style x:Key="CancelProtocolButton"
@@ -379,37 +381,6 @@
                 <Setter Property="FontFamily"
                         Value="{DynamicResource GothamRndLightFontFamily}" />
             </Style>
-
-            <Style x:Key="ActiveButton2"
-                   TargetType="Button">
-                <Setter Property="FontSize"
-                        Value="{StaticResource ButtonFontSize}" />
-                <Setter Property="FontFamily"
-                        Value="{StaticResource GothamRndBookFontFamily}" />
-                <Setter Property="TextColor"
-                        Value="White" />
-                <Setter Property="effects:Gradient.Colors"
-                        Value="#1285A5, #7FC8C4" />
-                <Setter Property="MinimumHeightRequest"
-                        Value="60" />
-                <Setter Property="HeightRequest"
-                        Value="65" />
-                <Setter Property="MinimumWidthRequest"
-                        Value="95" />
-                <Setter Property="WidthRequest"
-                        Value="140" />
-                <Setter Property="HorizontalOptions"
-                        Value="Center" />
-                <Setter Property="VerticalOptions"
-                        Value="Center" />
-                <Setter Property="effects:Gradient.CornerRadius"
-                        Value="7" />
-                <Setter Property="effects:Touch.Color"
-                        Value="#7FC8C5" />
-            </Style>
-            
-            <!--Data Templates-->
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

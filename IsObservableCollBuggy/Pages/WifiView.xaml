@@ -160,7 +160,7 @@
                                       Style="{StaticResource ActiveButton}"
                                       Command="{Binding AddHiddenNetworkCommand}"
                                       Text="{Static resx:AppResource.DiagnosticPageWifiTabConnectHiddenNetwork}"
-                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"/>
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
                 <!--<Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding IsLanguageConfirmEnabled}"
@@ -183,17 +183,17 @@
                                       Style="{StaticResource ActiveButton}"
                                       Command="{Binding RefreshCommand}"
                                       Text="{Static resx:AppResource.DiagnosticPageWifiTabRefreshList}"
-                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"/>
+                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
                 <controls:XenexButton x:Name="DisconnectButton"
                                       Style="{StaticResource ActiveButton}"
                                       Command="{Binding DisconnectCommand}"
                                       Text="{Static resx:AppResource.DiagnosticPageWifiTabDisconnect}"
-                                      effects:Gradient.IsEnable="{Binding EnableWifiToggle}"/>
-                <Button x:Name="RemoveNetworkCommand"
-                                      Style="{StaticResource ActiveButton2}"
-                                      Command="{Binding RemoveNetworkCommand}"
-                                      Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
                                       effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
+                <Button x:Name="RemoveNetworkCommand"
+                        Style="{StaticResource ActiveButton}"
+                        Command="{Binding RemoveNetworkCommand}"
+                        Text="{Static resx:AppResource.DiagnosticPageWifiTabRemoveNetwork}"
+                        effects:Gradient.IsEnable="{Binding EnableWifiToggle}" />
             </StackLayout>
         </Grid>
     </ContentView.Content>
