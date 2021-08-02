@@ -139,6 +139,20 @@ namespace IsObservableCollBuggy.Effects
 
         public static void SetCornerRadius(BindableObject view, float radius) => view?.SetValue(CornerRadiusProperty, radius);
 
+        /// <summary>
+        /// The color of the touch effect. If not set there won't be any animation.
+        /// </summary>
+        public static BindableProperty TouchColorProperty = BindableProperty.Create(
+            propertyName: "TouchColor",
+            returnType: typeof(Color),
+            declaringType: typeof(Gradient),
+            defaultValue: default(Color),
+            propertyChanged: TryGenerateEffect);
+
+        public static Color GetTouchColor(BindableObject view) => (Color)view?.GetValue(TouchColorProperty);
+
+        public static void SetTouchColor(BindableObject view, Color color) => view?.SetValue(TouchColorProperty, color);
+
         public static void TryGenerateEffect(BindableObject view, object oldValue, object newValue)
         {
             if (!(view is VisualElement element)) return;
