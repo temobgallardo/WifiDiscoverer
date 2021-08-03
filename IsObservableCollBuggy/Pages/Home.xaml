@@ -1,22 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:effects="clr-namespace:IsObservableCollBuggy.Effects"
              x:Class="IsObservableCollBuggy.Pages.Home">
     <ContentPage.Content>
         <StackLayout CompressedLayout.IsHeadless="True">
-            <Label Text="Let's do some zapping!"
-                   FontSize="Header" />
-            <Button x:Name="ZappButton"
-                    Text="Zapp"
-                    Clicked="ZappButton_Clicked"
-                    Style="{StaticResource ActiveButton}" />
-            <ActivityIndicator x:Name="ZappSpinner"/>
-            <Button x:Name="NavigateButton"
-                    Text="Configurations"
+            <!--<Button x:Name="NavigateButton"
+                    Text="Change Label Gradient"
                     VerticalOptions="End"
                     HorizontalOptions="End"
-                    Clicked="NavigateButton_Clicked" 
-                    Style="{StaticResource ActiveButton}"/>
+                    Clicked="ChangeLabelGradientColor_Clicked"
+                    Style="{StaticResource ActiveButton}" />-->
+            <Button x:Name="ChangeTouchColor"
+                    Text="Change Label Touch Gradient"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Clicked="ChangeTouchColor_Clicked"
+                    Style="{StaticResource ActiveButton}" />
+            <!--<Label x:Name="GradientLabel"
+                   HeightRequest="60"
+                   WidthRequest="120"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Text="Gradient"
+                   effects:Gradient.CornerRadius="5"
+                   effects:Gradient.Colors="#1285A5, #7FC8C4" />-->
+            <Label x:Name="GradientAndTouchLabel"
+                    HeightRequest="90"
+                    WidthRequest="150"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Text="Gradient and Touch"
+                    effects:Gradient.CornerRadius="5"
+                    effects:Gradient.Colors="#1285A5, #7FC8C4"
+                    effects:Gradient.TouchColor="Green" />
+            <!--<Frame x:Name="GradientFrame"
+                   HeightRequest="60"
+                   WidthRequest="120"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   effects:Gradient.Colors="#1285A5, #7FC8C4"></Frame>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
