@@ -77,7 +77,8 @@ namespace IsObservableCollBuggy.Droid.Effects
 
             if (args.PropertyName == Gradient.ColorsProperty.PropertyName ||
                 args.PropertyName == Gradient.OrientationProperty.PropertyName ||
-                args.PropertyName == Gradient.CornerRadiusProperty.PropertyName)
+                args.PropertyName == Gradient.CornerRadiusProperty.PropertyName ||
+                args.PropertyName == Gradient.TouchColorProperty.PropertyName)
             {
                 UpdateGradient();
             }
