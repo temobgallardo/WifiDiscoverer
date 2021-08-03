@@ -12,7 +12,8 @@ namespace IsObservableCollBuggy
 
             //_mainPage = new MainPage();
             //MainPage = new NavigationPage(_mainPage);
-            MainPage = new NavigationPage(new Pages.WifiPageStructure());
+            //MainPage = new NavigationPage(new Pages.WifiPageStructure());
+            MainPage = new NavigationPage(new Pages.Home());
         }
 
         protected override void OnStart()
