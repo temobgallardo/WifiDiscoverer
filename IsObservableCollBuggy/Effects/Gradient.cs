@@ -121,7 +121,7 @@ namespace IsObservableCollBuggy.Effects
             propertyName: "Colors",
             returnType: typeof(GradientColors),
             declaringType: typeof(Gradient),
-            defaultValue: null,
+            defaultValue: default,
             propertyChanged: TryGenerateEffect);
 
         public static GradientColors GetColors(BindableObject view) => (GradientColors)view?.GetValue(ColorsProperty);
@@ -155,17 +155,26 @@ namespace IsObservableCollBuggy.Effects
 
         public static void TryGenerateEffect(BindableObject view, object oldValue, object newValue)
         {
+            System.Diagnostics.Debug.WriteLine($"Gradient - {nameof(TryGenerateEffect)}");
+
             if (!(view is VisualElement element)) return;
 
-            var gradient = element.Effects.FirstOrDefault(e => e is GradientRoutingEffect);
+            var gradientsEffects = element.Effects.OfType<GradientRoutingEffect>();
 
-            if (gradient != null)
-                element.Effects.Remove(gradient);
+            if (GetColors(element) is null)
+            {
+                foreach (var gc in gradientsEffects.ToArray())
+                {
+                    element.Effects.Remove(gc);
+                }
 
-            if (newValue is null)
                 return;
+            }
 
-            element.Effects.Add(new GradientRoutingEffect());
+            if (!gradientsEffects.Any())
+            {
+                element.Effects.Add(new GradientRoutingEffect());
+            }
         }
     }
 }
