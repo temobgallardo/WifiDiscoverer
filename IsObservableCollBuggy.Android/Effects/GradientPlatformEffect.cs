@@ -37,7 +37,9 @@ namespace IsObservableCollBuggy.Droid.Effects
         protected override void OnAttached()
         {
             _view = Container ?? Control;
-
+            /// Those two properties ensure the view to not react to clicks outside its boundaries.
+            _view.Clickable = true;
+            _view.LongClickable = true;
             _gradient = new GradientDrawable();
             _orgDrawable = _view.Background;
 
