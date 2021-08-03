@@ -12,9 +12,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AButton = Android.Widget.Button;
 using XFColor = Xamarin.Forms.Color;
-using Color = Android.Graphics.Color;
-using ListView = Android.Widget.ListView;
-using ScrollView = Android.Widget.ScrollView;
 
 [assembly: ExportEffect(typeof(GradientPlatformEffect), nameof(GradientRoutingEffect))]
 namespace IsObservableCollBuggy.Droid.Effects
@@ -50,12 +47,13 @@ namespace IsObservableCollBuggy.Droid.Effects
                 TouchCollector.Add(_view, OnTouch);
             }
 
-            System.Diagnostics.Debug.WriteLine($"{GetType().FullName} Attached completely");
+            System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnAttached)} - Attached completely");
         }
 
         protected override void OnDetached()
         {
             TouchCollector.Delete(_view, OnTouch);
+            _view.Background = _orgDrawable;
             _gradient?.Dispose();
             _gradient = null;
             _view = null;
@@ -63,6 +61,7 @@ namespace IsObservableCollBuggy.Droid.Effects
             if (IsSupportedByApi)
             {
                 _ripple?.Dispose();
+                _ripple = null;
             }
 
             System.Diagnostics.Debug.WriteLine($"{GetType().FullName} Detached completely");
@@ -70,6 +69,7 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
         {
+            System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnElementPropertyChanged)}");
             base.OnElementPropertyChanged(args);
 
             if (!IsSupportedByApi)
@@ -90,6 +90,7 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         void UpdateGradient()
         {
+            System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)}");
             var colors = Gradient.GetColors(Element);
             if (colors == null) return;
 
@@ -103,12 +104,14 @@ namespace IsObservableCollBuggy.Droid.Effects
             var rippleColor = Gradient.GetTouchColor(Element);
             if (IsSupportedByApi && rippleColor != default)
             {
-                SetEffectColor(rippleColor);
+                System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)} - Setting ripple");
+                SetTouchEffectColor(rippleColor);
                 _ripple = new RippleDrawable(GetPressedColorSelector(_color), content: _gradient, null);
                 _view.Background = _ripple;
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)} - Setting drawable");
                 _view.Background = _gradient;
             }
         }
@@ -163,19 +166,23 @@ namespace IsObservableCollBuggy.Droid.Effects
             };
         }
 
-        void SetEffectColor(XFColor color)
+        void SetTouchEffectColor(XFColor color)
         {
             if (color == XFColor.Default) return;
-            
+
             _color = color.ToAndroid();
             _alpha = _color.A == 255 ? (byte)80 : _color.A;
         }
 
         void OnTouch(Android.Views.View.TouchEventArgs args)
         {
+            System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnTouch)}");
+
             switch (args.Event.Action)
             {
                 case MotionEventActions.Down:
+                    System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnTouch)} - Down motion action");
+
                     if (IsSupportedByApi)
                         ForceStartRipple(args.Event.GetX(), args.Event.GetY());
                     else
@@ -184,6 +191,8 @@ namespace IsObservableCollBuggy.Droid.Effects
                     break;
                 case MotionEventActions.Up:
                 case MotionEventActions.Cancel:
+                    System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnTouch)} - Up or Cancel motion action");
+
                     if (IsSupportedByApi)
                         ForceEndRipple();
                     else
