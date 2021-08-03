@@ -165,6 +165,7 @@ namespace IsObservableCollBuggy.Effects
             {
                 foreach (var gc in gradientsEffects.ToArray())
                 {
+                    System.Diagnostics.Debug.WriteLine($"Gradient - {nameof(TryGenerateEffect)} - Dettaching");
                     element.Effects.Remove(gc);
                 }
 
@@ -173,6 +174,7 @@ namespace IsObservableCollBuggy.Effects
 
             if (!gradientsEffects.Any())
             {
+                System.Diagnostics.Debug.WriteLine($"Gradient - {nameof(TryGenerateEffect)} - Attaching");
                 element.Effects.Add(new GradientRoutingEffect());
             }
         }

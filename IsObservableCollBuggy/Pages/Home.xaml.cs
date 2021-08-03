@@ -9,8 +9,8 @@ namespace IsObservableCollBuggy.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Home : ContentPage
     {
-        private readonly WifiPageStructure _wifiPageStructure = new WifiPageStructure();
-        private readonly Diagnostics _diagnostics = new Diagnostics();
+        //private readonly WifiPageStructure _wifiPageStructure = new WifiPageStructure();
+        //private readonly Diagnostics _diagnostics = new Diagnostics();
         private readonly Random _rand = new Random();
         public Home()
         {
@@ -25,11 +25,11 @@ namespace IsObservableCollBuggy.Pages
 
             //ZappSpinner.IsRunning = false;
 
-            await Navigation.PushAsync(_wifiPageStructure);
+            //await Navigation.PushAsync(_wifiPageStructure);
         }
         private async void NavigateButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(_diagnostics);
+            //await Navigation.PushAsync(_diagnostics);
         }
         protected override void OnAppearing()
         {
