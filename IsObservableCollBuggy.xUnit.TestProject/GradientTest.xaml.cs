@@ -20,7 +20,7 @@ namespace IsObservableCollBuggy.xUnit.Tests
             InitializeComponent();
         }
 
-        public class Test: IDisposable
+        public class Test : IDisposable
         {
             private GradientTest gd;
             private Label label;
@@ -74,11 +74,62 @@ namespace IsObservableCollBuggy.xUnit.Tests
                 Assert.Equal(expected, label.Effects.Count);
             }
 
+            [Fact]
+            public void ShouldNotAddTouchIfDefault()
+            {
+                Color expected = default;
+                GradientColors gradient = new GradientColors(new Color[] { Color.FromHex("#1285A5"), Color.FromHex("#7FC8C4") });
+
+                Gradient.SetColors(label, gradient);
+                Gradient.SetTouchColor(label, expected);
+
+                Assert.Equal(expected, Gradient.GetTouchColor(label));
+            }
+
+            [Fact]
+            public void ShouldHaveGradient()
+            {
+                RemoveAllEffects();
+
+                GradientColors gradient = new GradientColors(new Color[] { Color.FromHex("#1285A5"), Color.FromHex("#7FC8C4") });
+
+                Gradient.SetColors(label, gradient);
+
+                var effect = label.Effects.OfType<GradientRoutingEffect>();
+
+                Assert.True(effect.Any());
+            }
+
+            [Fact]
+            public void ShouldNotHaveTouch()
+            {
+                RemoveAllEffects();
+
+                Color touchColor = default;
+
+                Gradient.SetTouchColor(label, touchColor);
+
+                var effect = label.Effects.OfType<GradientRoutingEffect>();
+
+                Assert.True(!effect.Any());
+            }
+
             public void Dispose()
             {
                 label = null;
                 btn = null;
                 gd = null;
+            }
+
+            private void RemoveAllEffects()
+            {
+                var effects = label.Effects.OfType<GradientRoutingEffect>();
+                if (!effects.Any())
+                {
+                    return;
+                }
+
+                label.Effects.Remove(effects.First());
             }
         }
         public class GradientColorsTestData : IEnumerable<object[]>
