@@ -12,6 +12,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AButton = Android.Widget.Button;
 using XFColor = Xamarin.Forms.Color;
+using ListView = Android.Widget.ListView;
+using ScrollView = Android.Widget.ScrollView;
 
 [assembly: ExportEffect(typeof(GradientPlatformEffect), nameof(GradientRoutingEffect))]
 namespace IsObservableCollBuggy.Droid.Effects
@@ -19,7 +21,7 @@ namespace IsObservableCollBuggy.Droid.Effects
     [Android.Runtime.Preserve(AllMembers = true)]
     public class GradientPlatformEffect : PlatformEffect
     {
-        private Android.Views.View _view;
+        private Android.Views.View _view => Container ?? Control;
         private GradientDrawable _gradient;
         private Drawable _orgDrawable;
         private RippleDrawable _ripple;
@@ -33,7 +35,11 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         protected override void OnAttached()
         {
-            _view = Container ?? Control;
+            if (Control is ListView || Control is ScrollView)
+            {
+                return;
+            }
+
             /// Those two properties ensure the view to not react to clicks outside its boundaries.
             _view.Clickable = true;
             _view.LongClickable = true;
@@ -42,21 +48,17 @@ namespace IsObservableCollBuggy.Droid.Effects
 
             UpdateGradient();
 
-            if (!(_view is AButton button))
-            {
+            if (!(_view is AButton))
                 TouchCollector.Add(_view, OnTouch);
-            }
 
             System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnAttached)} - Attached completely");
         }
 
         protected override void OnDetached()
         {
-            TouchCollector.Delete(_view, OnTouch);
             _view.Background = _orgDrawable;
             _gradient?.Dispose();
             _gradient = null;
-            _view = null;
 
             if (IsSupportedByApi)
             {
@@ -64,6 +66,7 @@ namespace IsObservableCollBuggy.Droid.Effects
                 _ripple = null;
             }
 
+            TouchCollector.Delete(_view, OnTouch);
             System.Diagnostics.Debug.WriteLine($"{GetType().FullName} Detached completely");
         }
 
@@ -108,12 +111,17 @@ namespace IsObservableCollBuggy.Droid.Effects
                 SetTouchEffectColor(rippleColor);
                 _ripple = new RippleDrawable(GetPressedColorSelector(_color), content: _gradient, null);
                 _view.Background = _ripple;
+                //_view.InvalidateDrawable(_ripple);
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)} - Setting drawable");
                 _view.Background = _gradient;
+                //_view.InvalidateDrawable(_ripple);
             }
+
+            //_view.Background?.InvalidateSelf();
+            //_view.RefreshDrawableState();
         }
 
         void UpdateDisabledGradient()
@@ -254,7 +262,6 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         void BringLayer()
         {
-
             ClearAnimation();
 
             var color = _color;
