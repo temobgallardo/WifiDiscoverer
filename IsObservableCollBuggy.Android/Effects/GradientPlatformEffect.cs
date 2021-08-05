@@ -21,13 +21,9 @@ namespace IsObservableCollBuggy.Droid.Effects
     [Android.Runtime.Preserve(AllMembers = true)]
     public class GradientPlatformEffect : PlatformEffect
     {
-        private Android.Views.View _view => Container ?? Control;
+        private Android.Views.View View => Container ?? Control;
         private GradientDrawable _gradient;
         private Drawable _orgDrawable;
-        private RippleDrawable _ripple;
-        private ObjectAnimator _animator;
-        private Android.Graphics.Color _color;
-        private byte _alpha;
 
         protected bool IsSupportedByApi => Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop;
 
@@ -35,38 +31,21 @@ namespace IsObservableCollBuggy.Droid.Effects
 
         protected override void OnAttached()
         {
-            if (Control is ListView || Control is ScrollView)
-            {
-                return;
-            }
+            if (Control is ListView || Control is ScrollView) return;
 
-            /// Those two properties ensure the view to not react to clicks outside its boundaries.
-            _view.Clickable = true;
-            _view.LongClickable = true;
             _gradient = new GradientDrawable();
-            _orgDrawable = _view.Background;
-
-            UpdateGradient();
-
-            if (!(_view is AButton))
-                TouchCollector.Add(_view, OnTouch);
+            _orgDrawable = View.Background;
+            View.Background = GetBackground();
 
             System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnAttached)} - Attached completely");
         }
 
         protected override void OnDetached()
         {
-            _view.Background = _orgDrawable;
+            View.Background = _orgDrawable;
             _gradient?.Dispose();
             _gradient = null;
 
-            if (IsSupportedByApi)
-            {
-                _ripple?.Dispose();
-                _ripple = null;
-            }
-
-            TouchCollector.Delete(_view, OnTouch);
             System.Diagnostics.Debug.WriteLine($"{GetType().FullName} Detached completely");
         }
 
@@ -83,15 +62,15 @@ namespace IsObservableCollBuggy.Droid.Effects
                 args.PropertyName == Gradient.CornerRadiusProperty.PropertyName ||
                 args.PropertyName == Gradient.TouchColorProperty.PropertyName)
             {
-                UpdateGradient();
+                View.Background = GetBackground();
             }
             else if (args.PropertyName == Gradient.IsEnableProperty.PropertyName)
             {
-                UpdateDisabledGradient();
+                View.Background = GetBackgrounWithTextColor();
             }
         }
 
-        void UpdateGradient()
+        private void UpdateGradient()
         {
             System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)}");
             var colors = Gradient.GetColors(Element);
@@ -102,38 +81,24 @@ namespace IsObservableCollBuggy.Droid.Effects
             _gradient.SetAlpha(GetAlpha());
             _gradient.SetCornerRadius(Gradient.GetCornerRadius(Element));
 
-            _view.ClipToOutline = true; //not to overflow children
-
-            var rippleColor = Gradient.GetTouchColor(Element);
-            if (IsSupportedByApi && rippleColor != default)
-            {
-                System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)} - Setting ripple");
-                SetTouchEffectColor(rippleColor);
-                _ripple = new RippleDrawable(GetPressedColorSelector(_color), content: _gradient, null);
-                _view.Background = _ripple;
-                //_view.InvalidateDrawable(_ripple);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(UpdateGradient)} - Setting drawable");
-                _view.Background = _gradient;
-                //_view.InvalidateDrawable(_ripple);
-            }
-
-            //_view.Background?.InvalidateSelf();
-            //_view.RefreshDrawableState();
+            View.ClipToOutline = true; //not to overflow children
         }
 
-        void UpdateDisabledGradient()
+        private Drawable GetBackgrounWithTextColor()
         {
             UpdateGradient();
+            UpdateDisabledGradient();
+            return CreateDrawable();
+        }
 
+        private void UpdateDisabledGradient()
+        {
             var enabled = Gradient.GetIsEnable(Element);
             if (enabled) return;
 
-            switch (_view)
+            switch (View)
             {
-                case Android.Widget.Button button:
+                case AButton button:
                     button.SetTextColor(XFColor.White.ToAndroid());
                     break;
                 case Android.Widget.EditText editView:
@@ -147,7 +112,7 @@ namespace IsObservableCollBuggy.Droid.Effects
             }
         }
 
-        int GetAlpha()
+        private int GetAlpha()
         {
             var enabled = Gradient.GetIsEnable(Element);
 
@@ -156,7 +121,7 @@ namespace IsObservableCollBuggy.Droid.Effects
             return 90;
         }
 
-        GradientDrawable.Orientation ConvertOrientation()
+        private GradientDrawable.Orientation ConvertOrientation()
         {
             var orientation = Gradient.GetOrientation(Element);
 
@@ -174,135 +139,29 @@ namespace IsObservableCollBuggy.Droid.Effects
             };
         }
 
-        void SetTouchEffectColor(XFColor color)
-        {
-            if (color == XFColor.Default) return;
 
-            _color = color.ToAndroid();
-            _alpha = _color.A == 255 ? (byte)80 : _color.A;
+        private Drawable GetBackground()
+        {
+            UpdateGradient();
+
+            return CreateDrawable();
         }
 
-        void OnTouch(Android.Views.View.TouchEventArgs args)
+        private Drawable CreateDrawable()
         {
-            System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnTouch)}");
-
-            switch (args.Event.Action)
-            {
-                case MotionEventActions.Down:
-                    System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnTouch)} - Down motion action");
-
-                    if (IsSupportedByApi)
-                        ForceStartRipple(args.Event.GetX(), args.Event.GetY());
-                    else
-                        BringLayer();
-
-                    break;
-                case MotionEventActions.Up:
-                case MotionEventActions.Cancel:
-                    System.Diagnostics.Debug.WriteLine($"{GetType().FullName} - {nameof(OnTouch)} - Up or Cancel motion action");
-
-                    if (IsSupportedByApi)
-                        ForceEndRipple();
-                    else
-                        TapAnimation(250, _alpha, 0);
-
-                    break;
-            }
-        }
-
-        #region ripple
-        RippleDrawable CreateRipple(Android.Graphics.Color color)
-        {
-            if (Element is Xamarin.Forms.Layout)
-            {
-                var mask = new ColorDrawable(Android.Graphics.Color.White);
-                return _ripple = new RippleDrawable(GetPressedColorSelector(color), null, mask);
-            }
-
-            var back = _view.Background;
-            if (back == null)
-            {
-                var mask = new ColorDrawable(Android.Graphics.Color.White);
-                return _ripple = new RippleDrawable(GetPressedColorSelector(color), null, mask);
-            }
+            var back = View.Background;
 
             if (back is RippleDrawable)
-            {
-                _ripple = (RippleDrawable)back.GetConstantState().NewDrawable();
-                _ripple.SetColor(GetPressedColorSelector(color));
+                return new RippleDrawable(GetPressedColorSelector(Gradient.GetTouchColor(Element).ToAndroid()), _gradient, null);
 
-                return _ripple;
-            }
-
-            return _ripple = new RippleDrawable(GetPressedColorSelector(color), back, null);
+            return _gradient;
         }
 
-        static ColorStateList GetPressedColorSelector(int pressedColor)
+        private static ColorStateList GetPressedColorSelector(int pressedColor)
         {
             return new ColorStateList(
                 new[] { new int[] { } },
                 new[] { pressedColor, });
         }
-
-        void ForceStartRipple(float x, float y)
-        {
-            if (!(_view.Background is RippleDrawable bc)) return;
-
-            bc.SetHotspot(x, y);
-            _view.Pressed = true;
-        }
-
-        void ForceEndRipple()
-        {
-            _view.Pressed = false;
-        }
-        #endregion
-
-        #region Overlay
-
-        void BringLayer()
-        {
-            ClearAnimation();
-
-            var color = _color;
-            color.A = _alpha;
-            _view.SetBackgroundColor(color);
-        }
-
-        void TapAnimation(long duration, byte startAlpha, byte endAlpha)
-        {
-            var start = _color;
-            var end = _color;
-            start.A = startAlpha;
-            end.A = endAlpha;
-
-            ClearAnimation();
-            _animator = ObjectAnimator.OfObject(_view,
-                "BackgroundColor",
-                new ArgbEvaluator(),
-                start.ToArgb(),
-                end.ToArgb());
-            _animator.SetDuration(duration);
-            _animator.RepeatCount = 0;
-            _animator.RepeatMode = ValueAnimatorRepeatMode.Restart;
-            _animator.Start();
-            _animator.AnimationEnd += AnimationOnAnimationEnd;
-        }
-
-        void AnimationOnAnimationEnd(object sender, EventArgs eventArgs)
-        {
-            ClearAnimation();
-        }
-
-        void ClearAnimation()
-        {
-            if (_animator == null) return;
-            _animator.AnimationEnd -= AnimationOnAnimationEnd;
-            _animator.Cancel();
-            _animator.Dispose();
-            _animator = null;
-        }
-
-        #endregion
     }
 }

@@ -26,9 +26,11 @@ namespace IsObservableCollBuggy.Droid.Effects
         public bool IsDisposed => (Container as IVisualElementRenderer)?.Element == null;
         public View View => Control ?? Container;
 
+
         Color _color;
         byte _alpha;
         RippleDrawable _ripple;
+        ObjectAnimator _animator;
 
         protected override void OnAttached()
         {
@@ -48,10 +50,6 @@ namespace IsObservableCollBuggy.Droid.Effects
             {
                 TouchCollector.Add(View, OnTouch);
             }
-
-            var e = Element as Xamarin.Forms.Button;
-
-            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} {e.Text} Attached completely");
         }
 
         protected override void OnDetached()
@@ -62,11 +60,7 @@ namespace IsObservableCollBuggy.Droid.Effects
                 _ripple?.Dispose();
 
             TouchCollector.Delete(View, OnTouch);
-
-            
-            var e = Element as Xamarin.Forms.Button;
-
-            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} {e.Text} Detached completely");
+            System.Diagnostics.Debug.WriteLine($"{this.GetType().FullName} Detached completely");
         }
 
         protected override void OnElementPropertyChanged(PropertyChangedEventArgs e)
@@ -101,10 +95,10 @@ namespace IsObservableCollBuggy.Droid.Effects
             switch (args.Event.Action)
             {
                 case MotionEventActions.Down:
-                    ////if (EnableRipple)
-                    ////    ForceStartRipple(args.Event.GetX(), args.Event.GetY());
-                    ////else
-                    ////    BringLayer();
+                    if (IsSupportedByApi)
+                        ForceStartRipple(args.Event.GetX(), args.Event.GetY());
+                    else
+                        BringLayer();
 
                     break;
 
@@ -112,10 +106,10 @@ namespace IsObservableCollBuggy.Droid.Effects
                 case MotionEventActions.Cancel:
                     if (IsDisposed) return;
 
-                    //if (EnableRipple)
-                    //    ForceEndRipple();
-                    //else
-                    //    TapAnimation(250, _alpha, 0);
+                    if (IsSupportedByApi)
+                        ForceEndRipple();
+                    else
+                        TapAnimation(250, _alpha, 0);
 
                     break;
             }
@@ -146,6 +140,7 @@ namespace IsObservableCollBuggy.Droid.Effects
                 return _ripple;
             }
 
+            // We need the back if we want to see a gradient in the element.
             return _ripple = new RippleDrawable(GetPressedColorSelector(color), back, null);
         }
 
@@ -157,79 +152,74 @@ namespace IsObservableCollBuggy.Droid.Effects
         }
 
 
-        //void ForceStartRipple(float x, float y)
-        //{
-        //    if (IsDisposed || !(_viewOverlay.Background is RippleDrawable bc)) return;
+        void ForceStartRipple(float x, float y)
+        {
+            if (IsDisposed || !(View.Background is RippleDrawable bc)) return;
 
-        //    _viewOverlay.BringToFront();
-        //    bc.SetHotspot(x, y);
-        //    _viewOverlay.Pressed = true;
-        //}
+            bc.SetHotspot(x, y);
+            View.Pressed = true;
+        }
 
-        //void ForceEndRipple()
-        //{
-        //    if (IsDisposed) return;
+        void ForceEndRipple()
+        {
+            if (IsDisposed) return;
 
-        //    _viewOverlay.Pressed = false;
-        //}
+            View.Pressed = false;
+        }
         #endregion
 
-        //#region Overlay
+        #region Overlay
 
-        //void BringLayer()
-        //{
-        //    if (IsDisposed)
-        //        return;
+        void BringLayer()
+        {
+            if (IsDisposed)
+                return;
 
-        //    ClearAnimation();
+            ClearAnimation();
+            var color = _color;
+            color.A = _alpha;
+            View.SetBackgroundColor(color);
+        }
 
-        //    _viewOverlay.BringToFront();
-        //    var color = _color;
-        //    color.A = _alpha;
-        //    _viewOverlay.SetBackgroundColor(color);
-        //}
+        void TapAnimation(long duration, byte startAlpha, byte endAlpha)
+        {
+            if (IsDisposed)
+                return;
 
-        //void TapAnimation(long duration, byte startAlpha, byte endAlpha)
-        //{
-        //    if (IsDisposed)
-        //        return;
+            var start = _color;
+            var end = _color;
+            start.A = startAlpha;
+            end.A = endAlpha;
 
-        //    _viewOverlay.BringToFront();
+            ClearAnimation();
+            _animator = ObjectAnimator.OfObject(View,
+                "BackgroundColor",
+                new ArgbEvaluator(),
+                start.ToArgb(),
+                end.ToArgb());
+            _animator.SetDuration(duration);
+            _animator.RepeatCount = 0;
+            _animator.RepeatMode = ValueAnimatorRepeatMode.Restart;
+            _animator.Start();
+            _animator.AnimationEnd += AnimationOnAnimationEnd;
+        }
 
-        //    var start = _color;
-        //    var end = _color;
-        //    start.A = startAlpha;
-        //    end.A = endAlpha;
+        void AnimationOnAnimationEnd(object sender, EventArgs eventArgs)
+        {
+            if (IsDisposed) return;
 
-        //    ClearAnimation();
-        //    _animator = ObjectAnimator.OfObject(_viewOverlay,
-        //        "BackgroundColor",
-        //        new ArgbEvaluator(),
-        //        start.ToArgb(),
-        //        end.ToArgb());
-        //    _animator.SetDuration(duration);
-        //    _animator.RepeatCount = 0;
-        //    _animator.RepeatMode = ValueAnimatorRepeatMode.Restart;
-        //    _animator.Start();
-        //    _animator.AnimationEnd += AnimationOnAnimationEnd;
-        //}
+            ClearAnimation();
+        }
 
-        //void AnimationOnAnimationEnd(object sender, EventArgs eventArgs)
-        //{
-        //    if (IsDisposed) return;
+        void ClearAnimation()
+        {
+            if (_animator == null) return;
+            _animator.AnimationEnd -= AnimationOnAnimationEnd;
+            _animator.Cancel();
+            _animator.Dispose();
+            _animator = null;
+        }
 
-        //    ClearAnimation();
-        //}
-
-        //void ClearAnimation()
-        //{
-        //    if (_animator == null) return;
-        //    _animator.AnimationEnd -= AnimationOnAnimationEnd;
-        //    _animator.Cancel();
-        //    _animator.Dispose();
-        //    _animator = null;
-        //}
-
-        //#endregion
+        #endregion
     }
 }
