@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IsObservableCollBuggy.Resx {
+namespace WifiDiscoverer.Resx {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace IsObservableCollBuggy.Resx {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResource {
+    public class AppResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace IsObservableCollBuggy.Resx {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IsObservableCollBuggy.Resx.AppResource", typeof(AppResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WifiDiscoverer.Resx.AppResource", typeof(AppResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace IsObservableCollBuggy.Resx {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Device needs to be activated first.
         /// </summary>
-        internal static string ActivateFirst {
+        public static string ActivateFirst {
             get {
                 return ResourceManager.GetString("ActivateFirst", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Are you still here?.
         /// </summary>
-        internal static string AutoLogoutGreetingTitleText {
+        public static string AutoLogoutGreetingTitleText {
             get {
                 return ResourceManager.GetString("AutoLogoutGreetingTitleText", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I&apos;ll log you out in.
         /// </summary>
-        internal static string AutoLogoutSecondGreetingTitleText {
+        public static string AutoLogoutSecondGreetingTitleText {
             get {
                 return ResourceManager.GetString("AutoLogoutSecondGreetingTitleText", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to BOTTOM.
         /// </summary>
-        internal static string BOTTOM {
+        public static string BOTTOM {
             get {
                 return ResourceManager.GetString("BOTTOM", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Cancel {
+        public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Cannot Login.
         /// </summary>
-        internal static string CannotLogin {
+        public static string CannotLogin {
             get {
                 return ResourceManager.GetString("CannotLogin", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please close the glass door(s) &amp; press OK..
         /// </summary>
-        internal static string CloseGlassDoorWarningTitleText {
+        public static string CloseGlassDoorWarningTitleText {
             get {
                 return ResourceManager.GetString("CloseGlassDoorWarningTitleText", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Press OK to Lower the Dome and Complete the Install..
         /// </summary>
-        internal static string CompleteInstallMessage {
+        public static string CompleteInstallMessage {
             get {
                 return ResourceManager.GetString("CompleteInstallMessage", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Contact your administrator..
         /// </summary>
-        internal static string ContactYourAdmin {
+        public static string ContactYourAdmin {
             get {
                 return ResourceManager.GetString("ContactYourAdmin", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Do not use me. I must be serviced by a certified technician..
         /// </summary>
-        internal static string CriticalErrorMessageLine1TitleText {
+        public static string CriticalErrorMessageLine1TitleText {
             get {
                 return ResourceManager.GetString("CriticalErrorMessageLine1TitleText", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Contact your XCT or Call Customer Support at 1-866-867-9799..
         /// </summary>
-        internal static string CriticalErrorMessageLine2TitleText {
+        public static string CriticalErrorMessageLine2TitleText {
             get {
                 return ResourceManager.GetString("CriticalErrorMessageLine2TitleText", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Cycle is cancelled by the user..
         /// </summary>
-        internal static string CycleCancelled {
+        public static string CycleCancelled {
             get {
                 return ResourceManager.GetString("CycleCancelled", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Cancelling disinfection cycle ....
         /// </summary>
-        internal static string CycleReadyPageCancellingCycleTitleText {
+        public static string CycleReadyPageCancellingCycleTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageCancellingCycleTitleText", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I cannot start zapping if I detect a person..
         /// </summary>
-        internal static string CycleReadyPageCanNotZapIfMotionDetectedTitleText {
+        public static string CycleReadyPageCanNotZapIfMotionDetectedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageCanNotZapIfMotionDetectedTitleText", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to complete..
         /// </summary>
-        internal static string CycleReadyPageCompleteTitleText {
+        public static string CycleReadyPageCompleteTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageCompleteTitleText", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Continue in.
         /// </summary>
-        internal static string CycleReadyPageContinueInTitleText {
+        public static string CycleReadyPageContinueInTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageContinueInTitleText", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Continue zapping ....
         /// </summary>
-        internal static string CycleReadyPageContinueZappingTitleText {
+        public static string CycleReadyPageContinueZappingTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageContinueZappingTitleText", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to The cycle can&apos;t be started yet.
         /// </summary>
-        internal static string CycleReadyPageCycleCantBeStartedTitleText {
+        public static string CycleReadyPageCycleCantBeStartedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageCycleCantBeStartedTitleText", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to selected..
         /// </summary>
-        internal static string CycleReadyPageDetectedTitleText {
+        public static string CycleReadyPageDetectedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageDetectedTitleText", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Do not disturb me..
         /// </summary>
-        internal static string CycleReadyPageDoNotDisturbMeTitleText {
+        public static string CycleReadyPageDoNotDisturbMeTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageDoNotDisturbMeTitleText", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Keep up the good work.
         /// </summary>
-        internal static string CycleReadyPageGoodWorkTitleText {
+        public static string CycleReadyPageGoodWorkTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageGoodWorkTitleText", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I&apos;m ready in.
         /// </summary>
-        internal static string CycleReadyPageImReadyTitleText {
+        public static string CycleReadyPageImReadyTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageImReadyTitleText", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Leave the room now..
         /// </summary>
-        internal static string CycleReadyPageLeaveRoomTitleText {
+        public static string CycleReadyPageLeaveRoomTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageLeaveRoomTitleText", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lets finish.
         /// </summary>
-        internal static string CycleReadyPageLetsFinishTitleText {
+        public static string CycleReadyPageLetsFinishTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageLetsFinishTitleText", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I detected motion and stopped the cycle..
         /// </summary>
-        internal static string CycleReadyPageMotionDetectedTitleText {
+        public static string CycleReadyPageMotionDetectedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageMotionDetectedTitleText", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Move me under another StrikeSpot..
         /// </summary>
-        internal static string CycleReadyPageMoveToAnotherStrikeSpotTitleText {
+        public static string CycleReadyPageMoveToAnotherStrikeSpotTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageMoveToAnotherStrikeSpotTitleText", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Move me under the remaining StrikeSpot..
         /// </summary>
-        internal static string CycleReadyPageMoveToRemainingStrikeSpotTitleText {
+        public static string CycleReadyPageMoveToRemainingStrikeSpotTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageMoveToRemainingStrikeSpotTitleText", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I did not detect that you exited the room..
         /// </summary>
-        internal static string CycleReadyPageNotExitedTitleText {
+        public static string CycleReadyPageNotExitedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageNotExitedTitleText", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Plug me in &amp; place the cones..
         /// </summary>
-        internal static string CycleReadyPagePlugInTitleText {
+        public static string CycleReadyPagePlugInTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPagePlugInTitleText", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I detected power loss and stopped the cycle..
         /// </summary>
-        internal static string CycleReadyPagePowerLossDetectedTitleText {
+        public static string CycleReadyPagePowerLossDetectedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPagePowerLossDetectedTitleText", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Press the green button above the screen..
         /// </summary>
-        internal static string CycleReadyPagePushButtonTitleText {
+        public static string CycleReadyPagePushButtonTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPagePushButtonTitleText", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I detected a remote cone stop..
         /// </summary>
-        internal static string CycleReadyPageRemoteConeStopDetectedTitleText {
+        public static string CycleReadyPageRemoteConeStopDetectedTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageRemoteConeStopDetectedTitleText", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please wait. Resetting firmware..
         /// </summary>
-        internal static string CycleReadyPageResetFirmware {
+        public static string CycleReadyPageResetFirmware {
             get {
                 return ResourceManager.GetString("CycleReadyPageResetFirmware", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Stand closer to me..
         /// </summary>
-        internal static string CycleReadyPageStandCloserTitleText {
+        public static string CycleReadyPageStandCloserTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageStandCloserTitleText", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Start the cycle again then exit the room..
         /// </summary>
-        internal static string CycleReadyPageStartCycleAgainTitleText {
+        public static string CycleReadyPageStartCycleAgainTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageStartCycleAgainTitleText", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Try the cycle again by pressing the green button above the screen..
         /// </summary>
-        internal static string CycleReadyPageTryCycleAgainTitleText {
+        public static string CycleReadyPageTryCycleAgainTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageTryCycleAgainTitleText", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I will start zapping after you exit..
         /// </summary>
-        internal static string CycleReadyPageZapAfterExitTitleText {
+        public static string CycleReadyPageZapAfterExitTitleText {
             get {
                 return ResourceManager.GetString("CycleReadyPageZapAfterExitTitleText", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Development.
         /// </summary>
-        internal static string DevelopmentServer {
+        public static string DevelopmentServer {
             get {
                 return ResourceManager.GetString("DevelopmentServer", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        internal static string DiagnosticPageAboutTabTitleText {
+        public static string DiagnosticPageAboutTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageAboutTabTitleText", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Disable.
         /// </summary>
-        internal static string DiagnosticPageAdbDisableTitleText {
+        public static string DiagnosticPageAdbDisableTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageAdbDisableTitleText", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Enable.
         /// </summary>
-        internal static string DiagnosticPageAdbEnableTitleText {
+        public static string DiagnosticPageAdbEnableTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageAdbEnableTitleText", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to TroubleShooting.
         /// </summary>
-        internal static string DiagnosticPageAdbTabTitleText {
+        public static string DiagnosticPageAdbTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageAdbTabTitleText", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Configure Connection to Device via ADB.
         /// </summary>
-        internal static string DiagnosticPageAdbTitleText {
+        public static string DiagnosticPageAdbTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageAdbTitleText", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Alpha Value.
         /// </summary>
-        internal static string DiagnosticPageAlphaTitleText {
+        public static string DiagnosticPageAlphaTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageAlphaTitleText", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Battery.
         /// </summary>
-        internal static string DiagnosticPageBatteryTabTitleText {
+        public static string DiagnosticPageBatteryTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageBatteryTabTitleText", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to CANCEL.
         /// </summary>
-        internal static string DiagnosticPageCancelTitleText {
+        public static string DiagnosticPageCancelTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageCancelTitleText", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Dome.
         /// </summary>
-        internal static string DiagnosticPageDomeTabTitleText {
+        public static string DiagnosticPageDomeTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageDomeTabTitleText", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Service.
         /// </summary>
-        internal static string DiagnosticPageHeader1TitleText {
+        public static string DiagnosticPageHeader1TitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageHeader1TitleText", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Diagnostics and Settings.
         /// </summary>
-        internal static string DiagnosticPageHeader2TitleText {
+        public static string DiagnosticPageHeader2TitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageHeader2TitleText", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to ERROR: Lamp with serial number &apos;{0}&apos; already saved..
         /// </summary>
-        internal static string DiagnosticPageLampExist {
+        public static string DiagnosticPageLampExist {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampExist", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Install Lamp.
         /// </summary>
-        internal static string DiagnosticPageLampInstall {
+        public static string DiagnosticPageLampInstall {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampInstall", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lamp Pulse Count.
         /// </summary>
-        internal static string DiagnosticPageLampPulseCountTitleText {
+        public static string DiagnosticPageLampPulseCountTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampPulseCountTitleText", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Remove Lamp.
         /// </summary>
-        internal static string DiagnosticPageLampRemove {
+        public static string DiagnosticPageLampRemove {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampRemove", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Failed to remove lamps, try again.
         /// </summary>
-        internal static string DiagnosticPageLampRemoveFailure {
+        public static string DiagnosticPageLampRemoveFailure {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampRemoveFailure", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Remove lamp successful.
         /// </summary>
-        internal static string DiagnosticPageLampRemoveSuccess {
+        public static string DiagnosticPageLampRemoveSuccess {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampRemoveSuccess", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to ERROR: Saving new lamp failed, please try again!.
         /// </summary>
-        internal static string DiagnosticPageLampSaveFailure {
+        public static string DiagnosticPageLampSaveFailure {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampSaveFailure", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to New lamp is saved successfuly!.
         /// </summary>
-        internal static string DiagnosticPageLampSaveSuccess {
+        public static string DiagnosticPageLampSaveSuccess {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampSaveSuccess", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lamp Serial Number.
         /// </summary>
-        internal static string DiagnosticPageLampSerialNumberTitleText {
+        public static string DiagnosticPageLampSerialNumberTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampSerialNumberTitleText", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lamp.
         /// </summary>
-        internal static string DiagnosticPageLampTabTitleText {
+        public static string DiagnosticPageLampTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLampTabTitleText", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to BOTH.
         /// </summary>
-        internal static string DiagnosticPageLoginBothTitleText {
+        public static string DiagnosticPageLoginBothTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLoginBothTitleText", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to MANUAL.
         /// </summary>
-        internal static string DiagnosticPageLoginManualTitleText {
+        public static string DiagnosticPageLoginManualTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLoginManualTitleText", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to NFC.
         /// </summary>
-        internal static string DiagnosticPageLoginNfcTitleText {
+        public static string DiagnosticPageLoginNfcTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLoginNfcTitleText", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
-        internal static string DiagnosticPageLoginTabTitleText {
+        public static string DiagnosticPageLoginTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageLoginTabTitleText", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Min Signal Strength.
         /// </summary>
-        internal static string DiagnosticPageMinStrengthTitleText {
+        public static string DiagnosticPageMinStrengthTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageMinStrengthTitleText", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to No Lamps to remove.
         /// </summary>
-        internal static string DiagnosticPageNoLamps {
+        public static string DiagnosticPageNoLamps {
             get {
                 return ResourceManager.GetString("DiagnosticPageNoLamps", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to OFF.
         /// </summary>
-        internal static string DiagnosticPageOffTitleText {
+        public static string DiagnosticPageOffTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageOffTitleText", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to ON.
         /// </summary>
-        internal static string DiagnosticPageOnTitleText {
+        public static string DiagnosticPageOnTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageOnTitleText", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Plug me in before adjusting settings..
         /// </summary>
-        internal static string DiagnosticPagePlugInTitleText {
+        public static string DiagnosticPagePlugInTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPagePlugInTitleText", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Pulse Frequency.
         /// </summary>
-        internal static string DiagnosticPagePulseFrequencyTabTitleText {
+        public static string DiagnosticPagePulseFrequencyTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPagePulseFrequencyTabTitleText", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please return me to bottom before proceeding..
         /// </summary>
-        internal static string DiagnosticPageReturnMotorHomeTitleText {
+        public static string DiagnosticPageReturnMotorHomeTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageReturnMotorHomeTitleText", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Rfid Room Tags.
         /// </summary>
-        internal static string DiagnosticPageRfidRoomTagsTitleText {
+        public static string DiagnosticPageRfidRoomTagsTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageRfidRoomTagsTitleText", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to RFID Parameters.
         /// </summary>
-        internal static string DiagnosticPageRfidTabTitleText {
+        public static string DiagnosticPageRfidTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageRfidTabTitleText", resourceCulture);
             }
@@ -711,7 +711,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Rfid User Tags.
         /// </summary>
-        internal static string DiagnosticPageRfidUserTagsTitleText {
+        public static string DiagnosticPageRfidUserTagsTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageRfidUserTagsTitleText", resourceCulture);
             }
@@ -720,7 +720,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to RSSI Threshold.
         /// </summary>
-        internal static string DiagnosticPageRSSIThresholdTitleText {
+        public static string DiagnosticPageRSSIThresholdTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageRSSIThresholdTitleText", resourceCulture);
             }
@@ -729,7 +729,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Save New Lamp.
         /// </summary>
-        internal static string DiagnosticPageSaveNewLampTitleText {
+        public static string DiagnosticPageSaveNewLampTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSaveNewLampTitleText", resourceCulture);
             }
@@ -738,7 +738,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to SAVE.
         /// </summary>
-        internal static string DiagnosticPageSaveTitleText {
+        public static string DiagnosticPageSaveTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSaveTitleText", resourceCulture);
             }
@@ -747,7 +747,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please select a tab on the left.
         /// </summary>
-        internal static string DiagnosticPageSelectTabTitleText {
+        public static string DiagnosticPageSelectTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSelectTabTitleText", resourceCulture);
             }
@@ -756,7 +756,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Set Battery Power Relays.
         /// </summary>
-        internal static string DiagnosticPageSetBatteryPowerRelaysTitleText {
+        public static string DiagnosticPageSetBatteryPowerRelaysTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSetBatteryPowerRelaysTitleText", resourceCulture);
             }
@@ -765,7 +765,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Select a Position to Move Dome.
         /// </summary>
-        internal static string DiagnosticPageSetDomePositionTitleText {
+        public static string DiagnosticPageSetDomePositionTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSetDomePositionTitleText", resourceCulture);
             }
@@ -774,7 +774,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Set my Login Mode.
         /// </summary>
-        internal static string DiagnosticPageSetLoginTitleText {
+        public static string DiagnosticPageSetLoginTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSetLoginTitleText", resourceCulture);
             }
@@ -783,7 +783,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Set Pulse Frequency..
         /// </summary>
-        internal static string DiagnosticPageSetPulseFrequencyTitleText {
+        public static string DiagnosticPageSetPulseFrequencyTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageSetPulseFrequencyTitleText", resourceCulture);
             }
@@ -792,16 +792,16 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string DiagnosticPageStatusTabTitleText {
+        public static string DiagnosticPageStatusTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageStatusTabTitleText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Wi-Fi.
+        ///   Looks up a localized string similar to Add Network.
         /// </summary>
-        internal static string DiagnosticPageWifiTabConnectHiddenNetwork {
+        public static string DiagnosticPageWifiTabConnectHiddenNetwork {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabConnectHiddenNetwork", resourceCulture);
             }
@@ -810,7 +810,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Disconnect.
         /// </summary>
-        internal static string DiagnosticPageWifiTabDisconnect {
+        public static string DiagnosticPageWifiTabDisconnect {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabDisconnect", resourceCulture);
             }
@@ -819,25 +819,52 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Forget.
         /// </summary>
-        internal static string DiagnosticPageWifiTabForget {
+        public static string DiagnosticPageWifiTabForget {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabForget", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device MAC address: {0}.
+        /// </summary>
+        public static string DiagnosticPageWifiTabMacPlaceholder {
+            get {
+                return ResourceManager.GetString("DiagnosticPageWifiTabMacPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
-        internal static string DiagnosticPageWifiTabRefreshList {
+        public static string DiagnosticPageWifiTabRefreshList {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabRefreshList", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string DiagnosticPageWifiTabRemoveNetwork {
+            get {
+                return ResourceManager.GetString("DiagnosticPageWifiTabRemoveNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ssid/Wifi name.
+        /// </summary>
+        public static string DiagnosticPageWifiTabSsidPlaceholder {
+            get {
+                return ResourceManager.GetString("DiagnosticPageWifiTabSsidPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wi-Fi.
         /// </summary>
-        internal static string DiagnosticPageWifiTabTitleText {
+        public static string DiagnosticPageWifiTabTitleText {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabTitleText", resourceCulture);
             }
@@ -846,7 +873,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string DiagnosticPageWifiTabWifiCancel {
+        public static string DiagnosticPageWifiTabWifiCancel {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabWifiCancel", resourceCulture);
             }
@@ -855,7 +882,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Connect.
         /// </summary>
-        internal static string DiagnosticPageWifiTabWifiConnect {
+        public static string DiagnosticPageWifiTabWifiConnect {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabWifiConnect", resourceCulture);
             }
@@ -864,7 +891,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Type password.
         /// </summary>
-        internal static string DiagnosticPageWifiTabWifiPasswordPlaceholder {
+        public static string DiagnosticPageWifiTabWifiPasswordPlaceholder {
             get {
                 return ResourceManager.GetString("DiagnosticPageWifiTabWifiPasswordPlaceholder", resourceCulture);
             }
@@ -873,7 +900,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Enter username and password to continue.
         /// </summary>
-        internal static string EnterCredentials {
+        public static string EnterCredentials {
             get {
                 return ResourceManager.GetString("EnterCredentials", resourceCulture);
             }
@@ -882,7 +909,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Enter password to continue.
         /// </summary>
-        internal static string EnterPassword {
+        public static string EnterPassword {
             get {
                 return ResourceManager.GetString("EnterPassword", resourceCulture);
             }
@@ -891,7 +918,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please enter your Username.
         /// </summary>
-        internal static string EnterUserName {
+        public static string EnterUserName {
             get {
                 return ResourceManager.GetString("EnterUserName", resourceCulture);
             }
@@ -900,7 +927,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to EXIT.
         /// </summary>
-        internal static string Exit {
+        public static string Exit {
             get {
                 return ResourceManager.GetString("Exit", resourceCulture);
             }
@@ -909,7 +936,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Good Evening.
         /// </summary>
-        internal static string GreetingLabelEveningText {
+        public static string GreetingLabelEveningText {
             get {
                 return ResourceManager.GetString("GreetingLabelEveningText", resourceCulture);
             }
@@ -918,7 +945,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Good Morning.
         /// </summary>
-        internal static string GreetingLabelMorningText {
+        public static string GreetingLabelMorningText {
             get {
                 return ResourceManager.GetString("GreetingLabelMorningText", resourceCulture);
             }
@@ -927,7 +954,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Good Afternoon.
         /// </summary>
-        internal static string GreetingLabelNoonText {
+        public static string GreetingLabelNoonText {
             get {
                 return ResourceManager.GetString("GreetingLabelNoonText", resourceCulture);
             }
@@ -936,7 +963,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Hi.
         /// </summary>
-        internal static string HiTitleText {
+        public static string HiTitleText {
             get {
                 return ResourceManager.GetString("HiTitleText", resourceCulture);
             }
@@ -945,7 +972,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Password must be at least 6 characters in length.
         /// </summary>
-        internal static string IncorrectPasswordLength {
+        public static string IncorrectPasswordLength {
             get {
                 return ResourceManager.GetString("IncorrectPasswordLength", resourceCulture);
             }
@@ -954,7 +981,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Installed Lamp..
         /// </summary>
-        internal static string InstalledLamp {
+        public static string InstalledLamp {
             get {
                 return ResourceManager.GetString("InstalledLamp", resourceCulture);
             }
@@ -963,7 +990,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Install the Lamp and Close the Glass Doors.
         /// </summary>
-        internal static string InstallLampAndCloseDoors {
+        public static string InstallLampAndCloseDoors {
             get {
                 return ResourceManager.GetString("InstallLampAndCloseDoors", resourceCulture);
             }
@@ -972,7 +999,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Install the Previous Lamp and Lower the Dome..
         /// </summary>
-        internal static string InstallThePreviousLampAndLowerTheDome {
+        public static string InstallThePreviousLampAndLowerTheDome {
             get {
                 return ResourceManager.GetString("InstallThePreviousLampAndLowerTheDome", resourceCulture);
             }
@@ -981,7 +1008,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Error.
         /// </summary>
-        internal static string Invalid {
+        public static string Invalid {
             get {
                 return ResourceManager.GetString("Invalid", resourceCulture);
             }
@@ -990,7 +1017,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to AtlasVersion.
         /// </summary>
-        internal static string IotHubServiceAtlasVersion {
+        public static string IotHubServiceAtlasVersion {
             get {
                 return ResourceManager.GetString("IotHubServiceAtlasVersion", resourceCulture);
             }
@@ -999,7 +1026,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lamp Installation Required..
         /// </summary>
-        internal static string LampInstallationRequired {
+        public static string LampInstallationRequired {
             get {
                 return ResourceManager.GetString("LampInstallationRequired", resourceCulture);
             }
@@ -1008,7 +1035,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Timeout.  User did not scan a valid lamp tag..
         /// </summary>
-        internal static string LampInstallationTimeoutNFC {
+        public static string LampInstallationTimeoutNFC {
             get {
                 return ResourceManager.GetString("LampInstallationTimeoutNFC", resourceCulture);
             }
@@ -1017,7 +1044,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Timeout. User did not enter a valid serial number..
         /// </summary>
-        internal static string LampInstallationTimeoutSerialInput {
+        public static string LampInstallationTimeoutSerialInput {
             get {
                 return ResourceManager.GetString("LampInstallationTimeoutSerialInput", resourceCulture);
             }
@@ -1026,7 +1053,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Log in to install a lamp..
         /// </summary>
-        internal static string LampManualLogin {
+        public static string LampManualLogin {
             get {
                 return ResourceManager.GetString("LampManualLogin", resourceCulture);
             }
@@ -1035,7 +1062,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Scan your badge to install a lamp..
         /// </summary>
-        internal static string LampNfcLogin {
+        public static string LampNfcLogin {
             get {
                 return ResourceManager.GetString("LampNfcLogin", resourceCulture);
             }
@@ -1044,7 +1071,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lamp Replacement Required..
         /// </summary>
-        internal static string LampReplacementRequired {
+        public static string LampReplacementRequired {
             get {
                 return ResourceManager.GetString("LampReplacementRequired", resourceCulture);
             }
@@ -1053,7 +1080,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
-        internal static string Login {
+        public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
             }
@@ -1062,7 +1089,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please lower the Dome to proceed..
         /// </summary>
-        internal static string LowerDomeTitleText {
+        public static string LowerDomeTitleText {
             get {
                 return ResourceManager.GetString("LowerDomeTitleText", resourceCulture);
             }
@@ -1071,7 +1098,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Press OK to lower the dome..
         /// </summary>
-        internal static string LowerDomeWarningTitleText {
+        public static string LowerDomeWarningTitleText {
             get {
                 return ResourceManager.GetString("LowerDomeWarningTitleText", resourceCulture);
             }
@@ -1080,7 +1107,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lowering dome please wait....
         /// </summary>
-        internal static string LoweringDomeTitleText {
+        public static string LoweringDomeTitleText {
             get {
                 return ResourceManager.GetString("LoweringDomeTitleText", resourceCulture);
             }
@@ -1089,7 +1116,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Enter your credentials to continue.
         /// </summary>
-        internal static string ManualLoginInstruction {
+        public static string ManualLoginInstruction {
             get {
                 return ResourceManager.GetString("ManualLoginInstruction", resourceCulture);
             }
@@ -1098,7 +1125,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Log in to start zapping..
         /// </summary>
-        internal static string ManualLoginText {
+        public static string ManualLoginText {
             get {
                 return ResourceManager.GetString("ManualLoginText", resourceCulture);
             }
@@ -1107,7 +1134,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to MIDDLE.
         /// </summary>
-        internal static string MIDDLE {
+        public static string MIDDLE {
             get {
                 return ResourceManager.GetString("MIDDLE", resourceCulture);
             }
@@ -1116,7 +1143,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to minutes.
         /// </summary>
-        internal static string MinutesTitleText {
+        public static string MinutesTitleText {
             get {
                 return ResourceManager.GetString("MinutesTitleText", resourceCulture);
             }
@@ -1125,7 +1152,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I detect.
         /// </summary>
-        internal static string MultiBadgeDetectedTitleText {
+        public static string MultiBadgeDetectedTitleText {
             get {
                 return ResourceManager.GetString("MultiBadgeDetectedTitleText", resourceCulture);
             }
@@ -1134,7 +1161,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please scan your Badge or click Login..
         /// </summary>
-        internal static string MultiLoginText {
+        public static string MultiLoginText {
             get {
                 return ResourceManager.GetString("MultiLoginText", resourceCulture);
             }
@@ -1143,7 +1170,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Multiple tags detected, move closer to one tag.
         /// </summary>
-        internal static string MultipleRfidTagDetectedTitleText {
+        public static string MultipleRfidTagDetectedTitleText {
             get {
                 return ResourceManager.GetString("MultipleRfidTagDetectedTitleText", resourceCulture);
             }
@@ -1152,7 +1179,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Who is zapping?.
         /// </summary>
-        internal static string MultiUserLoginTitleText {
+        public static string MultiUserLoginTitleText {
             get {
                 return ResourceManager.GetString("MultiUserLoginTitleText", resourceCulture);
             }
@@ -1161,7 +1188,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to NEXT.
         /// </summary>
-        internal static string Next {
+        public static string Next {
             get {
                 return ResourceManager.GetString("Next", resourceCulture);
             }
@@ -1170,7 +1197,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to No badges detected..
         /// </summary>
-        internal static string NoBadgeDetectedTitleText {
+        public static string NoBadgeDetectedTitleText {
             get {
                 return ResourceManager.GetString("NoBadgeDetectedTitleText", resourceCulture);
             }
@@ -1179,7 +1206,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to No Lamp Installed..
         /// </summary>
-        internal static string NoLampInstalled {
+        public static string NoLampInstalled {
             get {
                 return ResourceManager.GetString("NoLampInstalled", resourceCulture);
             }
@@ -1188,7 +1215,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to N/A.
         /// </summary>
-        internal static string NotApplicable {
+        public static string NotApplicable {
             get {
                 return ResourceManager.GetString("NotApplicable", resourceCulture);
             }
@@ -1197,7 +1224,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to One badge detected..
         /// </summary>
-        internal static string OneBadgeDetectedTitleText {
+        public static string OneBadgeDetectedTitleText {
             get {
                 return ResourceManager.GetString("OneBadgeDetectedTitleText", resourceCulture);
             }
@@ -1206,7 +1233,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Only a Service User can login..
         /// </summary>
-        internal static string OnlyServiceUser {
+        public static string OnlyServiceUser {
             get {
                 return ResourceManager.GetString("OnlyServiceUser", resourceCulture);
             }
@@ -1215,7 +1242,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to PASSWORD.
         /// </summary>
-        internal static string Password {
+        public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
@@ -1224,7 +1251,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Password can&apos;t be empty.
         /// </summary>
-        internal static string PasswordEmpty {
+        public static string PasswordEmpty {
             get {
                 return ResourceManager.GetString("PasswordEmpty", resourceCulture);
             }
@@ -1233,7 +1260,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Your password must contain at least 2 out of the 3 following items:\n Uppercase letters(A-Z) Numbers(0 - 9) \&quot;-\&quot; or \&quot;.\&quot; characters.
         /// </summary>
-        internal static string PasswordMissingSpecialCharacters {
+        public static string PasswordMissingSpecialCharacters {
             get {
                 return ResourceManager.GetString("PasswordMissingSpecialCharacters", resourceCulture);
             }
@@ -1242,16 +1269,52 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Password wasn&apos;t recognized.
         /// </summary>
-        internal static string PasswordNotRecognized {
+        public static string PasswordNotRecognized {
             get {
                 return ResourceManager.GetString("PasswordNotRecognized", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location permission granted.
+        /// </summary>
+        public static string PermissionLocationGranted {
+            get {
+                return ResourceManager.GetString("PermissionLocationGranted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location permission not granted.
+        /// </summary>
+        public static string PermissionLocationNotGranted {
+            get {
+                return ResourceManager.GetString("PermissionLocationNotGranted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string PermissionLocationOkButton {
+            get {
+                return ResourceManager.GetString("PermissionLocationOkButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to connect to a network the application need location permission.
+        /// </summary>
+        public static string PermissionLocationRationale {
+            get {
+                return ResourceManager.GetString("PermissionLocationRationale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Position is ready to engage..
         /// </summary>
-        internal static string PositionDetectionLockedLabelText {
+        public static string PositionDetectionLockedLabelText {
             get {
                 return ResourceManager.GetString("PositionDetectionLockedLabelText", resourceCulture);
             }
@@ -1260,7 +1323,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Get position in lock radius..
         /// </summary>
-        internal static string PositionDetectionNotLockedLabelText {
+        public static string PositionDetectionNotLockedLabelText {
             get {
                 return ResourceManager.GetString("PositionDetectionNotLockedLabelText", resourceCulture);
             }
@@ -1269,7 +1332,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to In order for the dome to be lowered the robot must first be plugged into an AC power outlet.
         /// </summary>
-        internal static string PowerPlugErrorText {
+        public static string PowerPlugErrorText {
             get {
                 return ResourceManager.GetString("PowerPlugErrorText", resourceCulture);
             }
@@ -1278,7 +1341,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please plug me into a power outlet to proceed..
         /// </summary>
-        internal static string PowerPlugTitleText {
+        public static string PowerPlugTitleText {
             get {
                 return ResourceManager.GetString("PowerPlugTitleText", resourceCulture);
             }
@@ -1287,7 +1350,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Production.
         /// </summary>
-        internal static string ProductionServer {
+        public static string ProductionServer {
             get {
                 return ResourceManager.GetString("ProductionServer", resourceCulture);
             }
@@ -1296,7 +1359,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Bulb has.
         /// </summary>
-        internal static string PulseCountMessageTitleText {
+        public static string PulseCountMessageTitleText {
             get {
                 return ResourceManager.GetString("PulseCountMessageTitleText", resourceCulture);
             }
@@ -1305,7 +1368,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Pulsing Limit Reached..
         /// </summary>
-        internal static string PulseLimitReached {
+        public static string PulseLimitReached {
             get {
                 return ResourceManager.GetString("PulseLimitReached", resourceCulture);
             }
@@ -1314,7 +1377,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Disinfection cycle cannot be run - Bulb Requires Replacement. Call Customer Support at 1-866-867-9799..
         /// </summary>
-        internal static string PulseLimitReachedMessageTitleText {
+        public static string PulseLimitReachedMessageTitleText {
             get {
                 return ResourceManager.GetString("PulseLimitReachedMessageTitleText", resourceCulture);
             }
@@ -1323,7 +1386,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Pulsing Limit Reached.
         /// </summary>
-        internal static string PulseLimitReachedTopicTitleText {
+        public static string PulseLimitReachedTopicTitleText {
             get {
                 return ResourceManager.GetString("PulseLimitReachedTopicTitleText", resourceCulture);
             }
@@ -1332,7 +1395,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to pulses.
         /// </summary>
-        internal static string PulsesText {
+        public static string PulsesText {
             get {
                 return ResourceManager.GetString("PulsesText", resourceCulture);
             }
@@ -1341,7 +1404,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Bulb Requires Replacement Immediately. Call Customer Support at 1-866-867-9799..
         /// </summary>
-        internal static string PulseWarningMessageTitleText {
+        public static string PulseWarningMessageTitleText {
             get {
                 return ResourceManager.GetString("PulseWarningMessageTitleText", resourceCulture);
             }
@@ -1350,7 +1413,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Replace Lamp Warning.
         /// </summary>
-        internal static string PulseWarningTopicTitleText {
+        public static string PulseWarningTopicTitleText {
             get {
                 return ResourceManager.GetString("PulseWarningTopicTitleText", resourceCulture);
             }
@@ -1359,7 +1422,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Raise the Dome to install the Lamp..
         /// </summary>
-        internal static string RaiseDomeToInstallLamp {
+        public static string RaiseDomeToInstallLamp {
             get {
                 return ResourceManager.GetString("RaiseDomeToInstallLamp", resourceCulture);
             }
@@ -1368,7 +1431,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Raise the Dome to remove the Lamp..
         /// </summary>
-        internal static string RaiseDomeToRemoveLamp {
+        public static string RaiseDomeToRemoveLamp {
             get {
                 return ResourceManager.GetString("RaiseDomeToRemoveLamp", resourceCulture);
             }
@@ -1377,7 +1440,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Remove Lamp.
         /// </summary>
-        internal static string RemoveLamp {
+        public static string RemoveLamp {
             get {
                 return ResourceManager.GetString("RemoveLamp", resourceCulture);
             }
@@ -1386,7 +1449,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Remove the Lamp and Lower the Dome..
         /// </summary>
-        internal static string RemoveLampAndLowerDome {
+        public static string RemoveLampAndLowerDome {
             get {
                 return ResourceManager.GetString("RemoveLampAndLowerDome", resourceCulture);
             }
@@ -1395,7 +1458,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Remove the Lamp..
         /// </summary>
-        internal static string RemoveTheLamp {
+        public static string RemoveTheLamp {
             get {
                 return ResourceManager.GetString("RemoveTheLamp", resourceCulture);
             }
@@ -1404,7 +1467,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Login to replace a lamp..
         /// </summary>
-        internal static string ReplaceLampLoginManual {
+        public static string ReplaceLampLoginManual {
             get {
                 return ResourceManager.GetString("ReplaceLampLoginManual", resourceCulture);
             }
@@ -1413,7 +1476,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Scan your badge to replace a lamp..
         /// </summary>
-        internal static string ReplaceLampLoginNfc {
+        public static string ReplaceLampLoginNfc {
             get {
                 return ResourceManager.GetString("ReplaceLampLoginNfc", resourceCulture);
             }
@@ -1422,7 +1485,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Re-scan your badge..
         /// </summary>
-        internal static string RescanYourBadge {
+        public static string RescanYourBadge {
             get {
                 return ResourceManager.GetString("RescanYourBadge", resourceCulture);
             }
@@ -1431,7 +1494,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Tag Successfully Detected.
         /// </summary>
-        internal static string RfidTagDetectedTitleText {
+        public static string RfidTagDetectedTitleText {
             get {
                 return ResourceManager.GetString("RfidTagDetectedTitleText", resourceCulture);
             }
@@ -1440,7 +1503,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Rooms Left on Lamp.
         /// </summary>
-        internal static string RoomsLeftOnLamp {
+        public static string RoomsLeftOnLamp {
             get {
                 return ResourceManager.GetString("RoomsLeftOnLamp", resourceCulture);
             }
@@ -1449,7 +1512,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please check there are no items in the way of the dome returning home..
         /// </summary>
-        internal static string SafetyCheckMessageTitleText {
+        public static string SafetyCheckMessageTitleText {
             get {
                 return ResourceManager.GetString("SafetyCheckMessageTitleText", resourceCulture);
             }
@@ -1458,7 +1521,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Password can&apos;t be your username.
         /// </summary>
-        internal static string SameUserNamePassword {
+        public static string SameUserNamePassword {
             get {
                 return ResourceManager.GetString("SameUserNamePassword", resourceCulture);
             }
@@ -1467,7 +1530,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to seconds.
         /// </summary>
-        internal static string SecondsTitleText {
+        public static string SecondsTitleText {
             get {
                 return ResourceManager.GetString("SecondsTitleText", resourceCulture);
             }
@@ -1476,7 +1539,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Choose a Room to zap..
         /// </summary>
-        internal static string SelectRoom {
+        public static string SelectRoom {
             get {
                 return ResourceManager.GetString("SelectRoom", resourceCulture);
             }
@@ -1485,7 +1548,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to No Room Selected..
         /// </summary>
-        internal static string SelectRoomError {
+        public static string SelectRoomError {
             get {
                 return ResourceManager.GetString("SelectRoomError", resourceCulture);
             }
@@ -1494,7 +1557,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Choose a Room Unit to proceed. .
         /// </summary>
-        internal static string SelectRoomUnit {
+        public static string SelectRoomUnit {
             get {
                 return ResourceManager.GetString("SelectRoomUnit", resourceCulture);
             }
@@ -1503,7 +1566,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to No Room Unit Selected..
         /// </summary>
-        internal static string SelectRoomUnitError {
+        public static string SelectRoomUnitError {
             get {
                 return ResourceManager.GetString("SelectRoomUnitError", resourceCulture);
             }
@@ -1512,7 +1575,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Select a Target Server.
         /// </summary>
-        internal static string SelectServerTitleText {
+        public static string SelectServerTitleText {
             get {
                 return ResourceManager.GetString("SelectServerTitleText", resourceCulture);
             }
@@ -1521,7 +1584,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Server Menu.
         /// </summary>
-        internal static string ServerMenuTabTitleText {
+        public static string ServerMenuTabTitleText {
             get {
                 return ResourceManager.GetString("ServerMenuTabTitleText", resourceCulture);
             }
@@ -1530,7 +1593,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to SETTINGS.
         /// </summary>
-        internal static string Settings {
+        public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
@@ -1539,7 +1602,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I&apos;m logging you in ....
         /// </summary>
-        internal static string SingleUserLoginTitleText {
+        public static string SingleUserLoginTitleText {
             get {
                 return ResourceManager.GetString("SingleUserLoginTitleText", resourceCulture);
             }
@@ -1548,7 +1611,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Staging.
         /// </summary>
-        internal static string StagingServer {
+        public static string StagingServer {
             get {
                 return ResourceManager.GetString("StagingServer", resourceCulture);
             }
@@ -1557,7 +1620,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Place me under a STRIKESPOT™....
         /// </summary>
-        internal static string StrikeSpotTitleText {
+        public static string StrikeSpotTitleText {
             get {
                 return ResourceManager.GetString("StrikeSpotTitleText", resourceCulture);
             }
@@ -1566,7 +1629,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to is zapping with this robot..
         /// </summary>
-        internal static string SwitchUserGreetingTitleText {
+        public static string SwitchUserGreetingTitleText {
             get {
                 return ResourceManager.GetString("SwitchUserGreetingTitleText", resourceCulture);
             }
@@ -1575,7 +1638,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Who will continue?.
         /// </summary>
-        internal static string SwitchUserHeaderMessageTitleText {
+        public static string SwitchUserHeaderMessageTitleText {
             get {
                 return ResourceManager.GetString("SwitchUserHeaderMessageTitleText", resourceCulture);
             }
@@ -1584,7 +1647,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to TOP.
         /// </summary>
-        internal static string TOP {
+        public static string TOP {
             get {
                 return ResourceManager.GetString("TOP", resourceCulture);
             }
@@ -1593,7 +1656,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please try again.
         /// </summary>
-        internal static string TryAgain {
+        public static string TryAgain {
             get {
                 return ResourceManager.GetString("TryAgain", resourceCulture);
             }
@@ -1602,7 +1665,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please remove and place the Black Tethered Cone to proceed..
         /// </summary>
-        internal static string UnDockBlackCone {
+        public static string UnDockBlackCone {
             get {
                 return ResourceManager.GetString("UnDockBlackCone", resourceCulture);
             }
@@ -1611,7 +1674,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Press the green button above the screen to try again..
         /// </summary>
-        internal static string UnknownCycleInterruptedErrorBotText {
+        public static string UnknownCycleInterruptedErrorBotText {
             get {
                 return ResourceManager.GetString("UnknownCycleInterruptedErrorBotText", resourceCulture);
             }
@@ -1621,7 +1684,7 @@ namespace IsObservableCollBuggy.Resx {
         ///   Looks up a localized string similar to There was an error during the cycle.
         ///    Error Code: 40300.
         /// </summary>
-        internal static string UnknownCycleInterruptedErrorTopText {
+        public static string UnknownCycleInterruptedErrorTopText {
             get {
                 return ResourceManager.GetString("UnknownCycleInterruptedErrorTopText", resourceCulture);
             }
@@ -1630,7 +1693,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to This Robot may only be used as part of an environmental disinfection program and any other use is expressly prohibited. This Robot may not be used in any trial, test or other evaluation without the written consent of Xenex Disinfection Services LLC..
         /// </summary>
-        internal static string UserAgreement {
+        public static string UserAgreement {
             get {
                 return ResourceManager.GetString("UserAgreement", resourceCulture);
             }
@@ -1639,7 +1702,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to USERNAME.
         /// </summary>
-        internal static string Username {
+        public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
             }
@@ -1648,7 +1711,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Username doesn&apos;t exist. Enter a valid username.
         /// </summary>
-        internal static string UserNameDoesNotExist {
+        public static string UserNameDoesNotExist {
             get {
                 return ResourceManager.GetString("UserNameDoesNotExist", resourceCulture);
             }
@@ -1657,7 +1720,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Username wasn&apos;t recognized.
         /// </summary>
-        internal static string UserNotRecognized {
+        public static string UserNotRecognized {
             get {
                 return ResourceManager.GetString("UserNotRecognized", resourceCulture);
             }
@@ -1666,7 +1729,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Validating Credentials.
         /// </summary>
-        internal static string ValidatingCredentials {
+        public static string ValidatingCredentials {
             get {
                 return ResourceManager.GetString("ValidatingCredentials", resourceCulture);
             }
@@ -1675,16 +1738,79 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please scan your badge..
         /// </summary>
-        internal static string WelcomeText {
+        public static string WelcomeText {
             get {
                 return ResourceManager.GetString("WelcomeText", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connected.
+        /// </summary>
+        public static string WifiCellConnected {
+            get {
+                return ResourceManager.GetString("WifiCellConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wifi {} already configured. Connecting....
+        /// </summary>
+        public static string WifiConnectionViewModelAlreadyConfigured {
+            get {
+                return ResourceManager.GetString("WifiConnectionViewModelAlreadyConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wifi {0} already connected.
+        /// </summary>
+        public static string WifiConnectionViewModelAlreadyConnected {
+            get {
+                return ResourceManager.GetString("WifiConnectionViewModelAlreadyConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected succesfully to {0}.
+        /// </summary>
+        public static string WifiConnectionViewModelConnectedSuccesfully {
+            get {
+                return ResourceManager.GetString("WifiConnectionViewModelConnectedSuccesfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to connect to {0}. It can be due to the password or connection issues. Try again, please!.
+        /// </summary>
+        public static string WifiConnectionViewModelConnectedUnsuccesfully {
+            get {
+                return ResourceManager.GetString("WifiConnectionViewModelConnectedUnsuccesfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wifi could not be enabled/disabled. Please, try again!.
+        /// </summary>
+        public static string WifiConnectionViewModelCouldNotDisableWifi {
+            get {
+                return ResourceManager.GetString("WifiConnectionViewModelCouldNotDisableWifi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trying to connecto to {0}. A moment, please..
+        /// </summary>
+        public static string WifiConnectionViewModelTryingToConnect {
+            get {
+                return ResourceManager.GetString("WifiConnectionViewModelTryingToConnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your badge does not have access..
         /// </summary>
-        internal static string YourBadgeDoesNotHaveAccess {
+        public static string YourBadgeDoesNotHaveAccess {
             get {
                 return ResourceManager.GetString("YourBadgeDoesNotHaveAccess", resourceCulture);
             }
@@ -1693,7 +1819,7 @@ namespace IsObservableCollBuggy.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Your badge was not recognized..
         /// </summary>
-        internal static string YourBadgeWasNotRecognized {
+        public static string YourBadgeWasNotRecognized {
             get {
                 return ResourceManager.GetString("YourBadgeWasNotRecognized", resourceCulture);
             }
