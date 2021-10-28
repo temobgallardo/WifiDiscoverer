@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WifiDiscoverer.Resx {
+namespace IsObservableCollBuggy.Resx {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace WifiDiscoverer.Resx {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WifiDiscoverer.Resx.AppResource", typeof(AppResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IsObservableCollBuggy.Resx.AppResource", typeof(AppResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

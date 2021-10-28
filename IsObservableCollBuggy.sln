@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy.NUnit.Tests", "IsObservableCollBuggy.NUnit.Tests\IsObservableCollBuggy.NUnit.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy.xUnit.Tests", "IsObservableCollBuggy.xUnit.TestProject\IsObservableCollBuggy.xUnit.Tests.csproj", "{02141BF6-68C7-4512-8008-4F5D1C2B3B61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsObservableCollBuggy.xUnit.Tests", "IsObservableCollBuggy.xUnit.TestProject\IsObservableCollBuggy.xUnit.Test.csproj", "{02141BF6-68C7-4512-8008-4F5D1C2B3B61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

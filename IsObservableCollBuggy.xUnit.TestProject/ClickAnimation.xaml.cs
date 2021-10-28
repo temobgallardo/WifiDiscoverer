@@ -5,7 +5,6 @@ using Xunit;
 using System.Linq;
 using IsObservableCollBuggy.Triggers;
 using IsObservableCollBuggy.Animations;
-using WifiDiscoverer.Animations;
 
 namespace IsObservableCollBuggy.xUnit.Tests
 {
